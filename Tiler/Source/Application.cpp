@@ -1,5 +1,7 @@
 
-#include "Application.h"
+#include "Tiler/Application.h"
+
+#include <iostream>
 
 namespace Tiler {
 
@@ -11,10 +13,12 @@ namespace Tiler {
 
 	}
 
+	extern Application* CreateApplication();
+
 	void Application::Run() {
+		std::cout << "Hello Tiler!" << std::endl;
 		while (true);
 	}
-
 }
 
 

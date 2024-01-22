@@ -18,12 +18,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_subdirectory(Tiler)
-add_subdirectory(Host)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 if (MSVC)
  	set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
+
+add_subdirectory(Tiler)
+add_subdirectory(Application)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
 	set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -31,4 +35,3 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 		MACOSX_BUNDLE TRUE
 	)
 endif()
-
