@@ -1,11 +1,15 @@
-#include "Launcher.h"
+#include "Tiler/EntryPoint.h"
 
 
-Launcher::Launcher() {
-}
+class Launcher : public Tiler::Application {
+public:
+	Launcher() {
 
-Launcher::~Launcher() {
-}
+	}
+	~Launcher() {
+
+	}
+};
 
 Tiler::Application* Tiler::CreateApplication() {
 
