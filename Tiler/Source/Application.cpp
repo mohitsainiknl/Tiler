@@ -1,7 +1,7 @@
 
 #include "Tiler/Application.h"
+#include "Tiler/Log.h"
 
-#include <iostream>
 
 namespace Tiler {
 
@@ -13,10 +13,11 @@ namespace Tiler {
 
 	}
 
-	extern Application* CreateApplication();
+	Application* CreateApplication();
 
 	void Application::Run() {
-		std::cout << "Hello Tiler!" << std::endl;
+		Log::GetCoreLogger()->info("Logs Initialized!");
+		Log::GetClientLogger()->info("Hello Tiler!");
 		while (true);
 	}
 }
