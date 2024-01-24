@@ -1,12 +1,12 @@
 
 #include "Tiler/Application.h"
-#include "Tiler/Log.h"
+#include "Log.h"
 
 
 namespace Tiler {
 
 	Application::Application() {
-
+		Log::init();
 	}
 
 	Application::~Application() {
@@ -16,8 +16,8 @@ namespace Tiler {
 	Application* CreateApplication();
 
 	void Application::Run() {
-		Log::GetCoreLogger()->info("Logs Initialized!");
-		Log::GetClientLogger()->info("Hello Tiler!");
+		TL_CORE_WARN("Logs Initialized!");
+		TL_INFO("Hello Tiler!");
 		while (true);
 	}
 }

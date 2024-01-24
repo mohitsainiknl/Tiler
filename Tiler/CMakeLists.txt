@@ -2,8 +2,9 @@
 add_library(TilerLibrary SHARED
 	"Include/Tiler/Application.h"
 	"Include/Tiler/EntryPoint.h"
-	"Include/Tiler/Log.h"
 
+	"Source/Log.h"
+	"Source/Log.cpp"
 	"Source/Application.cpp"
 )
 
