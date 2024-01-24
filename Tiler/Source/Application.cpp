@@ -1,22 +1,23 @@
 
 #include "Tiler/Application.h"
+#include "Log.h"
 
-#include <iostream>
 
 namespace Tiler {
 
 	Application::Application() {
-
+		Log::init();
 	}
 
 	Application::~Application() {
 
 	}
 
-	extern Application* CreateApplication();
+	Application* CreateApplication();
 
 	void Application::Run() {
-		std::cout << "Hello Tiler!" << std::endl;
+		TL_CORE_WARN("Logs Initialized!");
+		TL_INFO("Hello Tiler!");
 		while (true);
 	}
 }
