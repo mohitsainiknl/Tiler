@@ -10,6 +10,10 @@ add_library(TilerLibrary SHARED
 	"Source/Events/Event.cpp"
 	"Source/Events/KeyEvent.h"
 	"Source/Events/KeyEvent.cpp"
+	"Source/Events/MouseEvent.h"
+	"Source/Events/MouseEvent.cpp"
+	"Source/Events/ApplicationEvent.h"
+	"Source/Events/ApplicationEvent.cpp"
 )
 
 find_package(spdlog CONFIG REQUIRED)
