@@ -12,26 +12,43 @@ namespace Tiler {
 		return instance;
 	}
 
-	void EventDispatcher::Subscribe(EventType eventType, const EventCallback& callback) {
+	bool EventDispatcher::Subscribe(EventType eventType, const EventCallback& callback) {
+		auto& callbacks{ eventCallbacks[eventType] };
+		const size_t beforeSize{ callbacks.size() };
+
 		eventCallbacks[eventType].push_back(callback);
+
+		const size_t afterSize{ callbacks.size() };
+		return (beforeSize != afterSize);
 	}
 
-	void EventDispatcher::Unsubscribe(EventType eventType, const EventCallback& callback) {
+	bool EventDispatcher::Unsubscribe(EventType eventType, const EventCallback& callback) {
 		auto& callbacks{ eventCallbacks[eventType] };
+		const size_t beforeSize{ callbacks.size() };
+
 		callbacks.erase(
 			std::remove_if(callbacks.begin(), callbacks.end(), [&callback](const EventCallback& cb) {
 				return cb.target_type() == callback.target_type() && cb.target<void(const Event&)>() == callback.target<void(const Event&)>();
 				}),
 			callbacks.end()
 		);
+
+		const size_t afterSize{ callbacks.size() };
+		return (beforeSize != afterSize);
 	}
 
-	void EventDispatcher::Dispatch(const Event& event) {
+	bool EventDispatcher::Dispatch(const Event& event) {
 		auto& callbacks{ eventCallbacks[event.GetEventType()] };
-		for (const auto& callback : callbacks) {
-			callback(event);
+		const size_t beforeSize{ callbacks.size() };
+
+		if (beforeSize) {
+			for (const auto& callback : callbacks) {
+				callback(event);
+			}
+			callbacks.clear();
+			return true;
 		}
-		callbacks.clear();
+		return false;
 	}
 
 	EventDispatcher::EventDispatcher() = default;

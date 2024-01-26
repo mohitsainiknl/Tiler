@@ -33,9 +33,9 @@ namespace Tiler {
 		// Create the only instance of this object and return a pointer to it
 		static EventDispatcher& getInstance();
 
-		void Subscribe(EventType eventType, const EventCallback& callback);
-		void Unsubscribe(EventType eventType, const EventCallback& callback);
-		void Dispatch(const Event& event);
+		bool Subscribe(EventType eventType, const EventCallback& callback);
+		bool Unsubscribe(EventType eventType, const EventCallback& callback);
+		bool Dispatch(const Event& event);
 
 	private:
 		std::unordered_map<EventType, std::vector<EventCallback>> eventCallbacks;
