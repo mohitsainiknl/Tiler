@@ -23,6 +23,7 @@ namespace Tiler {
 		std::string ToString() const override;
 
 		EVENT_CLASS_TYPE(KEY_PRESSED)
+		EVENT_CLASS_CATEGORY(EVENT_CATEGORY_INPUT | EVENT_CATEGORY_KEYBOARD)
 
 	private:
 		unsigned int m_RepeatCount;

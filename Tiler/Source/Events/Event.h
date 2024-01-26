@@ -5,6 +5,8 @@
 #include <string>
 
 
+#define BIT(x) (1 << x)
+
 namespace Tiler {
 
 	enum class EventType {
@@ -13,11 +15,25 @@ namespace Tiler {
 		KEY_RELEASED,
 	};
 
+	enum EventCategory {
+		NONE = 0,
+		EVENT_CATEGORY_KEYBOARD      = BIT(0),
+		EVENT_CATEGORY_MOUSE_BUTTON  = BIT(1),
+		EVENT_CATEGORY_MOUSE         = BIT(2),
+		EVENT_CATEGORY_INPUT         = BIT(3),
+		EVENT_CATEGORY_APPLICATION   = BIT(4),
+	};
+
 	class Event {
 	public:
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
+		virtual unsigned short GetCategoryFlags() const = 0;
 		virtual std::string ToString() const { return GetName(); };
+
+		inline bool IsInCategory(EventCategory category) const {
+			return GetCategoryFlags() & category;
+		}
 	};
 
 #define EVENT_CLASS_TYPE(type) \
@@ -25,6 +41,8 @@ namespace Tiler {
 	virtual EventType GetEventType() const override { return GetStaticType(); } \
 	virtual const char* GetName() const override { return #type; }
 								
+#define EVENT_CLASS_CATEGORY(category) virtual unsigned short GetCategoryFlags() const override { return category; }
+
 
 	using EventCallback = std::function<void(const Event&)>;
 
@@ -34,11 +52,17 @@ namespace Tiler {
 		static EventDispatcher& getInstance();
 
 		bool Subscribe(EventType eventType, const EventCallback& callback);
+		bool Subscribe(EventCategory eventCategory, const EventCallback& callback);
 		bool Unsubscribe(EventType eventType, const EventCallback& callback);
+		bool Unsubscribe(EventCategory eventCategory, const EventCallback& callback);
 		bool Dispatch(const Event& event);
 
 	private:
-		std::unordered_map<EventType, std::vector<EventCallback>> eventCallbacks;
+		bool Subscribe(std::vector<EventCallback>& callbacks, const EventCallback& callback);
+		bool Unsubscribe(std::vector<EventCallback>& callbacks, const EventCallback& callback);
+
+		std::unordered_map<EventType, std::vector<EventCallback>> m_EventCallbacksByType;
+		std::unordered_map<EventCategory, std::vector<EventCallback>> m_EventCallbacksByCategory;
 
 		//Making them NOT accessible
 		EventDispatcher();
