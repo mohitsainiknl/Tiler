@@ -30,3 +30,6 @@ namespace Tiler {
 	};
 
 } // namespace Tiler
+
+FMT_SPECIALIZATION(Tiler::KeyEvent);
+FMT_SPECIALIZATION(Tiler::KeyPressedEvent);

@@ -3,6 +3,8 @@
 #include <functional>
 #include <vector>
 #include <string>
+#include <sstream>
+#include <fmt/format.h>
 
 
 #define BIT(x) (1 << x)
@@ -71,4 +73,24 @@ namespace Tiler {
 		EventDispatcher& operator=(const EventDispatcher&) = delete;
 	};
 
+	// Help to print `Event` on ostream, Example - std::cout << e << std::endl;
+	inline std::ostream& operator<<(std::ostream& os, const Event& event) {
+		return os << event.ToString();
+	}
+
 } // namespace Tiler
+
+// Help to print `Event` directly in logger, Example - TL_INFO(event)
+// And, should be implemented for Event and Event derived classes.
+#define FMT_SPECIALIZATION(type) \
+    template <> \
+    struct fmt::formatter<type> { \
+        constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); } \
+        \
+        template <typename FormatContext> \
+        auto format(const type& obj, FormatContext& ctx) { \
+            return fmt::format_to(ctx.out(), "{}", obj.ToString()); \
+        } \
+    }
+
+FMT_SPECIALIZATION(Tiler::Event);
