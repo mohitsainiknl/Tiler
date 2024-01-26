@@ -1,5 +1,4 @@
 #include "Application.h"
-#include <spdlog/spdlog.h>
 
 extern Tiler::Application* Tiler::CreateApplication();
 
