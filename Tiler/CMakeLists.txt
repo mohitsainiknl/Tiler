@@ -14,10 +14,21 @@ add_library(TilerLibrary SHARED
 	"Source/Events/MouseEvent.cpp"
 	"Source/Events/ApplicationEvent.h"
 	"Source/Events/ApplicationEvent.cpp"
+
+	"Source/Window.h"
+
+	"Source/Platform/Independent/Glfw/GlfwWindow.h"
+	"Source/Platform/Independent/Glfw/GlfwWindow.cpp"
 )
+
 
 find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(TilerLibrary PRIVATE spdlog::spdlog)
+
+find_package(glfw3 CONFIG REQUIRED)
+target_link_libraries(TilerLibrary PRIVATE glfw)
+
+
 
 target_include_directories(TilerLibrary
     PRIVATE
@@ -26,9 +37,13 @@ target_include_directories(TilerLibrary
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>
 )
 
+
+
 set(PCH_FILES "tiler_pch.h" "tiler_pch.cpp")
 target_sources(TilerLibrary PRIVATE ${PCH_FILES})
 target_precompile_headers(TilerLibrary PRIVATE ${PCH_FILES})
+
+
 
 set_target_properties(TilerLibrary PROPERTIES
     OUTPUT_NAME "Tiler"
