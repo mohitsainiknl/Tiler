@@ -26,7 +26,7 @@ add_library(TilerLibrary SHARED
 
 
 find_package(spdlog CONFIG REQUIRED)
-target_link_libraries(TilerLibrary PRIVATE spdlog::spdlog)
+target_link_libraries(TilerLibrary PUBLIC spdlog::spdlog)
 
 find_package(glfw3 CONFIG REQUIRED)
 target_link_libraries(TilerLibrary PRIVATE glfw)

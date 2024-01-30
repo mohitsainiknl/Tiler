@@ -17,13 +17,18 @@ namespace Tiler {
 		TL_CORE_TRACE("Logs Initialized!");
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 
-		EventDispatcher& dispacher = m_Window->GetEventDispatcher();
-		dispacher.Subscribe(EventType::WINDOW_CLOSE, BIND_EVENT_FN(onWindowClose));
+		m_EventDispatcher = EventDispatcher();
+		m_EventDispatcher.Subscribe(EventType::WINDOW_CLOSE, BIND_EVENT_FN(onWindowClose));
 	}
 
 	Application::~Application() {
 
+	}
+
+	void Application::OnEvent(const Event& event) {
+		m_EventDispatcher.Dispatch(event);
 	}
 
 	Application* CreateApplication();
@@ -31,9 +36,7 @@ namespace Tiler {
 
 	void Application::Run() {
 
-		EventDispatcher& dispacher = m_Window->GetEventDispatcher();
-
-		dispacher.Subscribe(EventType::KEY_PRESSED, [](const Event& event) {
+		m_EventDispatcher.Subscribe(EventType::KEY_PRESSED, [](const Event& event) {
 			const KeyPressedEvent& keyPressedEvent = static_cast<const KeyPressedEvent&>(event);
 			int keyCode = keyPressedEvent.GetKeyCode();
 			TL_CORE_DEBUG("Key pressed: {0}", keyCode);
@@ -44,7 +47,7 @@ namespace Tiler {
 		}
 	}
 
-	void Application::onWindowClose(const Event& e)
+	void Application::onWindowClose(const Event& event)
 	{
 		m_Running = false;
 	}

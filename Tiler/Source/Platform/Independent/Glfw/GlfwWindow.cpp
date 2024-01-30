@@ -52,7 +52,6 @@ namespace Tiler {
 		m_Data.Title = title;
 		m_Data.Width = width;
 		m_Data.Height = height;
-		m_Data.Dispatcher = EventDispatcher();
 
 		TL_CORE_TRACE("Create Window {0} ({1}, {2})", title, width, height);
 
@@ -82,13 +81,13 @@ namespace Tiler {
 			data.Height = height;
 
 			WindowResizeEvent event(width, height);
-			data.Dispatcher.Dispatch(event);
+			data.Callback(event);
 		});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			WindowCloseEvent event;
-			data.Dispatcher.Dispatch(event);
+			data.Callback(event);
 		});
 
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -97,17 +96,17 @@ namespace Tiler {
 			switch (action) {
 				case GLFW_PRESS: {
 					KeyPressedEvent event(key, 0);
-					data.Dispatcher.Dispatch(event);
+					data.Callback(event);
 					break;
 				}
 				case GLFW_RELEASE: {
 					KeyReleasedEvent event(key, 0);
-					data.Dispatcher.Dispatch(event);
+					data.Callback(event);
 					break;
 				}
 				case GLFW_REPEAT: {
 					KeyPressedEvent event(key, 1);
-					data.Dispatcher.Dispatch(event);
+					data.Callback(event);
 					break;
 				}
 			}
@@ -119,12 +118,12 @@ namespace Tiler {
 			switch (action) {
 				case GLFW_PRESS: {
 					MouseButtonPressedEvent event(button);
-					data.Dispatcher.Dispatch(event);
+					data.Callback(event);
 					break;
 				}
 				case GLFW_RELEASE: {
 					MouseButtonReleasedEvent event(button);
-					data.Dispatcher.Dispatch(event);
+					data.Callback(event);
 					break;
 				}
 			}
@@ -134,14 +133,14 @@ namespace Tiler {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 			MouseScrolledEvent event(xOffset, yOffset);
-			data.Dispatcher.Dispatch(event);
+			data.Callback(event);
 		});
 
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 			MouseScrolledEvent event(xPos, yPos);
-			data.Dispatcher.Dispatch(event);
+			data.Callback(event);
 		});
 	}
 	void GlfwWindow::Shutdown() {

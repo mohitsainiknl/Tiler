@@ -17,7 +17,7 @@ namespace Tiler {
 
 		inline int GetWidth() const override { return m_Data.Width; }
 		inline int GetHeight() const override { return m_Data.Height; }
-		inline EventDispatcher& GetEventDispatcher() override { return m_Data.Dispatcher; }
+		inline void SetEventCallback(const EventCallback& callback) { m_Data.Callback = callback; };
 
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
@@ -34,7 +34,7 @@ namespace Tiler {
 			int Width = 1;
 			int Height = 1;
 			bool VSync = false;
-			EventDispatcher Dispatcher;
+			EventCallback Callback;
 		};
 		WindowData m_Data;
 	};
