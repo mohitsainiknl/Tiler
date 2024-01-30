@@ -3,6 +3,8 @@ add_library(TilerLibrary SHARED
 	"Include/Tiler/Application.h"
 	"Include/Tiler/EntryPoint.h"
 
+	"Source/Core.h"
+
 	"Source/Log.h"
 	"Source/Log.cpp"
 	"Source/Application.cpp"
@@ -47,4 +49,9 @@ target_precompile_headers(TilerLibrary PRIVATE ${PCH_FILES})
 
 set_target_properties(TilerLibrary PROPERTIES
     OUTPUT_NAME "Tiler"
+)
+
+target_compile_definitions(TilerLibrary
+	PRIVATE
+		$<$<CONFIG:Debug>:TL_ENABLE_ASSERTS>
 )

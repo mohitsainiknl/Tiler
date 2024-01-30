@@ -1,7 +1,7 @@
 
 #include "Tiler/Application.h"
 
-#include "Log.h"
+#include "Core.h"
 #include "Window.h"
 #include "Events/KeyEvent.h"
 #include "Events/ApplicationEvent.h"

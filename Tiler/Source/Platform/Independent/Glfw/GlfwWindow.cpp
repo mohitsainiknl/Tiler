@@ -1,6 +1,6 @@
 #include "GlfwWindow.h"
 
-#include "Log.h"
+#include "Core.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 #include "Events/ApplicationEvent.h"
@@ -59,9 +59,15 @@ namespace Tiler {
 		if (!s_GlfwInitialized) {
 			//TODO: glfwTerminate on system shutdown
 			int success = glfwInit();
+
+			TL_CORE_ASSERT(success, "Could Not Initialize GLFW!");
 			glfwSetErrorCallback(GlfwErrorCallback);
+
 			s_GlfwInitialized = true;
 		}
+
+		TL_CORE_ASSERT((1 <= width && width <= std::numeric_limits<int>::max()), "Window width is outside the valid range (1 <= width <= INT_MAX).");
+		TL_CORE_ASSERT((1 <= height && height <= std::numeric_limits<int>::max()), "Window height is outside the valid range (1 <= height <= INT_MAX).");
 
 		m_Window = glfwCreateWindow(width, height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
