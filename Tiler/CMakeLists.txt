@@ -3,23 +3,24 @@ add_library(TilerLibrary SHARED
 	"Include/Tiler/Application.h"
 	"Include/Tiler/EntryPoint.h"
 
-	"Source/Core.h"
+	"Include/Tiler/Core.h"
+	"Include/Tiler/Log.h"
+	"Include/Tiler/Window.h"
 
-	"Source/Log.h"
+	"Include/Tiler/Events/Event.h"
+	"Include/Tiler/Events/KeyEvent.h"
+	"Include/Tiler/Events/MouseEvent.h"
+	"Include/Tiler/Events/ApplicationEvent.h"
+	"Include/Tiler/Platform/Independent/Glfw/GlfwWindow.h"
+
 	"Source/Log.cpp"
 	"Source/Application.cpp"
-	"Source/Events/Event.h"
+
 	"Source/Events/Event.cpp"
-	"Source/Events/KeyEvent.h"
 	"Source/Events/KeyEvent.cpp"
-	"Source/Events/MouseEvent.h"
 	"Source/Events/MouseEvent.cpp"
-	"Source/Events/ApplicationEvent.h"
 	"Source/Events/ApplicationEvent.cpp"
 
-	"Source/Window.h"
-
-	"Source/Platform/Independent/Glfw/GlfwWindow.h"
 	"Source/Platform/Independent/Glfw/GlfwWindow.cpp"
 )
 

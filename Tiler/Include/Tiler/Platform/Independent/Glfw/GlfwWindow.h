@@ -2,8 +2,8 @@
 
 #include <GLFW/glfw3.h>
 
-#include "Window.h"
-#include "Events/Event.h"
+#include "Tiler/Window.h"
+#include "Tiler/Events/Event.h"
 
 
 namespace Tiler {

@@ -1,10 +1,10 @@
 
 #include "Tiler/Application.h"
 
-#include "Core.h"
-#include "Window.h"
-#include "Events/KeyEvent.h"
-#include "Events/ApplicationEvent.h"
+#include "Tiler/Core.h"
+#include "Tiler/Window.h"
+#include "Tiler/Events/KeyEvent.h"
+#include "Tiler/Events/ApplicationEvent.h"
 
 
 #define BIND_EVENT_FN(name) std::bind(&Application::name, this, std::placeholders::_1)

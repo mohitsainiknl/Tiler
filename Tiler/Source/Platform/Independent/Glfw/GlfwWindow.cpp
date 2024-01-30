@@ -1,9 +1,9 @@
-#include "GlfwWindow.h"
+#include "Tiler/Platform/Independent/Glfw/GlfwWindow.h"
 
-#include "Core.h"
-#include "Events/KeyEvent.h"
-#include "Events/MouseEvent.h"
-#include "Events/ApplicationEvent.h"
+#include "Tiler/Core.h"
+#include "Tiler/Events/KeyEvent.h"
+#include "Tiler/Events/MouseEvent.h"
+#include "Tiler/Events/ApplicationEvent.h"
 
 
 namespace Tiler {
