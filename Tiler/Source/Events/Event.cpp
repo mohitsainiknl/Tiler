@@ -5,14 +5,8 @@
 
 namespace Tiler {
 
-	EventDispatcher& EventDispatcher::getInstance() {
-		// Note: This function if NOT thread-safe. To make it thread-safe
-		// use lock_guard, double-checked locking or atomic operations.
-		static EventDispatcher instance;
-		return instance;
-	}
-
-
+	EventDispatcher::EventDispatcher() = default;
+	EventDispatcher::~EventDispatcher() = default;
 
 	bool EventDispatcher::Subscribe(std::vector<EventCallback>& callbacks, const EventCallback& callback) {
 		const size_t beforeSize{ callbacks.size() };
@@ -25,7 +19,7 @@ namespace Tiler {
 
 	bool EventDispatcher::Subscribe(EventType eventType, const EventCallback& callback) {
 		if (eventType != EventType::NONE) {
-			return Subscribe( m_EventCallbacksByType[eventType], callback );
+			return Subscribe(m_EventCallbacksByType[eventType], callback);
 		}
 		return false;
 	}
@@ -34,6 +28,16 @@ namespace Tiler {
 		if (eventCategory != EventCategory::NONE) {
 			return Subscribe(m_EventCallbacksByCategory[eventCategory], callback);
 		}
+		return false;
+	}
+
+	// TODO
+	bool EventDispatcher::SubscribeOnce(EventType eventType, const EventCallback& callback) {
+		return false;
+	}
+
+	// TODO
+	bool EventDispatcher::SubscribeOnce(EventCategory eventCategory, const EventCallback& callback) {
 		return false;
 	}
 
@@ -79,25 +83,24 @@ namespace Tiler {
 				for (const auto& callback : callbacks) {
 					callback(event);
 				}
-				callbacks.clear();
 				is_success = true;
 			}
 		}
 
 		// For EventCategory Callbacks
 		{
-			const unsigned short flags = event.GetCategoryFlags();
-			const int flags_end = sizeof(flags) * 8;
+			const int flags = event.GetCategoryFlags();
+			const int max_bit = EventCategory::MAX_BIT_POSITION;
 
-			for (int i = 0; i < flags_end; ++i) {
-				const EventCategory category{ static_cast<EventCategory>BIT(i) };
+			for (int i = 0; i < max_bit; ++i) {
 				if (flags & BIT(i)) {
-					auto& callbacks{ m_EventCallbacksByCategory[category] };
+					const EventCategory category{ static_cast<EventCategory>BIT(i) };
+	
+					const auto& callbacks{ m_EventCallbacksByCategory[category] };
 					if (callbacks.size()) {
 						for (const auto& callback : callbacks) {
 							callback(event);
 						}
-						callbacks.clear();
 						is_success = true;
 					}
 				}
@@ -105,8 +108,5 @@ namespace Tiler {
 		}
 		return is_success;
 	}
-
-	EventDispatcher::EventDispatcher() = default;
-	EventDispatcher::~EventDispatcher() = default;
 
 } // namespace Tiler

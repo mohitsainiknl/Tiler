@@ -3,7 +3,7 @@
 
 namespace Tiler {
 
-	WindowResizeEvent::WindowResizeEvent(unsigned int width, unsigned int height) : m_Width(width), m_Height(height) {
+	WindowResizeEvent::WindowResizeEvent(int width, int height) : m_Width(width), m_Height(height) {
 
 	}
 

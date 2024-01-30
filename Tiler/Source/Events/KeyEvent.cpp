@@ -7,7 +7,7 @@ namespace Tiler {
 
 	}
 
-	KeyPressedEvent::KeyPressedEvent(int keyCode, unsigned int repeatCount) : KeyEvent(keyCode), m_RepeatCount(repeatCount) {
+	KeyPressedEvent::KeyPressedEvent(int keyCode, int repeatCount) : KeyEvent(keyCode), m_RepeatCount(repeatCount) {
 
 	}
 
@@ -18,7 +18,7 @@ namespace Tiler {
 	}
 
 
-	KeyReleasedEvent::KeyReleasedEvent(int keyCode, unsigned int repeatCount) : KeyEvent(keyCode){
+	KeyReleasedEvent::KeyReleasedEvent(int keyCode, int repeatCount) : KeyEvent(keyCode){
 
 	}
 

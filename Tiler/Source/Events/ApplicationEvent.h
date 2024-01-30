@@ -7,18 +7,18 @@ namespace Tiler {
 
 	class WindowResizeEvent : public Event {
 	public:
-		WindowResizeEvent(unsigned int width, unsigned int height);
+		WindowResizeEvent(int width, int height);
 
-		inline unsigned int GetWidth() const { return m_Width; }
-		inline unsigned int GetHeight() const { return m_Height; }
+		inline int GetWidth() const { return m_Width; }
+		inline int GetHeight() const { return m_Height; }
 
 		std::string ToString() const override;
 
 		EVENT_CLASS_TYPE(WINDOW_RESIZE)
-			EVENT_CLASS_CATEGORY(EVENT_CATEGORY_APPLICATION)
+		EVENT_CLASS_CATEGORY(EVENT_CATEGORY_APPLICATION)
 
 	private:
-		unsigned int m_Width, m_Height;
+		int m_Width, m_Height;
 	};
 
 	class WindowCloseEvent : public Event {
