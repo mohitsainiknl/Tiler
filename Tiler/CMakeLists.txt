@@ -35,6 +35,9 @@ target_link_libraries(TilerLibrary PUBLIC spdlog::spdlog)
 find_package(glfw3 CONFIG REQUIRED)
 target_link_libraries(TilerLibrary PRIVATE glfw)
 
+find_package(glad CONFIG REQUIRED)
+target_link_libraries(TilerLibrary PRIVATE glad::glad)
+
 
 
 target_include_directories(TilerLibrary

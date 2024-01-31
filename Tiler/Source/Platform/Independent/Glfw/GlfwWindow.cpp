@@ -1,5 +1,7 @@
 #include "Tiler/Platform/Independent/Glfw/GlfwWindow.h"
 
+#include "glad/glad.h"
+
 #include "Tiler/Core.h"
 #include "Tiler/Events/KeyEvent.h"
 #include "Tiler/Events/MouseEvent.h"
@@ -57,9 +59,9 @@ namespace Tiler {
 
 		if (!s_GlfwInitialized) {
 			//TODO: glfwTerminate on system shutdown
-			int success = glfwInit();
+			const int success = glfwInit();
 
-			TL_CORE_ASSERT(success, "Could Not Initialize GLFW!");
+			TL_CORE_ASSERT(success, "Failed to initialize GLFW!");
 			glfwSetErrorCallback(GlfwErrorCallback);
 
 			s_GlfwInitialized = true;
@@ -70,6 +72,12 @@ namespace Tiler {
 
 		m_Window = glfwCreateWindow(width, height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+
+		{
+			const int success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+			TL_CORE_ASSERT(success, "Failed to initialize GLAD!");
+		}
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
