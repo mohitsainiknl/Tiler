@@ -24,6 +24,9 @@ namespace Tiler {
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
+		inline Window& GetWindow() { return *m_Window; }
+		inline static Application& Get() { return *s_Instance; }
+
 	private:
 		void onWindowClose(const Event& event);
 
@@ -31,6 +34,8 @@ namespace Tiler {
 		EventDispatcher m_EventDispatcher;
 		LayerStack m_LayerStack;
 		bool m_Running;
+
+		static Application* s_Instance;
 	};
 
 	Application* CreateApplication();

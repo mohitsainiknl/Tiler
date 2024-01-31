@@ -1,7 +1,13 @@
 {
   "dependencies": [
+    "glad",
     "glfw3",
     "spdlog",
-    "glad"
+    {
+      "name": "imgui",
+      "features": [
+        "docking-experimental"
+      ]
+    }
   ]
 }

@@ -13,7 +13,13 @@ add_library(TilerLibrary SHARED
 	"Include/Tiler/Events/KeyEvent.h"
 	"Include/Tiler/Events/MouseEvent.h"
 	"Include/Tiler/Events/ApplicationEvent.h"
+
 	"Include/Tiler/Platform/Independent/Glfw/GlfwWindow.h"
+	"Include/Tiler/Platform/Independent/Glfw/imgui_impl_glfw.h"
+	"Include/Tiler/Platform/Independent/OpenGL/imgui_impl_opengl3.h"
+	"Include/Tiler/Platform/Independent/OpenGL/imgui_impl_opengl3_loader.h"
+
+	"Include/Tiler/ImGui/ImGuiLayer.h"
 
 	"Source/Log.cpp"
 	"Source/Application.cpp"
@@ -26,7 +32,11 @@ add_library(TilerLibrary SHARED
 	"Source/Events/ApplicationEvent.cpp"
 
 	"Source/Platform/Independent/Glfw/GlfwWindow.cpp"
-)
+	"Source/Platform/Independent/Glfw/imgui_impl_glfw.cpp"
+	"Source/Platform/Independent/OpenGL/imgui_impl_opengl3.cpp"
+
+	"Source/ImGui/ImGuiLayer.cpp"
+ "Include/Tiler/Tiler.h")
 
 
 find_package(spdlog CONFIG REQUIRED)
@@ -37,6 +47,9 @@ target_link_libraries(TilerLibrary PRIVATE glfw)
 
 find_package(glad CONFIG REQUIRED)
 target_link_libraries(TilerLibrary PRIVATE glad::glad)
+
+find_package(imgui CONFIG REQUIRED)
+target_link_libraries(TilerLibrary PRIVATE imgui::imgui)
 
 
 
@@ -62,4 +75,5 @@ set_target_properties(TilerLibrary PROPERTIES
 target_compile_definitions(TilerLibrary
 	PRIVATE
 		$<$<CONFIG:Debug>:TL_ENABLE_ASSERTS>
+		GLFW_INCLUDE_NONE
 )

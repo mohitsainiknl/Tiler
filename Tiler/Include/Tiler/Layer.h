@@ -12,6 +12,9 @@ namespace Tiler {
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer();
 
+		virtual void OnAttach();
+		virtual void OnDetach();
+
 		virtual void OnEvent(const Event& event) { m_EventHandled = false; }
 		virtual void OnUpdate() {}
 
@@ -20,6 +23,6 @@ namespace Tiler {
 
 	protected:
 		std::string m_DebugName;
-		bool m_EventHandled;
+		bool m_EventHandled = false;
 	};
 }

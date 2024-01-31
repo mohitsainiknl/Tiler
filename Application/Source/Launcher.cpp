@@ -1,10 +1,10 @@
-#include "Tiler/EntryPoint.h"
+#include "Tiler/Tiler.h"
 
 
 class Launcher : public Tiler::Application {
 public:
 	Launcher() {
-
+		PushOverlay(new Tiler::ImGuiLayer());
 	}
 	~Launcher() {
 

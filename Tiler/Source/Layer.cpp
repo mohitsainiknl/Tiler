@@ -7,8 +7,19 @@ namespace Tiler {
 
 	}
 
+
+	void Layer::OnAttach() {
+
+	}
+
+
+	void Layer::OnDetach() {
+
+	}
+
+
 	Layer::Layer(const std::string& debugName) : m_DebugName(debugName) {
-		m_EventHandled = false;
+
 	}
 
 
