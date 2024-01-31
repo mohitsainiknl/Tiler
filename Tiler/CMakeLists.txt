@@ -6,6 +6,8 @@ add_library(TilerLibrary SHARED
 	"Include/Tiler/Core.h"
 	"Include/Tiler/Log.h"
 	"Include/Tiler/Window.h"
+	"Include/Tiler/Layer.h"
+	"Include/Tiler/LayerStack.h"
 
 	"Include/Tiler/Events/Event.h"
 	"Include/Tiler/Events/KeyEvent.h"
@@ -15,6 +17,8 @@ add_library(TilerLibrary SHARED
 
 	"Source/Log.cpp"
 	"Source/Application.cpp"
+	"Source/Layer.cpp"
+	"Source/LayerStack.cpp"
 
 	"Source/Events/Event.cpp"
 	"Source/Events/KeyEvent.cpp"

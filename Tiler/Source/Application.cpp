@@ -3,6 +3,7 @@
 
 #include "Tiler/Core.h"
 #include "Tiler/Window.h"
+#include "Tiler/Layer.h"
 #include "Tiler/Events/KeyEvent.h"
 #include "Tiler/Events/ApplicationEvent.h"
 
@@ -10,6 +11,8 @@
 #define BIND_EVENT_FN(name) std::bind(&Application::name, this, std::placeholders::_1)
 
 namespace Tiler {
+
+	Application* CreateApplication();
 
 	Application::Application() {
 		Log::init();
@@ -29,9 +32,15 @@ namespace Tiler {
 
 	void Application::OnEvent(const Event& event) {
 		m_EventDispatcher.Dispatch(event);
+
+		for (auto it = m_LayerStack.end() - 1; it != m_LayerStack.begin(); --it) {
+			const auto layer = (*it);
+			layer->OnEvent(event);
+			if (layer->GetEventHandled())
+				break;
+		}
 	}
 
-	Application* CreateApplication();
 
 
 	void Application::Run() {
@@ -43,8 +52,19 @@ namespace Tiler {
 		});
 
 		while (m_Running) {
+			for (Layer* layer : m_LayerStack) {
+				layer->OnUpdate();
+			}
 			m_Window->OnUpdate();
 		}
+	}
+
+	void Application::PushLayer(Layer* layer) {
+		m_LayerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* overlay) {
+		m_LayerStack.PushOverlay(overlay);
 	}
 
 	void Application::onWindowClose(const Event& event)

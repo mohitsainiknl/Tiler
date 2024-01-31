@@ -4,6 +4,8 @@
 
 #include <vector>
 #include <string>
+#include <functional>
+#include <unordered_map>
 
 
 #define BIT(x) (1 << x)
