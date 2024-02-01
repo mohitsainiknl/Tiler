@@ -36,28 +36,28 @@ namespace Tiler {
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-		io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
-		io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
-		io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
-		io.KeyMap[ImGuiKey_UpArrow] = GLFW_KEY_UP;
-		io.KeyMap[ImGuiKey_DownArrow] = GLFW_KEY_DOWN;
-		io.KeyMap[ImGuiKey_PageUp] = GLFW_KEY_PAGE_UP;
-		io.KeyMap[ImGuiKey_PageDown] = GLFW_KEY_PAGE_DOWN;
-		io.KeyMap[ImGuiKey_Home] = GLFW_KEY_HOME;
-		io.KeyMap[ImGuiKey_End] = GLFW_KEY_END;
-		io.KeyMap[ImGuiKey_Insert] = GLFW_KEY_INSERT;
-		io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
-		io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
-		io.KeyMap[ImGuiKey_Space] = GLFW_KEY_SPACE;
-		io.KeyMap[ImGuiKey_Enter] = GLFW_KEY_ENTER;
-		io.KeyMap[ImGuiKey_Escape] = GLFW_KEY_ESCAPE;
-		io.KeyMap[ImGuiKey_KeyPadEnter] = GLFW_KEY_KP_ENTER;
-		io.KeyMap[ImGuiKey_A] = GLFW_KEY_A;
-		io.KeyMap[ImGuiKey_C] = GLFW_KEY_C;
-		io.KeyMap[ImGuiKey_V] = GLFW_KEY_V;
-		io.KeyMap[ImGuiKey_X] = GLFW_KEY_X;
-		io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
-		io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
+		io.KeyMap[ImGuiKey_Tab]         = TL_KEY_TAB;
+		io.KeyMap[ImGuiKey_LeftArrow]   = TL_KEY_LEFT;
+		io.KeyMap[ImGuiKey_RightArrow]  = TL_KEY_RIGHT;
+		io.KeyMap[ImGuiKey_UpArrow]     = TL_KEY_UP;
+		io.KeyMap[ImGuiKey_DownArrow]   = TL_KEY_DOWN;
+		io.KeyMap[ImGuiKey_PageUp]      = TL_KEY_PAGE_UP;
+		io.KeyMap[ImGuiKey_PageDown]    = TL_KEY_PAGE_DOWN;
+		io.KeyMap[ImGuiKey_Home]        = TL_KEY_HOME;
+		io.KeyMap[ImGuiKey_End]         = TL_KEY_END;
+		io.KeyMap[ImGuiKey_Insert]      = TL_KEY_INSERT;
+		io.KeyMap[ImGuiKey_Delete]      = TL_KEY_DELETE;
+		io.KeyMap[ImGuiKey_Backspace]   = TL_KEY_BACKSPACE;
+		io.KeyMap[ImGuiKey_Space]       = TL_KEY_SPACE;
+		io.KeyMap[ImGuiKey_Enter]       = TL_KEY_ENTER;
+		io.KeyMap[ImGuiKey_Escape]      = TL_KEY_ESCAPE;
+		io.KeyMap[ImGuiKey_KeyPadEnter] = TL_KEY_KP_ENTER;
+		io.KeyMap[ImGuiKey_A]           = TL_KEY_A;
+		io.KeyMap[ImGuiKey_C]           = TL_KEY_C;
+		io.KeyMap[ImGuiKey_V]           = TL_KEY_V;
+		io.KeyMap[ImGuiKey_X]           = TL_KEY_X;
+		io.KeyMap[ImGuiKey_Y]           = TL_KEY_Y;
+		io.KeyMap[ImGuiKey_Z]           = TL_KEY_Z;
 
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
@@ -90,14 +90,14 @@ namespace Tiler {
 
 	void ImGuiLayer::OnEvent(const Event& event) {
 		if (false);
-		else if (event.GetEventType() == EventType::MOUSE_BUTTON_PRESSED  ) OnMouseButtonPressedEvent (*(MouseButtonPressedEvent *)&event);
-		else if (event.GetEventType() == EventType::MOUSE_BUTTON_RELEASED ) OnMouseButtonReleasedEvent(*(MouseButtonReleasedEvent*)&event);
-		else if (event.GetEventType() == EventType::MOUSE_MOVED           ) OnMouseMovedEvent         (*(MouseMovedEvent         *)&event);
-		else if (event.GetEventType() == EventType::MOUSE_SCROLLED        ) OnMouseScrolledEvent      (*(MouseScrolledEvent      *)&event);
-		else if (event.GetEventType() == EventType::KEY_PRESSED           ) OnKeyPressedEvent         (*(KeyPressedEvent         *)&event);
-		else if (event.GetEventType() == EventType::KEY_RELEASED          ) OnKeyReleasedEvent        (*(KeyReleasedEvent        *)&event);
-		else if (event.GetEventType() == EventType::KEY_TYPED             ) OnKeyTypedEvent           (*(KeyTypedEvent           *)&event);
-		else if (event.GetEventType() == EventType::WINDOW_RESIZE         ) OnWindowResizeEvent       (*(WindowResizeEvent       *)&event);
+		else if (event.GetEventType() == EventType::MOUSE_BUTTON_PRESSED  ) OnMouseButtonPressedEvent ((MouseButtonPressedEvent &)event);
+		else if (event.GetEventType() == EventType::MOUSE_BUTTON_RELEASED ) OnMouseButtonReleasedEvent((MouseButtonReleasedEvent&)event);
+		else if (event.GetEventType() == EventType::MOUSE_MOVED           ) OnMouseMovedEvent         ((MouseMovedEvent         &)event);
+		else if (event.GetEventType() == EventType::MOUSE_SCROLLED        ) OnMouseScrolledEvent      ((MouseScrolledEvent      &)event);
+		else if (event.GetEventType() == EventType::KEY_PRESSED           ) OnKeyPressedEvent         ((KeyPressedEvent         &)event);
+		else if (event.GetEventType() == EventType::KEY_RELEASED          ) OnKeyReleasedEvent        ((KeyReleasedEvent        &)event);
+		else if (event.GetEventType() == EventType::KEY_TYPED             ) OnKeyTypedEvent           ((KeyTypedEvent           &)event);
+		else if (event.GetEventType() == EventType::WINDOW_RESIZE         ) OnWindowResizeEvent       ((WindowResizeEvent       &)event);
 	}
 
 
@@ -131,10 +131,10 @@ namespace Tiler {
 		ImGuiIO& io = ImGui::GetIO();
 		io.KeysDown[event.GetKeyCode()] = true;
 
-		io.KeyCtrl  = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
-		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT]   || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
-		io.KeyAlt   = io.KeysDown[GLFW_KEY_LEFT_ALT]     || io.KeysDown[GLFW_KEY_RIGHT_ALT];
-		io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER]   || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+		io.KeyCtrl  = io.KeysDown[TL_KEY_LEFT_CONTROL] || io.KeysDown[TL_KEY_RIGHT_CONTROL];
+		io.KeyShift = io.KeysDown[TL_KEY_LEFT_SHIFT]   || io.KeysDown[TL_KEY_RIGHT_SHIFT];
+		io.KeyAlt   = io.KeysDown[TL_KEY_LEFT_ALT]     || io.KeysDown[TL_KEY_RIGHT_ALT];
+		io.KeySuper = io.KeysDown[TL_KEY_LEFT_SUPER]   || io.KeysDown[TL_KEY_RIGHT_SUPER];
 	}
 
 

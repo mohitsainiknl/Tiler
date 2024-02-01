@@ -6,6 +6,9 @@ add_library(TilerLibrary SHARED
 	"Include/Tiler/Tiler.h"
 	"Include/Tiler/Core.h"
 	"Include/Tiler/Log.h"
+	"Include/Tiler/KeyCode.h"
+	"Include/Tiler/MouseButtonCode.h"
+
 	"Include/Tiler/Window.h"
 	"Include/Tiler/Layer.h"
 	"Include/Tiler/LayerStack.h"
@@ -40,7 +43,7 @@ add_library(TilerLibrary SHARED
 	"Source/Platform/Independent/OpenGL/imgui_impl_opengl3.cpp"
 
 	"Source/ImGui/ImGuiLayer.cpp"
- )
+)
 
 
 find_package(spdlog CONFIG REQUIRED)

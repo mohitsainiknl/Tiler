@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Log.h"
-
+#include "KeyCode.h"
+#include "MouseButtonCode.h"
 
 #if TL_ENABLE_ASSERTS
 
