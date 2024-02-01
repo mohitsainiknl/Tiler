@@ -33,7 +33,7 @@ namespace Tiler {
 		std::unique_ptr<Window> m_Window;
 		EventDispatcher m_EventDispatcher;
 		LayerStack m_LayerStack;
-		bool m_Running;
+		bool m_Running = true;
 
 		static Application* s_Instance;
 	};

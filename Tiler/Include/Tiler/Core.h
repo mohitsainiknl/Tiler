@@ -18,3 +18,7 @@
 #define TL_CORE_ASSERT(condition, message)
 
 #endif // TL_ENABLE_ASSERTS
+
+
+#define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+#define BIND_EVENT_FN_CUSTOM(obj, fn) std::bind(&fn, &obj, std::placeholders::_1)

@@ -40,8 +40,19 @@ namespace Tiler {
 		EVENT_CLASS_TYPE(KEY_RELEASED)
 	};
 
+
+	class KeyTypedEvent : public KeyEvent {
+	public:
+		KeyTypedEvent(int keyCode);
+
+		std::string ToString() const override;
+
+		EVENT_CLASS_TYPE(KEY_TYPED)
+	};
+
 } // namespace Tiler
 
 FMT_SPECIALIZATION(Tiler::KeyEvent);
 FMT_SPECIALIZATION(Tiler::KeyPressedEvent);
 FMT_SPECIALIZATION(Tiler::KeyReleasedEvent);
+FMT_SPECIALIZATION(Tiler::KeyTypedEvent);

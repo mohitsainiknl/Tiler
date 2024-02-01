@@ -17,6 +17,10 @@ namespace Tiler {
 		return (beforeSize != afterSize);
 	}
 
+	bool EventDispatcher::Subscribe(const EventCallback& callback) {
+		return Subscribe(m_EventCallbacks, callback);
+	}
+
 	bool EventDispatcher::Subscribe(EventType eventType, const EventCallback& callback) {
 		if (eventType != EventType::NONE) {
 			return Subscribe(m_EventCallbacksByType[eventType], callback);
@@ -57,6 +61,10 @@ namespace Tiler {
 		return (beforeSize != afterSize);
 	}
 
+	bool EventDispatcher::Unsubscribe(const EventCallback& callback) {
+		return Unsubscribe(m_EventCallbacks, callback);
+	}
+
 	bool EventDispatcher::Unsubscribe(EventType eventType, const EventCallback& callback) {
 		if (eventType != EventType::NONE) {
 			return Unsubscribe(m_EventCallbacksByType[eventType], callback);
@@ -75,9 +83,9 @@ namespace Tiler {
 	bool EventDispatcher::Dispatch(const Event& event) {
 		bool is_success{ false };
 
-		// For EventType Callbacks
+		// For Event Callbacks
 		{
-			auto& callbacks{ m_EventCallbacksByType[event.GetEventType()] };
+			auto& callbacks{ m_EventCallbacks };
 
 			if (callbacks.size()) {
 				for (const auto& callback : callbacks) {
@@ -106,6 +114,19 @@ namespace Tiler {
 				}
 			}
 		}
+
+		// For EventType Callbacks
+		{
+			auto& callbacks{ m_EventCallbacksByType[event.GetEventType()] };
+
+			if (callbacks.size()) {
+				for (const auto& callback : callbacks) {
+					callback(event);
+				}
+				is_success = true;
+			}
+		}
+
 		return is_success;
 	}
 

@@ -41,4 +41,20 @@ namespace Tiler {
 		}
 	}
 
+
+	void LayerStack::OnUpdate() {
+		for (Layer* layer : m_Layers) {
+			layer->OnUpdate();
+		}
+	}
+
+	void LayerStack::OnEvent(const Event& event) {
+		for (auto it = m_Layers.rbegin(); it != m_Layers.rend(); ++it) {
+			const auto layer = (*it);
+			layer->OnEvent(event);
+			if (layer->GetEventHandled())
+				break;
+		}
+	}
+
 }

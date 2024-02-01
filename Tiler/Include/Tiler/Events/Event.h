@@ -27,6 +27,7 @@ namespace Tiler {
 
 		KEY_PRESSED,
 		KEY_RELEASED,
+		KEY_TYPED,
 
 		MOUSE_BUTTON_PRESSED,
 		MOUSE_BUTTON_RELEASED,
@@ -76,12 +77,14 @@ namespace Tiler {
 		EventDispatcher();
 		~EventDispatcher();
 
+		bool Subscribe(const EventCallback& callback);
 		bool Subscribe(EventType eventType, const EventCallback& callback);
 		bool Subscribe(EventCategory eventCategory, const EventCallback& callback);
 
 		bool SubscribeOnce(EventType eventType, const EventCallback& callback);
 		bool SubscribeOnce(EventCategory eventCategory, const EventCallback& callback);
 
+		bool Unsubscribe(const EventCallback& callback);
 		bool Unsubscribe(EventType eventType, const EventCallback& callback);
 		bool Unsubscribe(EventCategory eventCategory, const EventCallback& callback);
 
@@ -91,6 +94,7 @@ namespace Tiler {
 		bool Subscribe(std::vector<EventCallback>& callbacks, const EventCallback& callback);
 		bool Unsubscribe(std::vector<EventCallback>& callbacks, const EventCallback& callback);
 
+		std::vector<EventCallback> m_EventCallbacks;
 		std::unordered_map<EventType, std::vector<EventCallback>> m_EventCallbacksByType;
 		std::unordered_map<EventCategory, std::vector<EventCallback>> m_EventCallbacksByCategory;
 	};

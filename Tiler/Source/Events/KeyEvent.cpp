@@ -27,4 +27,13 @@ namespace Tiler {
 		return "KeyReleasedEvent: " + key;
 	}
 
+	KeyTypedEvent::KeyTypedEvent(int keyCode) : KeyEvent(keyCode) {
+
+	}
+
+	std::string KeyTypedEvent::ToString() const {
+		const auto key = std::to_string(m_KeyCode);
+		return "KeyTypedEvent: " + key;
+	}
+
 } // namespace Tiler

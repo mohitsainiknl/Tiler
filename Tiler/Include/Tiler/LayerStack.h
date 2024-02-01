@@ -5,6 +5,7 @@
 // Forward Declaration
 namespace Tiler {
 	class Layer;
+	class Event;
 }
 
 namespace Tiler {
@@ -19,8 +20,8 @@ namespace Tiler {
 		void PopLayer(Layer* layer);
 		void PopOverlay(Layer* overlay);
 
-		std::vector<Layer*>::iterator begin() { return m_Layers.begin(); }
-		std::vector<Layer*>::iterator end() { return m_Layers.end(); }
+		void OnUpdate();
+		void OnEvent(const Event& event);
 
 	private:
 		std::vector<Layer*> m_Layers;

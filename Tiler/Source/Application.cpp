@@ -5,10 +5,9 @@
 #include "Tiler/Window.h"
 #include "Tiler/Layer.h"
 #include "Tiler/Events/KeyEvent.h"
+#include "Tiler/Events/MouseEvent.h"
 #include "Tiler/Events/ApplicationEvent.h"
 
-
-#define BIND_EVENT_FN(name) std::bind(&Application::name, this, std::placeholders::_1)
 
 namespace Tiler {
 
@@ -24,10 +23,11 @@ namespace Tiler {
 		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
 		m_EventDispatcher = EventDispatcher();
-		m_EventDispatcher.Subscribe(EventType::WINDOW_CLOSE, BIND_EVENT_FN(onWindowClose));
+		m_EventDispatcher.Subscribe(EventType::WINDOW_CLOSE, BIND_EVENT_FN(Application::onWindowClose));
+		m_EventDispatcher.Subscribe(BIND_EVENT_FN_CUSTOM(m_LayerStack, LayerStack::OnEvent));
 	}
 
 	Application::~Application() {
@@ -36,13 +36,6 @@ namespace Tiler {
 
 	void Application::OnEvent(const Event& event) {
 		m_EventDispatcher.Dispatch(event);
-
-		for (auto it = m_LayerStack.end() - 1; it != m_LayerStack.begin(); --it) {
-			const auto layer = (*it);
-			layer->OnEvent(event);
-			if (layer->GetEventHandled())
-				break;
-		}
 	}
 
 
@@ -56,11 +49,9 @@ namespace Tiler {
 		});
 
 		while (m_Running) {
-			for (Layer* layer : m_LayerStack) {
-				layer->OnUpdate();
-			}
+			m_LayerStack.OnUpdate();
 			m_Window->OnUpdate();
-		}
+		} 
 	}
 
 	void Application::PushLayer(Layer* layer) {
@@ -73,8 +64,7 @@ namespace Tiler {
 		overlay->OnAttach();
 	}
 
-	void Application::onWindowClose(const Event& event)
-	{
+	void Application::onWindowClose(const Event& event) {
 		m_Running = false;
 	}
 
