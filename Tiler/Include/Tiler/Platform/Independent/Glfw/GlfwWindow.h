@@ -17,6 +17,7 @@ namespace Tiler {
 
 		inline int GetWidth() const override { return m_Data.Width; }
 		inline int GetHeight() const override { return m_Data.Height; }
+		inline void* GetNativeWindow() const override { return m_Window; }
 		inline void SetEventCallback(const EventCallback& callback) { m_Data.Callback = callback; };
 
 		void SetVSync(bool enabled) override;

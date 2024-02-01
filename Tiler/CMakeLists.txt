@@ -3,11 +3,13 @@ add_library(TilerLibrary SHARED
 	"Include/Tiler/Application.h"
 	"Include/Tiler/EntryPoint.h"
 
+	"Include/Tiler/Tiler.h"
 	"Include/Tiler/Core.h"
 	"Include/Tiler/Log.h"
 	"Include/Tiler/Window.h"
 	"Include/Tiler/Layer.h"
 	"Include/Tiler/LayerStack.h"
+	"Include/Tiler/Input.h"
 
 	"Include/Tiler/Events/Event.h"
 	"Include/Tiler/Events/KeyEvent.h"
@@ -15,6 +17,7 @@ add_library(TilerLibrary SHARED
 	"Include/Tiler/Events/ApplicationEvent.h"
 
 	"Include/Tiler/Platform/Independent/Glfw/GlfwWindow.h"
+	"Include/Tiler/Platform/Independent/Glfw/GlfwInput.h"
 	"Include/Tiler/Platform/Independent/Glfw/imgui_impl_glfw.h"
 	"Include/Tiler/Platform/Independent/OpenGL/imgui_impl_opengl3.h"
 	"Include/Tiler/Platform/Independent/OpenGL/imgui_impl_opengl3_loader.h"
@@ -32,11 +35,12 @@ add_library(TilerLibrary SHARED
 	"Source/Events/ApplicationEvent.cpp"
 
 	"Source/Platform/Independent/Glfw/GlfwWindow.cpp"
+	"Source/Platform/Independent/Glfw/GlfwInput.cpp"
 	"Source/Platform/Independent/Glfw/imgui_impl_glfw.cpp"
 	"Source/Platform/Independent/OpenGL/imgui_impl_opengl3.cpp"
 
 	"Source/ImGui/ImGuiLayer.cpp"
- "Include/Tiler/Tiler.h")
+ )
 
 
 find_package(spdlog CONFIG REQUIRED)

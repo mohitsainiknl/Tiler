@@ -7,6 +7,7 @@
 #include "Tiler/Events/KeyEvent.h"
 #include "Tiler/Events/MouseEvent.h"
 #include "Tiler/Events/ApplicationEvent.h"
+#include "Tiler/Input.h"
 
 
 namespace Tiler {
@@ -23,6 +24,7 @@ namespace Tiler {
 		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
+		Input::Initialize();
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
 		m_EventDispatcher = EventDispatcher();
@@ -31,7 +33,7 @@ namespace Tiler {
 	}
 
 	Application::~Application() {
-
+		Input::Distroy();
 	}
 
 	void Application::OnEvent(const Event& event) {
@@ -51,7 +53,11 @@ namespace Tiler {
 		while (m_Running) {
 			m_LayerStack.OnUpdate();
 			m_Window->OnUpdate();
-		} 
+
+			auto x = Input::GetMouseX();
+			auto y = Input::GetMouseY();
+			TL_CORE_DEBUG("Pos({0}, {1})", x, y);
+		}
 	}
 
 	void Application::PushLayer(Layer* layer) {
