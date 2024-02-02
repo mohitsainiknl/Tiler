@@ -1,15 +1,14 @@
 #include "Tiler/ImGui/ImGuiLayer.h"
 
-#include "GLFW/glfw3.h"
 #include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
 #include "Tiler/Core.h"
-#include "Tiler/Window.h"
-#include "Tiler/Application.h"
+#include "Tiler/Input.h"
 
 
 namespace Tiler {
@@ -64,9 +63,7 @@ namespace Tiler {
 
 	void ImGuiLayer::OnRenderEnd() {
 		ImGuiIO& io = ImGui::GetIO();
-		Application& app = Application::Get();
-		Window& w = app.GetWindow();
-		io.DisplaySize = ImVec2(w.GetWidth(), w.GetHeight());
+		io.DisplaySize = ImVec2(Input::GetWindowWidth(), Input::GetWindowHeight());
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
