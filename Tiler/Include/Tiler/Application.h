@@ -9,6 +9,7 @@
 namespace Tiler {
 	class Window;
 	class Layer;
+	class ImGuiLayer;
 }
 
 namespace Tiler {
@@ -31,6 +32,7 @@ namespace Tiler {
 		void onWindowClose(const Event& event);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		EventDispatcher m_EventDispatcher;
 		LayerStack m_LayerStack;
 		bool m_Running = true;

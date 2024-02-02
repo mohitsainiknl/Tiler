@@ -32,9 +32,9 @@ namespace Tiler {
 		Shutdown();
 	}
 
-	void GlfwWindow::OnUpdate() {
-		glfwPollEvents();
+	void GlfwWindow::Update() {
 		glfwSwapBuffers(m_Window);
+		glfwPollEvents();
 	}
 
 	void GlfwWindow::SetVSync(bool enabled) {

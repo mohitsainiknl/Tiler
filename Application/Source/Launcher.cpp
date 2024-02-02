@@ -4,7 +4,7 @@
 class Launcher : public Tiler::Application {
 public:
 	Launcher() {
-		PushOverlay(new Tiler::ImGuiLayer());
+
 	}
 	~Launcher() {
 

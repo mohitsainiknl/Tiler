@@ -8,6 +8,7 @@
 #include "Tiler/Events/MouseEvent.h"
 #include "Tiler/Events/ApplicationEvent.h"
 #include "Tiler/Input.h"
+#include "Tiler/ImGui/ImGuiLayer.h"
 
 
 namespace Tiler {
@@ -26,6 +27,9 @@ namespace Tiler {
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		Input::Initialize();
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 
 		m_EventDispatcher = EventDispatcher();
 		m_EventDispatcher.Subscribe(EventType::WINDOW_CLOSE, BIND_EVENT_FN(Application::onWindowClose));
@@ -47,16 +51,17 @@ namespace Tiler {
 		m_EventDispatcher.Subscribe(EventType::KEY_PRESSED, [](const Event& event) {
 			const KeyPressedEvent& keyPressedEvent = static_cast<const KeyPressedEvent&>(event);
 			int keyCode = keyPressedEvent.GetKeyCode();
-			TL_CORE_DEBUG("Key pressed: {0}", keyCode);
+			TL_CORE_DEBUG("Key pressed: {0}", (char)keyCode);
 		});
 
+		// Frame Rendering Loop
 		while (m_Running) {
-			m_LayerStack.OnUpdate();
-			m_Window->OnUpdate();
+			m_ImGuiLayer->OnRenderBegin();
 
-			auto x = Input::GetMouseX();
-			auto y = Input::GetMouseY();
-			TL_CORE_DEBUG("Pos({0}, {1})", x, y);
+			m_LayerStack.RenderLayers();
+
+			m_ImGuiLayer->OnRenderEnd();
+			m_Window->Update();
 		}
 	}
 

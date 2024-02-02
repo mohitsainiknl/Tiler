@@ -16,7 +16,7 @@ namespace Tiler {
 		virtual void OnDetach();
 
 		virtual void OnEvent(const Event& event) { m_EventHandled = false; }
-		virtual void OnUpdate() {}
+		virtual void OnRender() {}
 
 		inline const std::string& GetName() const { return m_DebugName; }
 		inline const bool GetEventHandled() const { return m_EventHandled; }

@@ -13,7 +13,7 @@ namespace Tiler {
 		GlfwWindow(const std::string& title, int width, int height);
 		~GlfwWindow() override;
 
-		void OnUpdate() override;
+		void Update() override;
 
 		inline int GetWidth() const override { return m_Data.Width; }
 		inline int GetHeight() const override { return m_Data.Height; }

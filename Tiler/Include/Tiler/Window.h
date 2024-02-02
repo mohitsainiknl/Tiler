@@ -18,7 +18,7 @@ namespace Tiler {
 
 		virtual ~Window() {};
 
-		virtual void OnUpdate() = 0;
+		virtual void Update() = 0;
 		virtual int GetWidth() const = 0;
 		virtual int GetHeight() const = 0;
 		virtual void* GetNativeWindow() const = 0;

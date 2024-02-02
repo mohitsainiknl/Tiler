@@ -20,12 +20,12 @@ namespace Tiler {
 		void PopLayer(Layer* layer);
 		void PopOverlay(Layer* overlay);
 
-		void OnUpdate();
+		void RenderLayers();
 		void OnEvent(const Event& event);
 
 	private:
 		std::vector<Layer*> m_Layers;
-		std::vector<Layer*>::iterator m_LayerInsert;
+		unsigned int m_LayerInsertIndex;
 	};
 }
 
