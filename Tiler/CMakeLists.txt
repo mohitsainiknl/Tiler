@@ -21,7 +21,7 @@ add_library(TilerLibrary STATIC
 
 	"Include/Tiler/Platform/Independent/Glfw/GlfwWindow.h"
 	"Include/Tiler/Platform/Independent/Glfw/GlfwInput.h"
-
+	
 	"Include/Tiler/ImGui/ImGuiLayer.h"
 
 	"Source/Log.cpp"
@@ -52,6 +52,9 @@ target_link_libraries(TilerLibrary PUBLIC glad::glad)
 
 find_package(imgui CONFIG REQUIRED)
 target_link_libraries(TilerLibrary PUBLIC imgui::imgui)
+
+find_package(glm CONFIG REQUIRED)
+target_link_libraries(TilerLibrary PUBLIC glm::glm)
 
 
 
