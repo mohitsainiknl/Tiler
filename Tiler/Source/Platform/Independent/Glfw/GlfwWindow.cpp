@@ -1,11 +1,14 @@
 #include "Tiler/Platform/Independent/Glfw/GlfwWindow.h"
 
-#include "glad/glad.h"
+#include <GLFW/glfw3.h>
+
 
 #include "Tiler/Core.h"
 #include "Tiler/Events/KeyEvent.h"
 #include "Tiler/Events/MouseEvent.h"
 #include "Tiler/Events/ApplicationEvent.h"
+
+#include "Tiler/Platform/Independent/OpenGL/OpenGLRenderContext.h"
 
 
 namespace Tiler {
@@ -33,7 +36,7 @@ namespace Tiler {
 	}
 
 	void GlfwWindow::Update() {
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 		glfwPollEvents();
 	}
 
@@ -71,12 +74,8 @@ namespace Tiler {
 		TL_CORE_ASSERT((1 <= height && height <= std::numeric_limits<int>::max()), "Window height is outside the valid range (1 <= height <= INT_MAX).");
 
 		m_Window = glfwCreateWindow(width, height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-
-		{
-			const int success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-			TL_CORE_ASSERT(success, "Failed to initialize GLAD!");
-		}
+		m_Context = new OpenGLRenderContext(m_Window);
+		m_Context->Initialize();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);

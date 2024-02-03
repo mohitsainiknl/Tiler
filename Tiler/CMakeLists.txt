@@ -19,10 +19,13 @@ add_library(TilerLibrary STATIC
 	"Include/Tiler/Events/MouseEvent.h"
 	"Include/Tiler/Events/ApplicationEvent.h"
 
+	"Include/Tiler/ImGui/ImGuiLayer.h"
+
 	"Include/Tiler/Platform/Independent/Glfw/GlfwWindow.h"
 	"Include/Tiler/Platform/Independent/Glfw/GlfwInput.h"
+	"Include/Tiler/Platform/Independent/OpenGL/OpenGLRenderContext.h"
 	
-	"Include/Tiler/ImGui/ImGuiLayer.h"
+	"Include/Tiler/Renderer/RenderContext.h"
 
 	"Source/Log.cpp"
 	"Source/Application.cpp"
@@ -36,6 +39,7 @@ add_library(TilerLibrary STATIC
 
 	"Source/Platform/Independent/Glfw/GlfwWindow.cpp"
 	"Source/Platform/Independent/Glfw/GlfwInput.cpp"
+	"Source/Platform/Independent/OpenGL/OpenGLRenderContext.cpp"
 
 	"Source/ImGui/ImGuiLayer.cpp"
 )

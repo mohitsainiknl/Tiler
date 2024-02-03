@@ -1,14 +1,18 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
-
 #include "Tiler/Window.h"
-#include "Tiler/Events/Event.h"
+
+
+// Forward Declarations
+namespace Tiler {
+	class OpenGLRenderContext;
+}
+struct GLFWwindow;
 
 
 namespace Tiler {
 
-	class GlfwWindow : public Window {
+		class GlfwWindow : public Window {
 	public:
 		GlfwWindow(const std::string& title, int width, int height);
 		~GlfwWindow() override;
@@ -29,6 +33,7 @@ namespace Tiler {
 
 	private:
 		GLFWwindow* m_Window;
+		OpenGLRenderContext* m_Context;
 
 		struct WindowData {
 			std::string Title = "";
