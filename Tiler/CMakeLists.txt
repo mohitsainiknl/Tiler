@@ -1,23 +1,62 @@
 
-add_library(TilerLibrary SHARED
+add_library(TilerLibrary STATIC
 	"Include/Tiler/Application.h"
 	"Include/Tiler/EntryPoint.h"
 
-	"Source/Log.h"
+	"Include/Tiler/Tiler.h"
+	"Include/Tiler/Core.h"
+	"Include/Tiler/Log.h"
+	"Include/Tiler/KeyCode.h"
+	"Include/Tiler/MouseButtonCode.h"
+
+	"Include/Tiler/Window.h"
+	"Include/Tiler/Layer.h"
+	"Include/Tiler/LayerStack.h"
+	"Include/Tiler/Input.h"
+
+	"Include/Tiler/Events/Event.h"
+	"Include/Tiler/Events/KeyEvent.h"
+	"Include/Tiler/Events/MouseEvent.h"
+	"Include/Tiler/Events/ApplicationEvent.h"
+
+	"Include/Tiler/Platform/Independent/Glfw/GlfwWindow.h"
+	"Include/Tiler/Platform/Independent/Glfw/GlfwInput.h"
+	
+	"Include/Tiler/ImGui/ImGuiLayer.h"
+
 	"Source/Log.cpp"
 	"Source/Application.cpp"
-	"Source/Events/Event.h"
+	"Source/Layer.cpp"
+	"Source/LayerStack.cpp"
+
 	"Source/Events/Event.cpp"
-	"Source/Events/KeyEvent.h"
 	"Source/Events/KeyEvent.cpp"
-	"Source/Events/MouseEvent.h"
 	"Source/Events/MouseEvent.cpp"
-	"Source/Events/ApplicationEvent.h"
 	"Source/Events/ApplicationEvent.cpp"
+
+	"Source/Platform/Independent/Glfw/GlfwWindow.cpp"
+	"Source/Platform/Independent/Glfw/GlfwInput.cpp"
+
+	"Source/ImGui/ImGuiLayer.cpp"
 )
 
+
 find_package(spdlog CONFIG REQUIRED)
-target_link_libraries(TilerLibrary PRIVATE spdlog::spdlog)
+target_link_libraries(TilerLibrary PUBLIC spdlog::spdlog)
+
+find_package(glfw3 CONFIG REQUIRED)
+target_link_libraries(TilerLibrary PUBLIC glfw)
+
+find_package(glad CONFIG REQUIRED)
+target_link_libraries(TilerLibrary PUBLIC glad::glad)
+
+find_package(imgui CONFIG REQUIRED)
+target_link_libraries(TilerLibrary PUBLIC imgui::imgui)
+
+find_package(glm CONFIG REQUIRED)
+target_link_libraries(TilerLibrary PUBLIC glm::glm)
+
+
 
 target_include_directories(TilerLibrary
     PRIVATE
@@ -26,10 +65,20 @@ target_include_directories(TilerLibrary
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>
 )
 
+
+
 set(PCH_FILES "tiler_pch.h" "tiler_pch.cpp")
 target_sources(TilerLibrary PRIVATE ${PCH_FILES})
 target_precompile_headers(TilerLibrary PRIVATE ${PCH_FILES})
 
+
+
 set_target_properties(TilerLibrary PROPERTIES
     OUTPUT_NAME "Tiler"
+)
+
+target_compile_definitions(TilerLibrary
+	PRIVATE
+		$<$<CONFIG:Debug>:TL_ENABLE_ASSERTS>
+		GLFW_INCLUDE_NONE
 )

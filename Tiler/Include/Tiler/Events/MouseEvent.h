@@ -26,6 +26,9 @@ namespace Tiler {
 	public:
 		MouseScrolledEvent(float offsetX, float offsetY);
 
+		inline float GetOffsetX() const { return m_OffsetX; }
+		inline float GetOffsetY() const { return m_OffsetY; }
+
 		std::string ToString() const override;
 
 		EVENT_CLASS_TYPE(MOUSE_SCROLLED)

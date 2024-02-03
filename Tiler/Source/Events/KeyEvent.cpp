@@ -1,4 +1,4 @@
-#include "KeyEvent.h"
+#include "Tiler/Events/KeyEvent.h"
 
 
 namespace Tiler {
@@ -7,7 +7,7 @@ namespace Tiler {
 
 	}
 
-	KeyPressedEvent::KeyPressedEvent(int keyCode, unsigned int repeatCount) : KeyEvent(keyCode), m_RepeatCount(repeatCount) {
+	KeyPressedEvent::KeyPressedEvent(int keyCode, int repeatCount) : KeyEvent(keyCode), m_RepeatCount(repeatCount) {
 
 	}
 
@@ -18,13 +18,22 @@ namespace Tiler {
 	}
 
 
-	KeyReleasedEvent::KeyReleasedEvent(int keyCode, unsigned int repeatCount) : KeyEvent(keyCode){
+	KeyReleasedEvent::KeyReleasedEvent(int keyCode, int repeatCount) : KeyEvent(keyCode){
 
 	}
 
 	std::string KeyReleasedEvent::ToString() const {
 		const auto key = std::to_string(m_KeyCode);
 		return "KeyReleasedEvent: " + key;
+	}
+
+	KeyTypedEvent::KeyTypedEvent(int keyCode) : KeyEvent(keyCode) {
+
+	}
+
+	std::string KeyTypedEvent::ToString() const {
+		const auto key = std::to_string(m_KeyCode);
+		return "KeyTypedEvent: " + key;
 	}
 
 } // namespace Tiler
