@@ -1,5 +1,5 @@
 
-add_library(TilerLibrary SHARED
+add_library(TilerLibrary STATIC
 	"Include/Tiler/Application.h"
 	"Include/Tiler/EntryPoint.h"
 
@@ -45,13 +45,13 @@ find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(TilerLibrary PUBLIC spdlog::spdlog)
 
 find_package(glfw3 CONFIG REQUIRED)
-target_link_libraries(TilerLibrary PRIVATE glfw)
+target_link_libraries(TilerLibrary PUBLIC glfw)
 
 find_package(glad CONFIG REQUIRED)
-target_link_libraries(TilerLibrary PRIVATE glad::glad)
+target_link_libraries(TilerLibrary PUBLIC glad::glad)
 
 find_package(imgui CONFIG REQUIRED)
-target_link_libraries(TilerLibrary PRIVATE imgui::imgui)
+target_link_libraries(TilerLibrary PUBLIC imgui::imgui)
 
 
 

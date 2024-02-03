@@ -1,5 +1,7 @@
 #pragma once
 
+#include "imgui.h"
+
 #include "Core.h"
 #include "EntryPoint.h"
 #include "Application.h"
