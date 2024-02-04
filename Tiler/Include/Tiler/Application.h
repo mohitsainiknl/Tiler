@@ -10,6 +10,7 @@ namespace Tiler {
 	class Window;
 	class Layer;
 	class ImGuiLayer;
+	class Shader;
 }
 
 namespace Tiler {
@@ -38,6 +39,7 @@ namespace Tiler {
 		bool m_Running = true;
 
 		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 
 		static Application* s_Instance;
 	};

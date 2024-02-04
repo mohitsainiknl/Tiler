@@ -26,6 +26,7 @@ add_library(TilerLibrary STATIC
 	"Include/Tiler/Platform/Independent/OpenGL/OpenGLRenderContext.h"
 	
 	"Include/Tiler/Renderer/RenderContext.h"
+	"Include/Tiler/Renderer/Shader.h"
 
 	"Source/Log.cpp"
 	"Source/Application.cpp"
@@ -42,6 +43,7 @@ add_library(TilerLibrary STATIC
 	"Source/Platform/Independent/OpenGL/OpenGLRenderContext.cpp"
 
 	"Source/ImGui/ImGuiLayer.cpp"
+	"Source/Renderer/Shader.cpp"
 )
 
 

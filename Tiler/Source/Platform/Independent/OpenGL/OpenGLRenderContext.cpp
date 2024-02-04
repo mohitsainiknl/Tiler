@@ -17,6 +17,14 @@ namespace Tiler {
 		glfwMakeContextCurrent(m_WindowContext);
 		const int success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		TL_CORE_ASSERT(success, "Failed to initialize GLAD!");
+
+		TL_CORE_INFO(
+			"OpenGL Info: \n"
+			"    Vendor   : {0}\n"
+			"    Renderer : {1}\n"
+			"    Version  : {2}"
+			, (const char*)glGetString(GL_VENDOR), (const char*)glGetString(GL_RENDERER), (const char*)glGetString(GL_VERSION)
+		);
 	}
 
 
