@@ -24,7 +24,10 @@ add_library(TilerLibrary STATIC
 	"Include/Tiler/Platform/Independent/Glfw/GlfwWindow.h"
 	"Include/Tiler/Platform/Independent/Glfw/GlfwInput.h"
 	"Include/Tiler/Platform/Independent/OpenGL/OpenGLRenderContext.h"
+	"Include/Tiler/Platform/Independent/OpenGL/OpenGLBuffer.h"
 	
+	"Include/Tiler/Renderer/Renderer.h"
+	"Include/Tiler/Renderer/Buffer.h"
 	"Include/Tiler/Renderer/RenderContext.h"
 	"Include/Tiler/Renderer/Shader.h"
 
@@ -41,8 +44,12 @@ add_library(TilerLibrary STATIC
 	"Source/Platform/Independent/Glfw/GlfwWindow.cpp"
 	"Source/Platform/Independent/Glfw/GlfwInput.cpp"
 	"Source/Platform/Independent/OpenGL/OpenGLRenderContext.cpp"
+	"Source/Platform/Independent/OpenGL/OpenGLBuffer.cpp"
 
 	"Source/ImGui/ImGuiLayer.cpp"
+
+	"Source/Renderer/Renderer.cpp"
+	"Source/Renderer/Buffer.cpp"
 	"Source/Renderer/Shader.cpp"
 )
 
