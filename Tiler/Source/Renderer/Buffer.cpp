@@ -13,9 +13,9 @@ namespace Tiler {
 		{
 			case RendererAPI::NONE:    TL_CORE_ASSERT(false, "RendererAPI::NONE is currently not supported!"); break;
 			case RendererAPI::OPENGL:  return new OpenGLVertexBuffer(vertices, size);
-
-			default: TL_CORE_ASSERT(false, "Unknown RendererAPI!");
 		}
+
+		TL_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
 	}
 
@@ -25,9 +25,9 @@ namespace Tiler {
 		{
 			case RendererAPI::NONE:    TL_CORE_ASSERT(false, "RendererAPI::NONE is currently not supported!"); break;
 			case RendererAPI::OPENGL:  return new OpenGLIndexBuffer(indices, count);
-
-			default: TL_CORE_ASSERT(false, "Unknown RendererAPI!");
 		}
+
+		TL_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
 	}
 

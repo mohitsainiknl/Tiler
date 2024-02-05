@@ -3,7 +3,6 @@
 #include "Tiler/LayerStack.h"
 #include "Events/Event.h"
 
-#include <memory>
 
 // Forward Declaration
 namespace Tiler {
@@ -11,6 +10,7 @@ namespace Tiler {
 	class Layer;
 	class ImGuiLayer;
 	class Shader;
+	class VertexArray;
 	class VertexBuffer;
 	class IndexBuffer;
 }
@@ -40,10 +40,11 @@ namespace Tiler {
 		LayerStack m_LayerStack;
 		bool m_Running = true;
 
-		unsigned int m_VertexArray;
-		std::unique_ptr<Shader> m_Shader;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexArray> m_VertexArray;
+
+		std::shared_ptr<Shader> m_BackShader;
+		std::shared_ptr<VertexArray> m_SquareVA;
 
 		static Application* s_Instance;
 	};

@@ -13,6 +13,7 @@
 #include "Tiler/ImGui/ImGuiLayer.h"
 #include "Tiler/Renderer/Shader.h"
 #include "Tiler/Renderer/Buffer.h"
+#include "Tiler/Renderer/VertexArray.h"
 
 
 namespace Tiler {
@@ -21,23 +22,6 @@ namespace Tiler {
 
 	Application* Application::s_Instance = nullptr;
 
-	static GLenum ShaderDataType_to_OpenGLBaseType(ShaderDataType type) {
-		switch (type)
-		{
-			case Tiler::ShaderDataType::FLOAT:	  return GL_FLOAT;
-			case Tiler::ShaderDataType::FLOAT2:	  return GL_FLOAT;
-			case Tiler::ShaderDataType::FLOAT3:	  return GL_FLOAT;
-			case Tiler::ShaderDataType::FLOAT4:	  return GL_FLOAT;
-			case Tiler::ShaderDataType::INT:	  return GL_INT;
-			case Tiler::ShaderDataType::INT2:	  return GL_INT;
-			case Tiler::ShaderDataType::INT3:	  return GL_INT;
-			case Tiler::ShaderDataType::INT4:	  return GL_INT;
-			case Tiler::ShaderDataType::BOOL:	  return GL_BOOL;
-		}
-
-		TL_CORE_ASSERT(false, "Unknown ShaderDataType!");
-		return 0;
-	}
 
 	Application::Application() {
 		Log::init();
@@ -57,8 +41,7 @@ namespace Tiler {
 		m_EventDispatcher.Subscribe(EventType::WINDOW_CLOSE, BIND_EVENT_FN(Application::onWindowClose));
 		m_EventDispatcher.Subscribe(BIND_EVENT_FN_CUSTOM(m_LayerStack, LayerStack::OnEvent));
 
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		m_VertexArray.reset(VertexArray::Create());
 
 		float vertices[3 * 7] = {
 			//// Position ////    /////// Color ///////
@@ -66,34 +49,41 @@ namespace Tiler {
 			 0.5f, -0.5f, 0.0f,   0.2f, 0.3f, 0.8f, 1.0f,
 			 0.0f,  0.5f, 0.0f,   0.8f, 0.8f, 0.2f, 1.0f
 		};
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-		{
-			BufferLayout layout = {
-				{ ShaderDataType::FLOAT3, "a_Position" },
-				{ ShaderDataType::FLOAT4, "a_Color" }
-			};
-			m_VertexBuffer->SetLayout(layout);
-		}
-
-
-		uint32_t index = 0;
-		const auto& layout = m_VertexBuffer->GetLayout();
-		for (const auto& element : layout) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(
-				index,
-				element.GetComponentCount(),
-				ShaderDataType_to_OpenGLBaseType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element.Offset
-			);
-			index++;
-		}
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		BufferLayout layout = {
+			{ ShaderDataType::FLOAT3, "a_Position" },
+			{ ShaderDataType::FLOAT4, "a_Color" }
+		};
+		vertexBuffer->SetLayout(layout);
+		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3]{ 0, 1, 2 };
-		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		std::shared_ptr<IndexBuffer> indexBuffer;
+		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		m_VertexArray->SetIndexBuffer(indexBuffer);
+
+
+		m_SquareVA.reset(VertexArray::Create());
+		float squareVertices[3 * 4] = {
+			-0.75f, -0.75f, 0.0f,
+			 0.75f, -0.75f, 0.0f,
+			 0.75f,  0.75f, 0.0f,
+			-0.75f,  0.75f, 0.0f
+		};
+
+		std::shared_ptr<VertexBuffer> squareVB;
+		squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVB->SetLayout({
+			{ ShaderDataType::FLOAT3, "a_Position" },
+		});
+		m_SquareVA->AddVertexBuffer(squareVB);
+
+		uint32_t squareIndices[6]{ 0, 1, 2, 2, 3, 0 };
+		std::shared_ptr<IndexBuffer> squareIB;
+		squareIB.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		m_SquareVA->SetIndexBuffer(squareIB);
 
 		std::string vertexSource = R"(
 			#version 330 core
@@ -125,7 +115,34 @@ namespace Tiler {
 			}
 		)";
 
-		m_Shader = std::make_unique<Shader>(vertexSource, fragmentSource);
+		m_Shader = std::make_shared<Shader>(vertexSource, fragmentSource);
+
+		std::string backVertexSource = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+
+			out vec3 v_Position;
+
+			void main() {
+				v_Position = a_Position;
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
+
+		std::string backFragmentSource = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+
+			void main() {
+				color = vec4(0.2, 0.2, 0.2, 1.0);
+			}
+		)";
+
+		m_BackShader = std::make_shared<Shader>(backVertexSource, backFragmentSource);
 	}
 
 	Application::~Application() {
@@ -151,9 +168,13 @@ namespace Tiler {
 			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			m_BackShader->Bind();
+			m_SquareVA->Bind();
+			glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
 			m_Shader->Bind();
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			m_VertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			m_ImGuiLayer->OnRenderBegin();
 			m_LayerStack.RenderLayers();
