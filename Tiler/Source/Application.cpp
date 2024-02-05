@@ -1,8 +1,6 @@
 
 #include "Tiler/Application.h"
 
-#include "glad/glad.h"
-
 #include "Tiler/Core.h"
 #include "Tiler/Window.h"
 #include "Tiler/Layer.h"
@@ -11,6 +9,7 @@
 #include "Tiler/Events/ApplicationEvent.h"
 #include "Tiler/Input.h"
 #include "Tiler/ImGui/ImGuiLayer.h"
+#include "Tiler/Renderer/Renderer.h"
 #include "Tiler/Renderer/Shader.h"
 #include "Tiler/Renderer/Buffer.h"
 #include "Tiler/Renderer/VertexArray.h"
@@ -165,16 +164,18 @@ namespace Tiler {
 
 		// Frame Rendering Loop
 		while (m_Running) {
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+			RenderCommand::Clear();
+
+			Renderer::SceneBegin();
 
 			m_BackShader->Bind();
-			m_SquareVA->Bind();
-			glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(m_SquareVA);
 
 			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(m_VertexArray);
+
+			Renderer::SceneEnd();
 
 			m_ImGuiLayer->OnRenderBegin();
 			m_LayerStack.RenderLayers();

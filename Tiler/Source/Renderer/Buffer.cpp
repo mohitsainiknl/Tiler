@@ -11,8 +11,8 @@ namespace Tiler {
 	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size) {
 		switch (Renderer::GetAPI())
 		{
-			case RendererAPI::NONE:    TL_CORE_ASSERT(false, "RendererAPI::NONE is currently not supported!"); break;
-			case RendererAPI::OPENGL:  return new OpenGLVertexBuffer(vertices, size);
+			case RendererAPI::API::NONE:    TL_CORE_ASSERT(false, "RendererAPI::NONE is currently not supported!"); break;
+			case RendererAPI::API::OPENGL:  return new OpenGLVertexBuffer(vertices, size);
 		}
 
 		TL_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -23,8 +23,8 @@ namespace Tiler {
 	IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count) {
 		switch (Renderer::GetAPI())
 		{
-			case RendererAPI::NONE:    TL_CORE_ASSERT(false, "RendererAPI::NONE is currently not supported!"); break;
-			case RendererAPI::OPENGL:  return new OpenGLIndexBuffer(indices, count);
+			case RendererAPI::API::NONE:    TL_CORE_ASSERT(false, "RendererAPI::NONE is currently not supported!"); break;
+			case RendererAPI::API::OPENGL:  return new OpenGLIndexBuffer(indices, count);
 		}
 
 		TL_CORE_ASSERT(false, "Unknown RendererAPI!");

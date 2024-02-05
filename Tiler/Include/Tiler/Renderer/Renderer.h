@@ -1,17 +1,16 @@
 #pragma once
 
+#include "Tiler/Renderer/RenderCommand.h"
+
 
 namespace Tiler {
 
-	enum class RendererAPI {
-		NONE = 0,
-		OPENGL = 1,
-	};
-
 	class Renderer {
 	public:
-		inline static RendererAPI GetAPI() { return s_RendererAPI; }
-	private:
-		static RendererAPI s_RendererAPI;
+		static void SceneBegin();
+		static void SceneEnd();
+
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 	};
 }
