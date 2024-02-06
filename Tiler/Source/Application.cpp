@@ -22,7 +22,7 @@ namespace Tiler {
 	Application* Application::s_Instance = nullptr;
 
 
-	Application::Application() {
+	Application::Application() : m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
 		Log::init();
 		TL_CORE_TRACE("Logs Initialized!");
 
@@ -43,10 +43,10 @@ namespace Tiler {
 		m_VertexArray.reset(VertexArray::Create());
 
 		float vertices[3 * 7] = {
-			//// Position ////    /////// Color ///////
-			-0.5f, -0.5f, 0.0f,   0.8f, 0.2f, 0.8f, 1.0f,
-			 0.5f, -0.5f, 0.0f,   0.2f, 0.3f, 0.8f, 1.0f,
-			 0.0f,  0.5f, 0.0f,   0.8f, 0.8f, 0.2f, 1.0f
+			///// Position /////    /////// Color ///////
+			-0.58f, -0.50f, 0.0f,   0.8f, 0.2f, 0.8f, 1.0f,
+			 0.58f, -0.50f, 0.0f,   0.2f, 0.3f, 0.8f, 1.0f,
+			 0.00f,  0.50f, 0.0f,   0.8f, 0.8f, 0.2f, 1.0f
 		};
 
 		std::shared_ptr<VertexBuffer> vertexBuffer;
@@ -90,13 +90,15 @@ namespace Tiler {
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 			out vec4 v_Color;
 
 			void main() {
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -121,11 +123,13 @@ namespace Tiler {
 
 			layout(location = 0) in vec3 a_Position;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 
 			void main() {
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -167,13 +171,13 @@ namespace Tiler {
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 			RenderCommand::Clear();
 
-			Renderer::SceneBegin();
+			m_Camera.SetPosition({ 0.0f, 0.0f, 0.0f });
+			m_Camera.SetRotation(0.0f);
 
-			m_BackShader->Bind();
-			Renderer::Submit(m_SquareVA);
+			Renderer::SceneBegin(m_Camera);
 
-			m_Shader->Bind();
-			Renderer::Submit(m_VertexArray);
+			Renderer::Submit(m_BackShader, m_SquareVA);
+			Renderer::Submit(m_Shader, m_VertexArray);
 
 			Renderer::SceneEnd();
 

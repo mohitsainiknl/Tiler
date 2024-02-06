@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Tiler/LayerStack.h"
-#include "Events/Event.h"
+#include "Tiler/Events/Event.h"
+#include "Tiler/Renderer/CameraOrthographic.h"
 
 
 // Forward Declaration
@@ -46,6 +47,7 @@ namespace Tiler {
 		std::shared_ptr<Shader> m_BackShader;
 		std::shared_ptr<VertexArray> m_SquareVA;
 
+		CameraOrthographic m_Camera;
 		static Application* s_Instance;
 	};
 

@@ -35,6 +35,7 @@ add_library(TilerLibrary STATIC
 	"Include/Tiler/Renderer/Buffer.h"
 	"Include/Tiler/Renderer/Shader.h"
 	"Include/Tiler/Renderer/VertexArray.h"
+	"Include/Tiler/Renderer/CameraOrthographic.h"
 
 	"Source/Log.cpp"
 	"Source/Application.cpp"
@@ -61,6 +62,7 @@ add_library(TilerLibrary STATIC
 	"Source/Renderer/Buffer.cpp"
 	"Source/Renderer/Shader.cpp"
 	"Source/Renderer/VertexArray.cpp"
+	"Source/Renderer/CameraOrthographic.cpp"
 )
 
 
