@@ -43,9 +43,9 @@ namespace Tiler {
 	}
 
 
-	void LayerStack::RenderLayers() {
+	void LayerStack::RenderLayers(float timestep) {
 		for (Layer* layer : m_Layers) {
-			layer->OnRender();
+			layer->OnRender(timestep);
 		}
 	}
 

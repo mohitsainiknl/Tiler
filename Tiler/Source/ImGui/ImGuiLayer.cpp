@@ -55,9 +55,9 @@ namespace Tiler {
 	}
 
 
-	void ImGuiLayer::OnRender() {
+	void ImGuiLayer::OnRender(float timestep) {
 		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		//ImGui::ShowDemoWindow(&show);
 	}
 
 

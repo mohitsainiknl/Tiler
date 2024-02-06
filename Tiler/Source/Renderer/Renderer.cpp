@@ -7,10 +7,10 @@
 
 namespace Tiler {
 
-	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
+	Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData;
 
 	void Renderer::SceneBegin(CameraOrthographic& camera) {
-		m_SceneData->MatrixViewProject = camera.GetMatrixViewProjection();
+		s_SceneData->MatrixViewProject = camera.GetMatrixViewProjection();
 	}
 
 
@@ -21,7 +21,7 @@ namespace Tiler {
 
 	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray) {
 		shader->Bind();
-		shader->UploadUniformMat4("u_ViewProjection", m_SceneData->MatrixViewProject);
+		shader->UploadUniformMat4("u_ViewProjection", s_SceneData->MatrixViewProject);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

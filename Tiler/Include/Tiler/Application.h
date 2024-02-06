@@ -2,7 +2,6 @@
 
 #include "Tiler/LayerStack.h"
 #include "Tiler/Events/Event.h"
-#include "Tiler/Renderer/CameraOrthographic.h"
 
 
 // Forward Declaration
@@ -10,10 +9,6 @@ namespace Tiler {
 	class Window;
 	class Layer;
 	class ImGuiLayer;
-	class Shader;
-	class VertexArray;
-	class VertexBuffer;
-	class IndexBuffer;
 }
 
 namespace Tiler {
@@ -40,14 +35,8 @@ namespace Tiler {
 		EventDispatcher m_EventDispatcher;
 		LayerStack m_LayerStack;
 		bool m_Running = true;
+		float m_LastFrameTime = 0.0f;
 
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_BackShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
-
-		CameraOrthographic m_Camera;
 		static Application* s_Instance;
 	};
 

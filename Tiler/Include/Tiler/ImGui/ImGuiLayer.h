@@ -14,7 +14,7 @@ namespace Tiler {
 		void OnDetach() override;
 
 		void OnEvent(const Event& event) override {};
-		void OnRender() override;
+		void OnRender(float timestep) override;
 
 		void OnRenderBegin();
 		void OnRenderEnd();

@@ -20,7 +20,7 @@ namespace Tiler {
 		void PopLayer(Layer* layer);
 		void PopOverlay(Layer* overlay);
 
-		void RenderLayers();
+		void RenderLayers(float timestep);
 		void OnEvent(const Event& event);
 
 	private:

@@ -13,6 +13,7 @@ add_library(TilerLibrary STATIC
 	"Include/Tiler/Layer.h"
 	"Include/Tiler/LayerStack.h"
 	"Include/Tiler/Input.h"
+	"Include/Tiler/Timestep.h"
 
 	"Include/Tiler/Events/Event.h"
 	"Include/Tiler/Events/KeyEvent.h"

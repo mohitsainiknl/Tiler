@@ -16,8 +16,8 @@
 #define TL_INFO(...)     ::Tiler::Log::GetClientLogger()->info(__VA_ARGS__)
 #define TL_WARN(...)     ::Tiler::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define TL_ERROR(...)    ::Tiler::Log::GetClientLogger()->error(__VA_ARGS__)
-#define TL_DEBUG(...)    ::Tiler::Log::GetLogger()->debug(__VA_ARGS__)
-#define TL_CRITICAL(...) ::Tiler::Log::GetLogger()->critical(__VA_ARGS__)
+#define TL_DEBUG(...)    ::Tiler::Log::GetClientLogger()->debug(__VA_ARGS__)
+#define TL_CRITICAL(...) ::Tiler::Log::GetClientLogger()->critical(__VA_ARGS__)
 
 namespace Tiler {
 	class Log {

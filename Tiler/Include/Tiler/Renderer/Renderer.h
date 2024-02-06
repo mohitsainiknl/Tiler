@@ -23,6 +23,6 @@ namespace Tiler {
 			glm::mat4 MatrixViewProject;
 		};
 
-		static SceneData* m_SceneData;
+		static SceneData* s_SceneData;
 	};
 }
