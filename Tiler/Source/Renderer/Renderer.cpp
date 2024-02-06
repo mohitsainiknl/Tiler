@@ -19,9 +19,10 @@ namespace Tiler {
 	}
 
 
-	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray) {
+	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transfrom) {
 		shader->Bind();
 		shader->UploadUniformMat4("u_ViewProjection", s_SceneData->MatrixViewProject);
+		shader->UploadUniformMat4("u_Transform", transfrom);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
