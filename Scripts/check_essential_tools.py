@@ -31,17 +31,16 @@ def check_essential_tools():
     # for Linux Operating System
     elif platform.system() == "Linux":
 
-        cmd_out = run("sudo apt install cmake")
         if not is_available("conan", "2"):
             print("Conan 2 is not available!")
 
             if not is_available("pipx"):
                 print("pipx is not available!")
                 print("Installing pipx through apt-get...")
-                cmd_out = run("sudo apt-get install pipx")
+                run("sudo apt-get install pipx")
 
             print("Installing Conan through pipx...")
-            cmd_out = run("pipx install conan")
+            run("pipx install conan")
 
     # for Darwin Operating System
     elif platform.system() == "Darwin":
@@ -50,7 +49,7 @@ def check_essential_tools():
             print("Conan 2 is not available!")
 
             print("Installing Conan through brew...")
-            cmd_out = run("brew install conan")
+            run("brew install conan")
 
     
     return True

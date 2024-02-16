@@ -27,5 +27,6 @@ def setup_tiler_project():
         else:
             run_binary("build/Binary/TilerSandbox")
         print("\n")
+        input("Press Enter to exit...")
     
 setup_tiler_project()

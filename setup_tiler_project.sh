@@ -13,4 +13,3 @@ else
     echo "python is also not available."
 fi
 
-read -p "Press any key to close..."

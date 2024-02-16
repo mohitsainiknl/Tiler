@@ -10,4 +10,3 @@ if %errorlevel% equ 0 (
 ) else (
     echo python is also not available.
 )
-PAUSE
