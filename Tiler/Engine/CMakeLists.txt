@@ -51,6 +51,18 @@ target_include_directories(TilerLibrary_static
 
 
 
+
+if(TL_DEV_MODE)
+    target_compile_definitions(TilerLibrary_object PRIVATE TL_ENABLE_ASSERTS)
+    target_compile_definitions(TilerLibrary_shared PRIVATE TL_ENABLE_ASSERTS)
+    target_compile_definitions(TilerLibrary_static PRIVATE TL_ENABLE_ASSERTS)
+endif()
+
+
+
+
+
+
 set_target_properties(TilerLibrary_object PROPERTIES
     OUTPUT_NAME "TilerEngine_object"
 )
