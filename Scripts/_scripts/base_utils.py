@@ -31,6 +31,11 @@ def rmdir(dir_path):
     shutil.rmtree(dir_path, ignore_errors=True)
 
 
+def remove(file_path):
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+
 def run(cmd, do_raise=False, should_fail=False):
     print("\nRunning: {}".format(cmd))
     start_time = time.time()
