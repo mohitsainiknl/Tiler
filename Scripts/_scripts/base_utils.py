@@ -36,7 +36,7 @@ def remove(file_path):
         os.remove(file_path)
 
 
-def run(cmd, do_raise=True, should_fail=False):
+def run(cmd, do_raise=False, should_fail=False):
     print("\nRunning: {}".format(cmd))
     start_time = time.time()
 
@@ -81,40 +81,9 @@ def run_binary(file_path):
     print("Application exited with code:", exit_code)
 
 
-def refesh_terminal():
-    print("Refeshing Terminal...")
-
-    # for Windows Operating System
-    if platform.system() == "Windows":
-        cmd_out = run("(dir 2>&1 *`|echo CommandPrompt);&<# rem #>echo PowerShell", False)
-
-        if cmd_out.strip() == "PowerShell":
-            run("Get-Process -Id $PID | Select-Object -ExpandProperty Path | ForEach-Object { Invoke-Command { & \"$_\" } -NoNewScope }", False)
-        else:
-            run("refreshenv", False)
-
-    # for Linux and Darwin Operating System
-    elif platform.system() == "Linux" or platform.system() == "Darwin":
-        cmd_out = run("echo $SHELL", False)
-
-        if cmd_out.strip().endswith("bash"):
-            if platform.system() == "Darwin":
-                run(". ~/.bash_profile", False)
-            else:
-                run(". ~/.bashrc", False)
-
-        elif cmd_out.strip().endswith("zsh"):
-            run(". ~/.zshrc", False)
-
-        elif cmd_out.strip().endswith("fish"):
-            run(". ~/.config/fish/config.fish", False)
-        
-        else:
-            print("Unknown terminal, unable to refesh terminal.")
-
 
 def is_available(tool, version=""):
-    cmd_out = run(tool + " --version", False)
+    cmd_out = run(tool + " --version")
 
     if version:
         tool += " version " + version
