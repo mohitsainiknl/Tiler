@@ -23,7 +23,7 @@ Below are the steps to build this project:
 The first step is to install the required dependencies and generate the files needed by CMake to build the project. You can achieve this using the following commands:
 ```bash
 $ conan install .
-$ conan install . -s build_type=Debug
+$ conan install . -s build_type=Debug --build missing
 ```
 
 The first command installs dependencies with the default `conan-release` preset, while the second command is optional and installs dependencies with the `conan-debug` preset.
@@ -32,7 +32,7 @@ The first command installs dependencies with the default `conan-release` preset,
 
 You can configure and build the project with the following commands:
 ```bash
-$ cmake -S . -B build -DTL_DEV_MODE=ON
+$ cmake -S . -B build -DTL_DEV_MODE=ON -DCMAKE_TOOLCHAIN_FILE=build/generators/conan_toolchain.cmake
 $ cmake --build build --config Release
 ```
 

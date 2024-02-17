@@ -36,7 +36,7 @@ def remove(file_path):
         os.remove(file_path)
 
 
-def run(cmd, do_raise=False, should_fail=False):
+def run(cmd, do_raise=True, should_fail=False):
     print("\nRunning: {}".format(cmd))
     start_time = time.time()
 
@@ -82,7 +82,7 @@ def run_binary(file_path):
 
 
 def is_available(tool, version=""):
-    cmd_out = run(tool + " --version")
+    cmd_out = run(tool + " --version", False)
 
     if version:
         tool += " version " + version
