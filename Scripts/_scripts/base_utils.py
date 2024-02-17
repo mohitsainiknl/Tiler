@@ -99,15 +99,15 @@ def refesh_terminal():
 
         if cmd_out.strip().endswith("bash"):
             if platform.system() == "Darwin":
-                run("source ~/.bash_profile", False)
+                run(". ~/.bash_profile", False)
             else:
-                run("source ~/.bashrc", False)
+                run(". ~/.bashrc", False)
 
         elif cmd_out.strip().endswith("zsh"):
-            run("source ~/.zshrc", False)
+            run(". ~/.zshrc", False)
 
         elif cmd_out.strip().endswith("fish"):
-            run("source ~/.config/fish/config.fish", False)
+            run(". ~/.config/fish/config.fish", False)
         
         else:
             print("Unknown terminal, unable to refesh terminal.")
