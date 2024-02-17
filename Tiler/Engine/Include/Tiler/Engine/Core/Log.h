@@ -8,9 +8,16 @@
 #include <memory>
 
 
+// Internal Core log macros
+#ifdef TL_ENABLE_INTERNAL_LOGS
+	#define TL_CORE_TRACE(...)    ::Tiler::Log::GetLoggerCore()->trace(__VA_ARGS__)
+	#define TL_CORE_DEBUG(...)    ::Tiler::Log::GetLoggerCore()->debug(__VA_ARGS__)
+#else
+	#define TL_CORE_TRACE(...)
+	#define TL_CORE_DEBUG(...)
+#endif
+
 // Core log macros
-#define TL_CORE_TRACE(...)    ::Tiler::Log::GetLoggerCore()->trace(__VA_ARGS__)
-#define TL_CORE_DEBUG(...)    ::Tiler::Log::GetLoggerCore()->debug(__VA_ARGS__)
 #define TL_CORE_INFO(...)     ::Tiler::Log::GetLoggerCore()->info(__VA_ARGS__)
 #define TL_CORE_WARN(...)     ::Tiler::Log::GetLoggerCore()->warn(__VA_ARGS__)
 #define TL_CORE_ERROR(...)    ::Tiler::Log::GetLoggerCore()->error(__VA_ARGS__)

@@ -61,11 +61,15 @@ target_include_directories(TilerLibrary_static
 
 
 
+Set(DEV_MODE_OPTIONS
+    TL_ENABLE_ASSERTS 1
+    TL_ENABLE_INTERNAL_LOGS 1
+)
 
 if(TL_DEV_MODE)
-    target_compile_definitions(TilerLibrary_object PRIVATE TL_ENABLE_ASSERTS)
-    target_compile_definitions(TilerLibrary_shared PRIVATE TL_ENABLE_ASSERTS)
-    target_compile_definitions(TilerLibrary_static PRIVATE TL_ENABLE_ASSERTS)
+    target_compile_definitions(TilerLibrary_object PRIVATE ${DEV_MODE_OPTIONS})
+    target_compile_definitions(TilerLibrary_shared PRIVATE ${DEV_MODE_OPTIONS})
+    target_compile_definitions(TilerLibrary_static PRIVATE ${DEV_MODE_OPTIONS})
 endif()
 
 
