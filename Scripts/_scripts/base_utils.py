@@ -81,6 +81,7 @@ def run_binary(file_path):
     print("Application exited with code:", exit_code)
 
 
+
 def is_available(tool, version=""):
     cmd_out = run(tool + " --version")
 

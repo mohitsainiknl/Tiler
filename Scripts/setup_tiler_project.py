@@ -10,12 +10,13 @@ def setup_tiler_project():
         print("\n")
         return False
 
+    print("Removing build directory...")
     rmdir("build")
+
     run("conan install .")
-    command = []
-    command.append("cmake -S . -B build -DTL_DEV_MODE=ON")
-    command.append("cmake --build build --config Release")
-    run(" && ".join(command))
+    run("conan install . -s build_type=Debug --build missing",)
+    run("cmake -S . -B build -DTL_DEV_MODE=ON -DCMAKE_TOOLCHAIN_FILE=build/generators/conan_toolchain.cmake",)
+    run("cmake --build build --config Release",)
     
     print("Removing cmake cache, which may conflict with your IDE.")
     remove("build/CMakeCache.txt")

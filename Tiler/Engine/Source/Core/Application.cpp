@@ -1,13 +1,12 @@
 #include "Tiler/Engine/Core/Application.h"
 
-
-#include <iostream>
+#include "Tiler/Engine/Core/Log.h"
 
 
 namespace Tiler {
 
 	void Application::Run() {
 
-		std::cout << "Hello Tiler Engine!" << std::endl;
+		TL_CORE_DEBUG("Hello Tiler Engine!");
 	}
 }
