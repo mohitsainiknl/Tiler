@@ -12,6 +12,7 @@ def setup_tiler_project():
 
     rmdir("build")
     run("conan install .")
+    run("conan install . -s build_type=Debug")
     command = []
     command.append("cmake -S . -B build -DTL_DEV_MODE=ON")
     command.append("cmake --build build --config Release")
