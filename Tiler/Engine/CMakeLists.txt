@@ -13,8 +13,10 @@ add_library(TilerLibrary_object OBJECT
 
 # CORE
     "Include/Tiler/Engine/Core/Application.h"
-    "Source/Core/Application.cpp"
+    "Include/Tiler/Engine/Core/Log.h"
 
+    "Source/Core/Application.cpp"
+    "Source/Core/Log.cpp"
 )
 
 
@@ -28,6 +30,14 @@ set_property(TARGET TilerLibrary_object PROPERTY POSITION_INDEPENDENT_CODE True)
 add_library(TilerLibrary_shared SHARED $<TARGET_OBJECTS:TilerLibrary_object>)
 add_library(TilerLibrary_static STATIC $<TARGET_OBJECTS:TilerLibrary_object>)
 
+
+
+
+
+find_package(spdlog CONFIG REQUIRED)
+target_link_libraries(TilerLibrary_object PUBLIC spdlog::spdlog)
+target_link_libraries(TilerLibrary_shared PUBLIC spdlog::spdlog)
+target_link_libraries(TilerLibrary_static PUBLIC spdlog::spdlog)
 
 
 
