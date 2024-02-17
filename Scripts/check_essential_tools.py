@@ -1,5 +1,5 @@
 import platform
-from _scripts.base_utils import run, is_available
+from _scripts.base_utils import run, refesh_terminal, is_available
 
 
 
@@ -22,6 +22,7 @@ def check_essential_tools():
 
             print("Installing Conan through pip...")
             cmd_out = run("pip install conan")
+            refesh_terminal()
             
             if not ("Successfully installed conan" in cmd_out or "Requirement already satisfied" in cmd_out):
                 print("Error in installing Conan with pip!")
@@ -38,9 +39,11 @@ def check_essential_tools():
                 print("pipx is not available!")
                 print("Installing pipx through apt-get...")
                 run("sudo apt-get install pipx")
+                refesh_terminal()
 
             print("Installing Conan through pipx...")
             run("pipx install conan")
+            refesh_terminal()
 
     # for Darwin Operating System
     elif platform.system() == "Darwin":
@@ -50,6 +53,7 @@ def check_essential_tools():
 
             print("Installing Conan through brew...")
             run("brew install conan")
+            refesh_terminal()
 
     
     return True
