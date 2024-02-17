@@ -88,7 +88,7 @@ def refesh_terminal():
     if platform.system() == "Windows":
         cmd_out = run("(dir 2>&1 *`|echo CommandPrompt);&<# rem #>echo PowerShell", False)
 
-        if cmd_out == "PowerShell":
+        if cmd_out.strip() == "PowerShell":
             run("Get-Process -Id $PID | Select-Object -ExpandProperty Path | ForEach-Object { Invoke-Command { & \"$_\" } -NoNewScope }", False)
         else:
             run("refreshenv", False)
@@ -97,16 +97,16 @@ def refesh_terminal():
     elif platform.system() == "Linux" or platform.system() == "Darwin":
         cmd_out = run("echo $SHELL", False)
 
-        if cmd_out.endswith("bash"):
+        if cmd_out.strip().endswith("bash"):
             if platform.system() == "Darwin":
                 run("source ~/.bash_profile", False)
             else:
                 run("source ~/.bashrc", False)
 
-        elif cmd_out.endswith("zsh"):
+        elif cmd_out.strip().endswith("zsh"):
             run("source ~/.zshrc", False)
 
-        elif cmd_out.endswith("fish"):
+        elif cmd_out.strip().endswith("fish"):
             run("source ~/.config/fish/config.fish", False)
         
         else:

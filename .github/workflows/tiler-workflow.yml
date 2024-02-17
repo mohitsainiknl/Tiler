@@ -23,18 +23,13 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run the windows script
+      - name: Run the script
         if: matrix.os == 'windows-2022'
         run: |
           ${{ github.workspace }}/setup_tiler_project.bat --no-run
 
-      - name: Run the macos script
-        if: matrix.os == 'macos-12'
-        run: |
-          ${{ github.workspace }}/setup_tiler_project.sh --no-run
-
-      - name: Run the linux script
-        if: matrix.os == 'ubuntu-22.04'
+      - name: Run the script
+        if: matrix.os != 'windows-2022'
         run: |
           chmod +x ${{ github.workspace }}/setup_tiler_project.sh
           ${{ github.workspace }}/setup_tiler_project.sh --no-run
