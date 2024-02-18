@@ -3,6 +3,7 @@ import os
 
 from check_essential_tools import check_essential_tools
 from _scripts.base_utils import run, run_binary, rmdir, remove
+from _scripts.preset_parser import PresetParser
 
 
 def setup_tiler_project():
@@ -14,9 +15,27 @@ def setup_tiler_project():
     rmdir("build")
 
     run("conan install .")
-    run("conan install . -s build_type=Debug --build missing",)
-    run("cmake -S . -B build -DTL_DEV_MODE=ON -DCMAKE_TOOLCHAIN_FILE=build/generators/conan_toolchain.cmake",)
-    run("cmake --build build --config Release",)
+    run("conan install . -s build_type=Debug --build missing")
+
+    parser = PresetParser("build/generators/CMakePresets.json")
+    parser.load_presets()
+
+    parser.preset('configurePresets[name=="conan-default"].hidden = True')
+
+    parser.preset('configurePresets[name=="conan-debug"].inherits = "conan-default"')
+    parser.preset('configurePresets[name=="conan-debug"].cacheVariables.CMAKE_BUILD_TYPE = "Debug"')
+    parser.preset('buildPresets[name=="conan-debug"].configurePreset = "conan-debug"')
+    parser.preset('testPresets[name=="conan-debug"].configurePreset = "conan-debug"')
+
+    parser.preset('configurePresets[name=="conan-release"].inherits = "conan-default"')
+    parser.preset('configurePresets[name=="conan-release"].cacheVariables.CMAKE_BUILD_TYPE = "Release"')
+    parser.preset('buildPresets[name=="conan-release"].configurePreset = "conan-release"')
+    parser.preset('testPresets[name=="conan-release"].configurePreset = "conan-release"')
+
+    parser.save_presets()
+
+    run("cmake -S . -B build --preset=conan-release -DTL_DEV_MODE=ON")
+    run("cmake --build build --preset=conan-release")
     
     print("Removing cmake cache, which may conflict with your IDE.")
     remove("build/CMakeCache.txt")

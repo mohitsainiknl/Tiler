@@ -4,7 +4,7 @@
 
 To build this project, you can use the provided scripts: [`setup-tiler-project.bat`](setup-tiler-project.bat) for Windows or [`setup-tiler-project.sh`](setup-tiler-project.sh) for Unix-based systems. 
 
-Please ensure that you have appropriate permissions set for the `.sh` script by running the following command:
+Before runing script, please close any opened IDE and ensure that you have appropriate permissions set for the `.sh` script by running the following command:
 ```bash
 $ chmod +x ./setup_tiler_project.sh
 ```
@@ -32,7 +32,7 @@ The first command installs dependencies with the default `conan-release` preset,
 
 You can configure and build the project with the following commands:
 ```bash
-$ cmake -S . -B build -DTL_DEV_MODE=ON -DCMAKE_TOOLCHAIN_FILE=build/generators/conan_toolchain.cmake
+$ cmake -S . -B build --preset=conan-default -DCMAKE_BUILD_TYPE=Release -DTL_DEV_MODE=ON
 $ cmake --build build --config Release
 ```
 
