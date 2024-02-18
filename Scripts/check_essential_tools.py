@@ -1,5 +1,5 @@
 import platform
-from _scripts.base_utils import run, is_available
+from _scripts.base_utils import run, is_available, refresh_terminal
 
 
 
@@ -21,12 +21,8 @@ def check_essential_tools():
                 return False
 
             print("Installing Conan through pip...")
-            cmd_out = run("pip install conan")
-            
-            if not ("Successfully installed conan" in cmd_out or "Requirement already satisfied" in cmd_out):
-                print("Error in installing Conan with pip!")
-                print("Mutually download/install Conan from https://github.com/conan-io/conan/releases")
-                return False
+            run("pip install conan")
+            assert(is_available("conan", "2"), "Conan 2 is not available!")
 
     # for Linux Operating System
     elif platform.system() == "Linux":
@@ -38,9 +34,13 @@ def check_essential_tools():
                 print("pipx is not available!")
                 print("Installing pipx through apt-get...")
                 run("sudo apt-get install pipx")
+                refresh_terminal()
+                assert(is_available("pipx"), "pipx is not available!")
 
             print("Installing Conan through pipx...")
             run("pipx install conan")
+            refresh_terminal()
+            assert(is_available("conan"), "conan is not available!")
 
     # for Darwin Operating System
     elif platform.system() == "Darwin":
@@ -48,8 +48,14 @@ def check_essential_tools():
         if not is_available("conan", "2"):
             print("Conan 2 is not available!")
 
-            print("Installing Conan through brew...")
-            run("brew install conan")
+            if is_available("pipx"):
+                print("Installing Conan through pipx...")
+                run("pipx install conan")
+            else:
+                print("Installing Conan through pip...")
+                run("pip install conan")
+            refresh_terminal()
+            assert(is_available("conan", "2"), "Conan 2 is not available!")
 
     
     return True

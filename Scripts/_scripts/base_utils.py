@@ -36,7 +36,7 @@ def remove(file_path):
         os.remove(file_path)
 
 
-def run(cmd, do_raise=False, should_fail=False):
+def run(cmd, do_raise=True, should_fail=False):
     print("\nRunning: {}".format(cmd))
     start_time = time.time()
 
@@ -83,7 +83,7 @@ def run_binary(file_path):
 
 
 def is_available(tool, version=""):
-    cmd_out = run(tool + " --version")
+    cmd_out = run(tool + " --version", False)
 
     if version:
         tool += " version " + version
@@ -91,6 +91,13 @@ def is_available(tool, version=""):
         return True
     else:
         return False
+
+
+def refresh_terminal():
+    # only for Linux and Darwin Operating System
+    if platform.system() in ["Linux", "Darwin"]:
+        print("Refeshing terminal...")
+        run(". ~/.bashrc", False)
 
 
 def replace(file_path, text, replace):
