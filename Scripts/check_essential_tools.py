@@ -33,15 +33,15 @@ def check_essential_tools():
         if not is_available("conan", "2"):
             print("Conan 2 is not available!")
 
-            if not is_available("pipx"):
-                print("pipx is not available!")
-                print("Installing pipx through apt-get...")
-                run("sudo apt-get install pipx")
+            if not is_available("pip"):
+                print("pip is not available!")
+                print("Installing pip through apt-get...")
+                run("sudo apt-get install python3-pip")
                 refresh_terminal()
-                assert(is_available("pipx"), "pipx is not available!")
+                assert(is_available("pip"), "pip is not available!")
 
-            print("Installing Conan through pipx...")
-            run("pipx install conan")
+            print("Installing Conan through pip...")
+            run("pip install conan")
             refresh_terminal()
             run('export PATH="$PATH:~/.local/bin"')
             assert(is_available("conan"), "conan is not available!")
