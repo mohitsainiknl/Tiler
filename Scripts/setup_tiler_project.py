@@ -14,6 +14,10 @@ def setup_tiler_project():
     print("Removing build directory...")
     rmdir("build")
 
+    default_profile = run("conan config home").strip().replace('\\', '/') + "/profiles/default"
+    if not os.path.exists(default_profile):
+        run("conan profile detect")
+
     run("conan install .")
     run("conan install . -s build_type=Debug --build missing")
 

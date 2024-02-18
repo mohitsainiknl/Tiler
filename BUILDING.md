@@ -11,9 +11,11 @@ $ chmod +x ./setup_tiler_project.sh
 
 ## Build With Commands
 
-Before proceeding, make sure you have `conan` version 2.0.0 or higher installed on your system. You can verify the installation by running:
+Before proceeding, make sure you have `conan` version 2.0.0 or higher installed on your system and default conan profile is present
+You can verify the installation and default profile by running:
 ```bash
 $ conan --version
+$ conan profile detect
 ```
 
 Below are the steps to build this project:
