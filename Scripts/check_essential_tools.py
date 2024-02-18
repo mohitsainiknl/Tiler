@@ -43,6 +43,7 @@ def check_essential_tools():
             print("Installing Conan through pipx...")
             run("pipx install conan")
             refresh_terminal()
+            run('export PATH="$PATH:~/.local/bin"')
             assert(is_available("conan"), "conan is not available!")
 
     # for Darwin Operating System
