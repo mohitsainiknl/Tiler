@@ -103,6 +103,8 @@ def refresh_terminal():
     if platform.system() in ["Linux", "Darwin"]:
         print("Refeshing terminal...")
         run(". ~/.bashrc", False)
+        run(". ~/.login", False)
+        run(". ~/.bash_profile", False)
         run(". ~/.profile", False)
 
 
