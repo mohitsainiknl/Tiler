@@ -103,7 +103,7 @@ def refresh_terminal():
     if platform.system() in ["Linux", "Darwin"]:
         print("Refeshing terminal...")
         run(". ~/.bashrc", False)
-        run("man /bin/sh", False)
+        run(". ~/.profile", False)
 
 
 def replace(file_path, text, replace):
