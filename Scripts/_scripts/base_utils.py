@@ -102,8 +102,8 @@ def refresh_terminal():
     # only for Linux and Darwin Operating System
     if platform.system() in ["Linux", "Darwin"]:
         print("Refeshing terminal...")
-        if not run(". ~/.bashrc", False):
-            run("man /bin/sh", False)
+        run(". ~/.bashrc", False)
+        run("man /bin/sh", False)
 
 
 def replace(file_path, text, replace):
