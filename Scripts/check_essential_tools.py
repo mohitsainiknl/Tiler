@@ -27,7 +27,7 @@ def check_essential_tools():
     # for Linux Operating System
     elif platform.system() == "Linux":
 
-        run("bash", False)
+        run("exec bash", False)
         if not is_available("conan", "2"):
             print("Conan 2 is not available!")
 
@@ -46,7 +46,7 @@ def check_essential_tools():
     # for Darwin Operating System
     elif platform.system() == "Darwin":
 
-        run("bash", False)
+        run("exec bash", False)
         if not is_available("conan", "2"):
             print("Conan 2 is not available!")
 

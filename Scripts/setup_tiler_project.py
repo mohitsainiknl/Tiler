@@ -18,7 +18,7 @@ def setup_tiler_project():
     if not os.path.exists(default_profile):
         run("conan profile detect")
 
-    run("conan install .")
+    run("conan install . --build=missing")
     run("conan install . -s build_type=Debug --build missing")
 
     parser = PresetParser("build/generators/CMakePresets.json")

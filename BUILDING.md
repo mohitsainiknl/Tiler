@@ -24,7 +24,7 @@ Below are the steps to build this project:
 
 The first step is to install the required dependencies and generate the files needed by CMake to build the project. You can achieve this using the following commands:
 ```bash
-$ conan install .
+$ conan install . --build=missing
 $ conan install . -s build_type=Debug --build missing
 ```
 
