@@ -27,7 +27,11 @@ def check_essential_tools():
     # for Linux Operating System
     elif platform.system() == "Linux":
 
-        run("echo $SHELL")
+        if run("chsh -l", False):
+            run("chsh -s /path/to/bash", False)
+        else:
+            run("cat /etc/shells", False)
+
         if not is_available("conan", "2"):
             print("Conan 2 is not available!")
 
@@ -46,7 +50,11 @@ def check_essential_tools():
     # for Darwin Operating System
     elif platform.system() == "Darwin":
 
-        run("echo $SHELL")
+        if run("chsh -l", False):
+            run("chsh -s /path/to/bash", False)
+        else:
+            run("cat /etc/shells", False)
+
         if not is_available("conan", "2"):
             print("Conan 2 is not available!")
 
