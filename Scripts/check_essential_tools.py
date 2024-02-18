@@ -27,9 +27,7 @@ def check_essential_tools():
     # for Linux Operating System
     elif platform.system() == "Linux":
 
-        if run("chsh -l", False):
-            run("chsh -s /path/to/bash", False)
-        else:
+        if not run("chsh -s /path/to/bash", False):
             run("cat /etc/shells", False)
 
         if not is_available("conan", "2"):
@@ -50,9 +48,7 @@ def check_essential_tools():
     # for Darwin Operating System
     elif platform.system() == "Darwin":
 
-        if run("chsh -l", False):
-            run("chsh -s /path/to/bash", False)
-        else:
+        if not run("chsh -s /path/to/bash", False):
             run("cat /etc/shells", False)
 
         if not is_available("conan", "2"):
