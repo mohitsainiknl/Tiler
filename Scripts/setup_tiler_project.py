@@ -25,14 +25,6 @@ def setup_tiler_project():
 
     print("Removing cmake cache, which may conflict with your IDE.")
     remove("build/CMakeCache.txt")
-    
-    def list_dir(path):
-        files = os.listdir(path)
-        for file in files:
-            print(file)
-    
-    list_dir("build")
-    list_dir("build/Release")
 
     # arguments are used in ci-workflow
     if "--no-run" in sys.argv:
