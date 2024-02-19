@@ -36,7 +36,7 @@ def remove(file_path):
         os.remove(file_path)
 
 
-def run(cmd, do_raise=False, should_fail=False):
+def run(cmd, do_raise=True, should_fail=False):
     print("\nRunning: {}".format(cmd))
     start_time = time.time()
 
@@ -54,11 +54,16 @@ def run(cmd, do_raise=False, should_fail=False):
     elapsed_time = end_time - start_time
     print(f"Elapsed time: {elapsed_time:.2f} seconds")
 
-    if do_raise:
-        if ret != 0 and not should_fail:
+    if ret != 0 and not should_fail:
+        if do_raise:
             raise Exception(f"Failed cmd: {cmd}\n{output}")
-        if ret == 0 and should_fail:
+        else:
+            return False
+    if ret == 0 and should_fail:
+        if do_raise:
             raise Exception(f"Cmd succeeded (failure expected): {cmd}\n{output}")
+        else:
+            return False
 
     return output
 
@@ -83,14 +88,15 @@ def run_binary(file_path):
 
 
 def is_available(tool, version=""):
-    cmd_out = run(tool + " --version")
-
-    if version:
-        tool += " version " + version
-    if cmd_out.lower().startswith(tool.lower()):
+    result = run(tool + " --version", False)
+    if result:
+        if version:
+            pos = result.find("version " + version)
+            if pos == -1:
+                return False
         return True
-    else:
-        return False
+    return False
+
 
 
 def replace(file_path, text, replace):

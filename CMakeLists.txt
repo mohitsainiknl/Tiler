@@ -19,10 +19,6 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 option(TL_DEV_MODE "Enable development mode" OFF)
 
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-	set(TL_DEV_MODE ON)
-endif()
-
 
 add_subdirectory(Tiler/Engine)
 add_subdirectory(Tiler/Sandbox)

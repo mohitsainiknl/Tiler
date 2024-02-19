@@ -6,18 +6,23 @@ from _scripts.base_utils import run, run_binary, rmdir, remove
 
 
 def setup_tiler_project():
-    if not check_essential_tools():
-        print("\n")
-        return False
+    not check_essential_tools()
 
-    print("Removing build directory...")
+    print("\nRemoving build directory...")
     rmdir("build")
 
-    run("conan install .")
-    run("conan install . -s build_type=Debug --build missing",)
-    run("cmake -S . -B build -DTL_DEV_MODE=ON -DCMAKE_TOOLCHAIN_FILE=build/generators/conan_toolchain.cmake",)
-    run("cmake --build build --config Release",)
+    if not run("conan profile path default", False):
+        run("conan profile detect")
+
+    run("conan install . --build=missing")
+    run("conan install . -s build_type=Debug --build missing")
     
+    multi_config = os.path.exists("build/generators")
+    config_preset = ("conan-default" if multi_config else "conan-release")
+
+    run(f"cmake -S . -B build --preset={config_preset} -DTL_DEV_MODE=ON")
+    run("cmake --build build --config release")
+
     print("Removing cmake cache, which may conflict with your IDE.")
     remove("build/CMakeCache.txt")
 
@@ -26,7 +31,7 @@ def setup_tiler_project():
         print("\n", "Skipping the run...\n")
     else:
         print("\n======== Runing Tiler Sandbox ========\n")
-        if os.path.exists("build/Binary/Release"):
+        if multi_config:
             run_binary("build/Binary/Release/TilerSandbox")
         else:
             run_binary("build/Binary/TilerSandbox")
