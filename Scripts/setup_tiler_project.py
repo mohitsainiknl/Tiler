@@ -11,13 +11,16 @@ def setup_tiler_project():
     print("\nRemoving build directory...")
     rmdir("build")
 
-    default_profile = run("conan config home").strip().replace('\\', '/') + "/profiles/default"
-    if not os.path.exists(default_profile):
+    if not run("conan profile path default", False):
         run("conan profile detect")
 
     run("conan install . --build=missing")
     run("conan install . -s build_type=Debug --build missing")
-    run("cmake -S . -B build --preset=conan-default -DTL_DEV_MODE=ON")
+    
+    multi_config = os.path.exists("build/generators")
+    config_preset = ("conan-default" if multi_config else "conan-release")
+
+    run(f"cmake -S . -B build --preset={config_preset} -DTL_DEV_MODE=ON")
     run("cmake --build build --preset=conan-release")
 
     print("Removing cmake cache, which may conflict with your IDE.")
@@ -28,7 +31,7 @@ def setup_tiler_project():
         print("\n", "Skipping the run...\n")
     else:
         print("\n======== Runing Tiler Sandbox ========\n")
-        if os.path.exists("build/Binary/Release"):
+        if multi_config:
             run_binary("build/Binary/Release/TilerSandbox")
         else:
             run_binary("build/Binary/TilerSandbox")

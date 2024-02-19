@@ -38,10 +38,16 @@ The first command installs dependencies with the default `conan-release` preset,
 ### Configure and Build
 
 You can configure and build the project with the following commands:
-```bash
-$ cmake -S . -B build --preset=conan-default -DTL_DEV_MODE=ON
-$ cmake --build build --preset=conan-release
-```
+- For Multi-Config Generators (like - Visual Studio, XCode):
+	```bash
+	$ cmake -S . -B build --preset=conan-default -DTL_DEV_MODE=ON
+	$ cmake --build build --preset=conan-release
+	```
+- For Single-Config Generators (like - Makefile, Ninja):
+	```bash
+	$ cmake -S . -B build --preset=conan-release -DTL_DEV_MODE=ON
+	$ cmake --build build --preset=conan-release
+	```
 
 By default, the option `TL_DEV_MODE` is enabled for the `Debug` build.
 
