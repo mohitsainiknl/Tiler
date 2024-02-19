@@ -31,8 +31,8 @@ def setup_tiler_project():
         for file in files:
             print(file)
     
-    list_dir("buid")
-    list_dir("buid/Release")
+    list_dir("build")
+    list_dir("build/Release")
 
     # arguments are used in ci-workflow
     if "--no-run" in sys.argv:
