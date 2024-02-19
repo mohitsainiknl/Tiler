@@ -41,12 +41,12 @@ You can configure and build the project with the following commands:
 - For Multi-Config Generators (like - Visual Studio, XCode):
 	```bash
 	$ cmake -S . -B build --preset=conan-default -DTL_DEV_MODE=ON
-	$ cmake --build build --preset=conan-release
+	$ cmake --build build --config release
 	```
 - For Single-Config Generators (like - Makefile, Ninja):
 	```bash
 	$ cmake -S . -B build --preset=conan-release -DTL_DEV_MODE=ON
-	$ cmake --build build --preset=conan-release
+	$ cmake --build build --config release
 	```
 
 By default, the option `TL_DEV_MODE` is enabled for the `Debug` build.

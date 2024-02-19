@@ -1,6 +1,5 @@
 import sys
 import os
-import json
 
 from check_essential_tools import check_essential_tools
 from _scripts.base_utils import run, run_binary, rmdir, remove
@@ -20,21 +19,20 @@ def setup_tiler_project():
     
     multi_config = os.path.exists("build/generators")
     config_preset = ("conan-default" if multi_config else "conan-release")
-    
-    if multi_config:
-        preset_path = "build/generators/CMakePresets.json"
-    else:
-        preset_path = "build/Release/generators/CMakePresets.json"
-
-    with open(preset_path, 'r') as file:
-        data = json.load(file)
-    print(json.dumps(data, indent=4))
 
     run(f"cmake -S . -B build --preset={config_preset} -DTL_DEV_MODE=ON")
-    run("cmake --build build --preset=conan-release")
+    run("cmake --build build --config release")
 
     print("Removing cmake cache, which may conflict with your IDE.")
     remove("build/CMakeCache.txt")
+    
+    def list_dir(path):
+        files = os.listdir(path)
+        for file in files:
+            print(file)
+    
+    list_dir("buid")
+    list_dir("buid/Release")
 
     # arguments are used in ci-workflow
     if "--no-run" in sys.argv:
