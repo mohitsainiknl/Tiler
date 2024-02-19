@@ -14,7 +14,7 @@ namespace Tiler {
 		TL_CORE_INFO("Assertion Enabled!");
 #endif
 
-#ifdef TL_ENABLE_INTERNAL_LOGS
+#ifdef TL_ENABLE_DEV_LOGS
 		TL_CORE_INFO("Internal Logs Enabled!");
 #endif
 

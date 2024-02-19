@@ -1,8 +1,18 @@
 #pragma once
 
+
+#if !defined(NDEBUG) || defined(TL_DEV_MODE)
+    #define TL_ENABLE_DEV_LOGS 1
+    #define TL_ENABLE_ASSERTS 1
+#endif
+
+
+
+
 #include "Core/Log.h"
 
-//#define TL_ENABLE_ASSERTS 1
+
+
 
 #if TL_ENABLE_ASSERTS
 

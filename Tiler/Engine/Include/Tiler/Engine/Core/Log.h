@@ -9,7 +9,7 @@
 
 
 // Internal Core log macros
-#ifdef TL_ENABLE_INTERNAL_LOGS
+#ifdef TL_ENABLE_DEV_LOGS
 	#define TL_CORE_TRACE(...)    ::Tiler::Log::GetLoggerCore()->trace(__VA_ARGS__)
 	#define TL_CORE_DEBUG(...)    ::Tiler::Log::GetLoggerCore()->debug(__VA_ARGS__)
 #else

@@ -98,15 +98,6 @@ def is_available(tool, version=""):
     return False
 
 
-def refresh_terminal():
-    # only for Linux and Darwin Operating System
-    if platform.system() in ["Linux", "Darwin"]:
-        print("Refeshing terminal...")
-        run(". ~/.bashrc", False)
-        run(". ~/.login", False)
-        run(". ~/.bash_profile", False)
-        run(". ~/.profile", False)
-
 
 def replace(file_path, text, replace):
     with open(file_path, "r") as f:

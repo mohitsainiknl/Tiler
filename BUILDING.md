@@ -4,19 +4,24 @@
 
 To build this project, you can use the provided scripts: [`setup-tiler-project.bat`](setup-tiler-project.bat) for Windows or [`setup-tiler-project.sh`](setup-tiler-project.sh) for Unix-based systems. 
 
-Before runing script, please close any opened IDE and ensure that you have appropriate permissions set for the `.sh` script by running the following command:
-```bash
-$ chmod +x ./setup_tiler_project.sh
-```
+Before runing script:
+- Please close any opened IDE.
+- Ensure that you have appropriate permissions set for the `.sh` script by running the following command:
+	```bash
+	$ chmod +x ./setup_tiler_project.sh
+	```
 
 ## Build With Commands
 
-Before proceeding, make sure you have `conan` version 2.0.0 or higher installed on your system and default conan profile is present
-You can verify the installation and default profile by running:
-```bash
-$ conan --version
-$ conan profile detect
-```
+Before proceeding:
+- Make sure you have `conan` version 2.0.0 or higher installed on your system:
+	```bash
+	$ conan --version
+	```
+- default conan profile is present:
+	```bash
+	$ conan profile detect
+	```
 
 Below are the steps to build this project:
 
@@ -34,14 +39,16 @@ The first command installs dependencies with the default `conan-release` preset,
 
 You can configure and build the project with the following commands:
 ```bash
-$ cmake -S . -B build --preset=conan-default -DCMAKE_BUILD_TYPE=Release -DTL_DEV_MODE=ON
-$ cmake --build build --config Release
+$ cmake -S . -B build --preset=conan-default -DTL_DEV_MODE=ON
+$ cmake --build build --preset=conan-release
 ```
 
 By default, the option `TL_DEV_MODE` is enabled for the `Debug` build.
 
 ### Accessing Binaries
 
-After following the above instructions, all binaries will be available in the `build/Binary` directory.
+After following the above instructions, all binaries will be available in:
+- `build/Binary`: for multi-config generators like - Visual Studio, XCode.
+- `build/Binary/Release`: for single-config generators like - Makefile, Ninja.
 
-Note: Before opening this project in any IDE (e.g., Visual Studio, Xcode), it is recommended to delete the `build/CMakeCache.txt` file, as IDEs may use their special toolset arguments which could conflict with the default toolset used by CMake.
+> Please delete the `build/CMakeCache.txt` file before opening this project in any IDE (such as Visual Studio or Xcode). This is particularly important if you're using a multi-configuration generator, as the IDE may attempt to use cached configure settings from previous builds.
