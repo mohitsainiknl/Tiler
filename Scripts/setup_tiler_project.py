@@ -19,7 +19,7 @@ def setup_tiler_project():
     if "--ci-workflow" in sys.argv:
         print("\n", "Skipping the debug preset creation...\n")
     else:
-        run("conan install . -s build_type=Debug --build missing")
+        run("conan install . -s build_type=Debug --build missing -c tools.system.package_manager:mode=install")
     
     multi_config = os.path.exists("build/generators")
     config_preset = ("conan-default" if multi_config else "conan-release")

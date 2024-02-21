@@ -35,6 +35,7 @@ $ conan install . -s build_type=Debug --build missing
 
 The first command installs dependencies with the default `conan-release` preset, while the second command is optional and installs dependencies with the `conan-debug` preset.
 
+> When using libraries like SDL2, it's essential to ensure that the package manager is in `install` mode. To do this, consider using the `-c tools.system.package_manager:mode=install` flag in your installation commands.
 ### Configure and Build
 
 You can configure and build the project with the following commands:
