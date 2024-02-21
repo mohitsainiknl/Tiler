@@ -1,7 +1,7 @@
 #include "Tiler/Engine/Core/Application.h"
 
 #include "Tiler/Engine/Base.h"
-
+#include "Tiler/Engine/Core/Window.h"
 
 namespace Tiler {
 
@@ -18,5 +18,10 @@ namespace Tiler {
 		TL_CORE_INFO("Internal Logs Enabled!");
 #endif
 
+		Window* window = Window::Create("Tiler Engine", 1280, 720);
+		while (true) {
+			window->OnUpdate();
+		}
+		delete window;
 	}
 }

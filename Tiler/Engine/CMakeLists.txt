@@ -14,9 +14,16 @@ add_library(TilerLibrary_object OBJECT
 # CORE
     "Include/Tiler/Engine/Core/Application.h"
     "Include/Tiler/Engine/Core/Log.h"
+    "Include/Tiler/Engine/Core/Window.h"
 
     "Source/Core/Application.cpp"
     "Source/Core/Log.cpp"
+
+
+# PLATFOROM
+    "Source/Platform/NativeWindow.cpp"
+    "Source/Platform/SDL/SDLWindow.h"
+    "Source/Platform/SDL/SDLWindow.cpp"
 )
 
 
@@ -38,6 +45,11 @@ find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(TilerLibrary_object PUBLIC spdlog::spdlog)
 target_link_libraries(TilerLibrary_shared PUBLIC spdlog::spdlog)
 target_link_libraries(TilerLibrary_static PUBLIC spdlog::spdlog)
+
+find_package(SDL2 CONFIG REQUIRED)
+target_link_libraries(TilerLibrary_object PUBLIC SDL2::SDL2main)
+target_link_libraries(TilerLibrary_shared PUBLIC SDL2::SDL2main)
+target_link_libraries(TilerLibrary_static PUBLIC SDL2::SDL2main)
 
 
 
