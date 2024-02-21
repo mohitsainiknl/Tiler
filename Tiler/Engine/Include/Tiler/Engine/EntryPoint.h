@@ -7,7 +7,7 @@
 extern Tiler::Application* Tiler::CreateApplication();
 
 int main() {
-	Tiler::Log::OnInit();
+	Tiler::Log::Initialize();
 
 	auto app = Tiler::CreateApplication();
 	app->Run();

@@ -16,6 +16,7 @@ _deps
 .idea/
 .vs/
 .vscode/
+.tiler/
 build/
 out/
 cmake-build-*/

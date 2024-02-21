@@ -36,7 +36,7 @@ namespace Tiler {
 
 	class Log {
 	public:
-		static void OnInit();
+		static void Initialize();
 		inline static std::shared_ptr<spdlog::logger>& GetLoggerCore() { return s_LoggerCore; }
 		inline static std::shared_ptr<spdlog::logger>& GetLoggerUser() { return s_LoggerUser; }
 

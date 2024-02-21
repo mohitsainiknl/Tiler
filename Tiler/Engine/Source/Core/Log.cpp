@@ -8,7 +8,7 @@ namespace Tiler {
 	std::shared_ptr<spdlog::logger> Log::s_LoggerCore;
 	std::shared_ptr<spdlog::logger> Log::s_LoggerUser;
 
-	void Log::OnInit() {
+	void Log::Initialize() {
 		spdlog::set_pattern("%^[%T] %n: %v%$");
 
 		s_LoggerCore = spdlog::stdout_color_mt("TILER");

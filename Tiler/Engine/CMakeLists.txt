@@ -61,12 +61,15 @@ target_include_directories(TilerLibrary_static
 
 
 
+set(COMPILE_DEFINITIONS _) # Later used to add files, conditionally.
+
 if(TL_DEV_MODE)
-    target_compile_definitions(TilerLibrary_object PRIVATE TL_DEV_MODE)
-    target_compile_definitions(TilerLibrary_shared PRIVATE TL_DEV_MODE)
-    target_compile_definitions(TilerLibrary_static PRIVATE TL_DEV_MODE)
+    list(APPEND COMPILE_DEFINITIONS TL_DEV_MODE)
 endif()
 
+target_compile_definitions(TilerLibrary_object PRIVATE ${COMPILE_DEFINITIONS})
+target_compile_definitions(TilerLibrary_shared PRIVATE ${COMPILE_DEFINITIONS})
+target_compile_definitions(TilerLibrary_static PRIVATE ${COMPILE_DEFINITIONS})
 
 
 
