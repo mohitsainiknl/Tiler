@@ -22,11 +22,31 @@ add_library(TilerLibrary_object OBJECT
 
 # PLATFOROM
     "Source/Platform/NativeWindow.cpp"
-    "Source/Platform/SDL/SDLWindow.h"
-    "Source/Platform/SDL/SDLWindow.cpp"
 )
 
+set(COMPILE_DEFINITIONS _)
 
+
+if(TL_WINDOW_SDL)
+
+    list(APPEND COMPILE_DEFINITIONS TL_WINDOW_SDL)
+
+    target_sources(TilerLibrary_object PRIVATE
+        "Source/Platform/SDL/SDLWindow.h"
+        "Source/Platform/SDL/SDLWindow.cpp"
+    )
+endif()
+
+
+if(TL_WINDOW_GLFW)
+
+    list(APPEND COMPILE_DEFINITIONS TL_WINDOW_GLFW)
+
+    target_sources(TilerLibrary_object PRIVATE
+        "Source/Platform/GLFW/GLFWindow.h"
+        "Source/Platform/GLFW/GLFWindow.cpp"
+    )
+endif()
 
 
 
@@ -45,6 +65,11 @@ find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(TilerLibrary_object PUBLIC spdlog::spdlog)
 target_link_libraries(TilerLibrary_shared PUBLIC spdlog::spdlog)
 target_link_libraries(TilerLibrary_static PUBLIC spdlog::spdlog)
+
+find_package(glfw3 CONFIG REQUIRED)
+target_link_libraries(TilerLibrary_object PUBLIC glfw)
+target_link_libraries(TilerLibrary_shared PUBLIC glfw)
+target_link_libraries(TilerLibrary_static PUBLIC glfw)
 
 find_package(SDL2 CONFIG REQUIRED)
 target_link_libraries(TilerLibrary_object PUBLIC SDL2::SDL2main)
@@ -72,8 +97,6 @@ target_include_directories(TilerLibrary_static
 
 
 
-
-set(COMPILE_DEFINITIONS _) # Later used to add files, conditionally.
 
 if(TL_DEV_MODE)
     list(APPEND COMPILE_DEFINITIONS TL_DEV_MODE)

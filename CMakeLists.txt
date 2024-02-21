@@ -18,6 +18,12 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 
 option(TL_DEV_MODE "Enable development mode" OFF)
+option(TL_WINDOW_SDL "Enable SDL Windowing System" OFF)
+option(TL_WINDOW_GLFW "Enable GLFW Windowing System" OFF)
+
+if(NOT TL_WINDOW_SDL AND NOT TL_WINDOW_GLFW)
+	set(TL_WINDOW_GLFW ON)
+endif()
 
 
 add_subdirectory(Tiler/Engine)

@@ -10,18 +10,17 @@ namespace Tiler {
 		TL_CORE_INFO("Hello Tiler Engine!");
 		TL_CORE_ASSERT(true, "This Assertion Never Fails!");
 
-#ifdef TL_ENABLE_ASSERTS
-		TL_CORE_INFO("Assertion Enabled!");
-#endif
-
 #ifdef TL_ENABLE_DEV_LOGS
 		TL_CORE_INFO("Internal Logs Enabled!");
 #endif
 
 		Window* window = Window::Create("Tiler Engine", 1280, 720);
-		while (true) {
-			window->OnUpdate();
+		if (window) {
+
+			while (true) {
+				window->OnUpdate();
+			}
+			delete window;
 		}
-		delete window;
 	}
 }
