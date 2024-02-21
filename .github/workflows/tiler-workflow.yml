@@ -26,10 +26,10 @@ jobs:
       - name: Run the script
         if: matrix.os == 'windows-2022'
         run: |
-          ${{ github.workspace }}/setup_tiler_project.bat --no-run
+          ${{ github.workspace }}/setup_tiler_project.bat --ci-workflow
 
       - name: Run the script
         if: matrix.os != 'windows-2022'
         run: |
           chmod +x ${{ github.workspace }}/setup_tiler_project.sh
-          ${{ github.workspace }}/setup_tiler_project.sh --no-run
+          ${{ github.workspace }}/setup_tiler_project.sh --ci-workflow

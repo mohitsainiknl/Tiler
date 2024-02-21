@@ -14,8 +14,12 @@ def setup_tiler_project():
     if not run("conan profile path default", False):
         run("conan profile detect")
 
-    run("conan install . --build=missing")
-    run("conan install . -s build_type=Debug --build missing")
+    run("conan install . --build=missing -c tools.system.package_manager:mode=install")
+
+    if "--ci-workflow" in sys.argv:
+        print("\n", "Skipping the debug preset creation...\n")
+    else:
+        run("conan install . -s build_type=Debug --build missing")
     
     multi_config = os.path.exists("build/generators")
     config_preset = ("conan-default" if multi_config else "conan-release")
@@ -27,7 +31,7 @@ def setup_tiler_project():
     remove("build/CMakeCache.txt")
 
     # arguments are used in ci-workflow
-    if "--no-run" in sys.argv:
+    if "--no-run" in sys.argv or "--ci-workflow" in sys.argv:
         print("\n", "Skipping the run...\n")
     else:
         print("\n======== Runing Tiler Sandbox ========\n")
