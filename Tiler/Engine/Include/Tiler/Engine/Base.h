@@ -2,30 +2,30 @@
 
 
 #if !defined(NDEBUG) || defined(TL_DEV_MODE)
-    #define TL_ENABLE_DEV_LOGS 1
-    #define TL_ENABLE_ASSERTS 1
+    #define TL_ENABLE_DEV_LOGS true
+    #define TL_ENABLE_ASSERT_BREAKS true
 #endif
 
 
 
-
 #include "Core/Log.h"
-
-
-
-
-#if TL_ENABLE_ASSERTS
-
-#include <limits>
 #include <cstdlib>
 
-#define TL_CORE_ASSERT(condition, message) \
-    if (!(condition)) { \
-        TL_CORE_ERROR("Assertion failed! \n    Message: {0}\n    File: {1}({2})", message, __FILE__, __LINE__); \
-        std::terminate(); \
-    }
 
+
+#ifdef TL_ENABLE_ASSERT_BREAKS
+    #define ASSERT_BREAK() std::abort()
 #else
-#define TL_CORE_ASSERT(condition, message)
+    #define ASSERT_BREAK()
+#endif // TL_ENABLE_ASSERT_BREAKS
 
-#endif // TL_ENABLE_ASSERTS
+
+
+#define TL_CORE_ASSERT(condition, message) \
+    do { \
+        if (!(condition)) { \
+            TL_CORE_ERROR("Assertion failed! \n    File: {0}({1})\n    Message: {2}", __FILE__, __LINE__, message); \
+            ASSERT_BREAK(); \
+        } \
+    } while(false)
+
