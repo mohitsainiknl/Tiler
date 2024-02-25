@@ -22,6 +22,6 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 
 
-add_subdirectory(Tiler)
-add_subdirectory(Application)
+add_subdirectory(Tiler/Engine)
+add_subdirectory(Tiler/EngineSandbox)
 
