@@ -1,5 +1,5 @@
 
-add_library(TilerLibrary STATIC
+add_library(TilerEngine_shared SHARED
 	"Include/Tiler/Application.h"
 	"Include/Tiler/EntryPoint.h"
 
@@ -67,24 +67,27 @@ add_library(TilerLibrary STATIC
 )
 
 
+
+
 find_package(spdlog CONFIG REQUIRED)
-target_link_libraries(TilerLibrary PUBLIC spdlog::spdlog)
+target_link_libraries(TilerEngine_shared PUBLIC spdlog::spdlog)
 
 find_package(glfw3 CONFIG REQUIRED)
-target_link_libraries(TilerLibrary PUBLIC glfw)
+target_link_libraries(TilerEngine_shared PUBLIC glfw)
 
 find_package(glad CONFIG REQUIRED)
-target_link_libraries(TilerLibrary PUBLIC glad::glad)
+target_link_libraries(TilerEngine_shared PUBLIC glad::glad)
 
 find_package(imgui CONFIG REQUIRED)
-target_link_libraries(TilerLibrary PUBLIC imgui::imgui)
+target_link_libraries(TilerEngine_shared PUBLIC imgui::imgui)
 
 find_package(glm CONFIG REQUIRED)
-target_link_libraries(TilerLibrary PUBLIC glm::glm)
+target_link_libraries(TilerEngine_shared PUBLIC glm::glm)
 
 
 
-target_include_directories(TilerLibrary
+
+target_include_directories(TilerEngine_shared
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source>
     PUBLIC
@@ -93,18 +96,9 @@ target_include_directories(TilerLibrary
 
 
 
-set(PCH_FILES "tiler_pch.h" "tiler_pch.cpp")
-target_sources(TilerLibrary PRIVATE ${PCH_FILES})
-target_precompile_headers(TilerLibrary PRIVATE ${PCH_FILES})
 
-
-
-set_target_properties(TilerLibrary PROPERTIES
-    OUTPUT_NAME "Tiler"
+set_target_properties(TilerEngine_shared PROPERTIES
+    OUTPUT_NAME "TilerEngine_shared"
 )
 
-target_compile_definitions(TilerLibrary
-	PRIVATE
-		$<$<CONFIG:Debug>:TL_ENABLE_ASSERTS>
-		GLFW_INCLUDE_NONE
-)
+

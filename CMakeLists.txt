@@ -1,39 +1,27 @@
 ﻿
-cmake_minimum_required (VERSION 3.21)
+cmake_minimum_required (VERSION 3.16)
 
-# Enable Hot Reload for MSVC compilers if supported.
-if (POLICY CMP0141)
-	cmake_policy(SET CMP0141 NEW)
-	set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
-endif()
 
 project (
 	"Tiler"
 	VERSION 0.1
-	DESCRIPTION "A Node Based Graphics Engine"
+	DESCRIPTION "A Graphics Engine"
 	LANGUAGES CXX
 )
 
-include(${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Binary)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Binary)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Binary)
 
-if (MSVC)
- 	set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-endif()
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+
+
 
 add_subdirectory(Tiler)
 add_subdirectory(Application)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-	set_target_properties(${PROJECT_NAME} PROPERTIES
- 		WIN32_EXECUTABLE TRUE
-		MACOSX_BUNDLE TRUE
-	)
-endif()
