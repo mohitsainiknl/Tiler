@@ -1,4 +1,4 @@
-#include "Tiler/Engine/Platform/Independent/OpenGL/OpenGLRenderContext.h"
+#include "OpenGLRenderContext.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"

@@ -1,4 +1,4 @@
-#include "Tiler/Engine/Platform/Independent/Glfw/GlfwWindow.h"
+#include "GlfwWindow.h"
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -9,7 +9,7 @@
 #include "Tiler/Engine/Core/Events/MouseEvent.h"
 #include "Tiler/Engine/Core/Events/ApplicationEvent.h"
 
-#include "Tiler/Engine/Platform/Independent/OpenGL/OpenGLRenderContext.h"
+#include "Platform/OpenGL/OpenGLRenderContext.h"
 
 
 namespace Tiler {

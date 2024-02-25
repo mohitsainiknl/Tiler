@@ -1,9 +1,9 @@
-#include "Tiler/Engine/Platform/Independent/OpenGL/OpenGLRendererAPI.h"
+#include "OpenGLRendererAPI.h"
 
 #include "glad/glad.h"
 
 #include "Tiler/Engine/Core/Renderer/VertexArray.h"
-#include "Tiler/Engine/Core/Renderer/Buffer.h"
+#include "Tiler/Engine/Core/Renderer/Buffer/IndexBuffer.h"
 
 
 namespace Tiler {

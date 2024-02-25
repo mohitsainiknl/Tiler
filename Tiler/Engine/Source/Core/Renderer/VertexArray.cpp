@@ -2,7 +2,7 @@
 
 #include "Tiler/Engine/Base.h"
 #include "Tiler/Engine/Core/Renderer/Renderer.h"
-#include "Tiler/Engine/Platform/Independent/OpenGL/OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 
 namespace Tiler {
 

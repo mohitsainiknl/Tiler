@@ -1,9 +1,10 @@
-#include "Tiler/Engine/Platform/Independent/OpenGL/OpenGLVertexArray.h"
+#include "OpenGLVertexArray.h"
 
 #include "glad/glad.h"
 
 #include "Tiler/Engine/Base.h"
-#include "Tiler/Engine/Core/Renderer/Buffer.h"
+#include "Tiler/Engine/Core/Renderer/Buffer/VertexBuffer.h"
+#include "Tiler/Engine/Core/Renderer/Buffer/IndexBuffer.h"
 
 
 

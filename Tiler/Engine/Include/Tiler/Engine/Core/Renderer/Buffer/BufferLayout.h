@@ -20,15 +20,15 @@ namespace Tiler {
 	static uint32_t ShaderDataTypeSize(ShaderDataType type) {
 		switch (type)
 		{
-			case Tiler::ShaderDataType::FLOAT:	  return 4;
-			case Tiler::ShaderDataType::FLOAT2:	  return 4 * 2;
-			case Tiler::ShaderDataType::FLOAT3:	  return 4 * 3;
-			case Tiler::ShaderDataType::FLOAT4:	  return 4 * 4;
-			case Tiler::ShaderDataType::INT:	  return 4;
-			case Tiler::ShaderDataType::INT2:	  return 4 * 2;
-			case Tiler::ShaderDataType::INT3:	  return 4 * 3;
-			case Tiler::ShaderDataType::INT4:	  return 4 * 4;
-			case Tiler::ShaderDataType::BOOL:	  return 1;
+		case Tiler::ShaderDataType::FLOAT:	  return 4;
+		case Tiler::ShaderDataType::FLOAT2:	  return 4 * 2;
+		case Tiler::ShaderDataType::FLOAT3:	  return 4 * 3;
+		case Tiler::ShaderDataType::FLOAT4:	  return 4 * 4;
+		case Tiler::ShaderDataType::INT:	  return 4;
+		case Tiler::ShaderDataType::INT2:	  return 4 * 2;
+		case Tiler::ShaderDataType::INT3:	  return 4 * 3;
+		case Tiler::ShaderDataType::INT4:	  return 4 * 4;
+		case Tiler::ShaderDataType::BOOL:	  return 1;
 		}
 
 		TL_CORE_ASSERT(false, "Unknown ShaderDataType!");
@@ -50,15 +50,15 @@ namespace Tiler {
 		uint32_t GetComponentCount() const {
 			switch (Type)
 			{
-				case Tiler::ShaderDataType::FLOAT:   return 1;
-				case Tiler::ShaderDataType::FLOAT2:	 return 2;
-				case Tiler::ShaderDataType::FLOAT3:	 return 3;
-				case Tiler::ShaderDataType::FLOAT4:	 return 4;
-				case Tiler::ShaderDataType::INT:	 return 1;
-				case Tiler::ShaderDataType::INT2:	 return 2;
-				case Tiler::ShaderDataType::INT3:	 return 3;
-				case Tiler::ShaderDataType::INT4:	 return 4;
-				case Tiler::ShaderDataType::BOOL:	 return 1;
+			case Tiler::ShaderDataType::FLOAT:   return 1;
+			case Tiler::ShaderDataType::FLOAT2:	 return 2;
+			case Tiler::ShaderDataType::FLOAT3:	 return 3;
+			case Tiler::ShaderDataType::FLOAT4:	 return 4;
+			case Tiler::ShaderDataType::INT:	 return 1;
+			case Tiler::ShaderDataType::INT2:	 return 2;
+			case Tiler::ShaderDataType::INT3:	 return 3;
+			case Tiler::ShaderDataType::INT4:	 return 4;
+			case Tiler::ShaderDataType::BOOL:	 return 1;
 			}
 
 			TL_CORE_ASSERT(false, "Unknown ShaderDataType!");
@@ -96,38 +96,6 @@ namespace Tiler {
 	private:
 		std::vector<BufferElement> m_Elements;
 		uint32_t m_Stride = 0;
-	};
-
-	class VertexBuffer {
-	public:
-		virtual ~VertexBuffer() = default;
-
-		virtual void Bind() const = 0;
-		virtual void Unbind() const = 0;
-
-		virtual const BufferLayout& GetLayout() const = 0;
-		virtual void SetLayout(const BufferLayout& layout) = 0;
-
-		static VertexBuffer* Create(float* vertices, uint32_t size);
-
-	protected:
-		VertexBuffer() = default;
-	};
-
-
-	class IndexBuffer {
-	public:
-		virtual ~IndexBuffer() = default;
-
-		virtual void Bind() const = 0;
-		virtual void Unbind() const = 0;
-
-		virtual uint32_t GetCount() const = 0;
-
-		static IndexBuffer* Create(uint32_t* indices, uint32_t count);
-
-	protected:
-		IndexBuffer() = default;
 	};
 
 }

@@ -1,6 +1,6 @@
 #include "Tiler/Engine/Core/Renderer/RenderCommand.h"
 
-#include "Tiler/Engine/Platform/Independent/OpenGL/OpenGLRendererAPI.h"
+#include "Platform/OpenGL/OpenGLRendererAPI.h"
 
 
 namespace Tiler {

@@ -1,4 +1,4 @@
-#include "Tiler/Engine/Platform/Independent/Glfw/GlfwInput.h"
+#include "GlfwInput.h"
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
