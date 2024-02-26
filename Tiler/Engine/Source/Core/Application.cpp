@@ -14,6 +14,8 @@
 #include "Tiler/Engine/Core/ImGui/ImGuiLayer.h"
 #include "Tiler/Engine/Core/Timestep.h"
 
+#include "Tiler/Engine/Core/Renderer/GraphicsAPI.h"
+
 
 namespace Tiler {
 
@@ -23,15 +25,15 @@ namespace Tiler {
 
 
 	Application::Application() {
-		Log::init();
-		TL_CORE_TRACE("Logs Initialized!");
 
 		TL_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
-		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window = std::unique_ptr<Window>(Window::Create("Tiler Engine", 1280, 720));
 		Input::Initialize();
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+
+		GraphicsAPI::Static::Initialize(GraphicsAPI::Type::Auto, m_Window->GetInnerWindow());
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -42,6 +44,7 @@ namespace Tiler {
 	}
 
 	Application::~Application() {
+		GraphicsAPI::Static::Shutdown();
 		Input::Distroy();
 	}
 
@@ -64,7 +67,8 @@ namespace Tiler {
 			m_LayerStack.RenderLayers(timestep);
 
 			m_ImGuiLayer->OnRenderEnd();
-			m_Window->Update();
+			m_Window->OnUpdate();
+			GraphicsAPI::Static::NextFrame();
 		}
 	}
 

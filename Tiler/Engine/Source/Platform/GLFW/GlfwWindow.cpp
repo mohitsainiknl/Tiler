@@ -1,15 +1,9 @@
 #include "GlfwWindow.h"
 
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-
-
 #include "Tiler/Engine/Base.h"
 #include "Tiler/Engine/Core/Events/KeyEvent.h"
 #include "Tiler/Engine/Core/Events/MouseEvent.h"
 #include "Tiler/Engine/Core/Events/ApplicationEvent.h"
-
-#include "Platform/OpenGL/OpenGLRenderContext.h"
 
 
 namespace Tiler {
@@ -20,14 +14,6 @@ namespace Tiler {
 		TL_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Window* Window::Create(const std::string& title, int width, int height) {
-		return new GlfwWindow(title, width, height);
-	}
-
-	Window* Window::Create() {
-		return new GlfwWindow("Tiler", 1280, 720);
-	}
-
 	GlfwWindow::GlfwWindow(const std::string& title, int width, int height) {
 		Init(title, width, height);
 	}
@@ -36,22 +22,8 @@ namespace Tiler {
 		Shutdown();
 	}
 
-	void GlfwWindow::Update() {
-		m_Context->SwapBuffers();
+	void GlfwWindow::OnUpdate() {
 		glfwPollEvents();
-	}
-
-	void GlfwWindow::SetVSync(bool enabled) {
-		if (enabled)
-			glfwSwapInterval(1);
-		else
-			glfwSwapInterval(0);
-
-		m_Data.VSync = enabled;
-	}
-
-	bool GlfwWindow::IsVSync() const {
-		return m_Data.VSync;
 	}
 
 	void GlfwWindow::Init(const std::string& title, int width, int height) {
@@ -74,15 +46,12 @@ namespace Tiler {
 		TL_CORE_ASSERT((1 <= width && width <= std::numeric_limits<int>::max()), "Window width is outside the valid range (1 <= width <= INT_MAX).");
 		TL_CORE_ASSERT((1 <= height && height <= std::numeric_limits<int>::max()), "Window height is outside the valid range (1 <= height <= INT_MAX).");
 
-		m_Window = glfwCreateWindow(width, height, m_Data.Title.c_str(), nullptr, nullptr);
-		m_Context = new OpenGLRenderContext(m_Window);
-		m_Context->Initialize();
+		m_InnerWindow = glfwCreateWindow(width, height, m_Data.Title.c_str(), nullptr, nullptr);
 
-		glfwSetWindowUserPointer(m_Window, &m_Data);
-		SetVSync(true);
+		glfwSetWindowUserPointer(m_InnerWindow, &m_Data);
 
 		// Set GLFW Callbacks
-		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
+		glfwSetWindowSizeCallback(m_InnerWindow, [](GLFWwindow* window, int width, int height) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 			data.Width = width;
@@ -92,13 +61,13 @@ namespace Tiler {
 			data.Callback(event);
 		});
 
-		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
+		glfwSetWindowCloseCallback(m_InnerWindow, [](GLFWwindow* window) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			WindowCloseEvent event;
 			data.Callback(event);
 		});
 
-		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+		glfwSetKeyCallback(m_InnerWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 			switch (action) {
@@ -120,13 +89,13 @@ namespace Tiler {
 			}
 		});
 
-		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode) {
+		glfwSetCharCallback(m_InnerWindow, [](GLFWwindow* window, unsigned int keycode) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			KeyTypedEvent event(keycode);
 			data.Callback(event);
 		});
 
-		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) {
+		glfwSetMouseButtonCallback(m_InnerWindow, [](GLFWwindow* window, int button, int action, int mods) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 			switch (action) {
@@ -143,14 +112,14 @@ namespace Tiler {
 			}
 		});
 
-		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset) {
+		glfwSetScrollCallback(m_InnerWindow, [](GLFWwindow* window, double xOffset, double yOffset) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 			MouseScrolledEvent event(xOffset, yOffset);
 			data.Callback(event);
 		});
 
-		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos) {
+		glfwSetCursorPosCallback(m_InnerWindow, [](GLFWwindow* window, double xPos, double yPos) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 			MouseMovedEvent event(xPos, yPos);
@@ -158,6 +127,6 @@ namespace Tiler {
 		});
 	}
 	void GlfwWindow::Shutdown() {
-		glfwDestroyWindow(m_Window);
+		glfwDestroyWindow(m_InnerWindow);
 	}
 }

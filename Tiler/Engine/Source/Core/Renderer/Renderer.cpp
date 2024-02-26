@@ -1,8 +1,5 @@
 #include "Tiler/Engine/Core/Renderer/Renderer.h"
 
-#include "Tiler/Engine/Core/Renderer/VertexArray.h"
-#include "Tiler/Engine/Core/Renderer/CameraOrthographic.h"
-#include "Tiler/Engine/Core/Renderer/Shader.h"
 
 
 namespace Tiler {
@@ -25,7 +22,7 @@ namespace Tiler {
 		shader->UploadUniformMat4("u_Transform", transfrom);
 
 		vertexArray->Bind();
-		RenderCommand::DrawIndexed(vertexArray);
+		GraphicsAPI::Static::DrawIndexed(vertexArray);
 	}
 
 }

@@ -1,12 +1,9 @@
 #pragma once
 
 #include "Tiler/Engine/Core/Renderer/VertexArray.h"
+#include "Tiler/Engine/Core/Renderer/Buffer/VertexBuffer.h"
+#include "Tiler/Engine/Core/Renderer/Buffer/IndexBuffer.h"
 
-
-namespace Tiler {
-	class VertexBuffer;
-	class IndexBuffer;
-}
 
 namespace Tiler {
 

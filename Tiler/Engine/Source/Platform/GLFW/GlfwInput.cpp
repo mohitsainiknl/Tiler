@@ -1,8 +1,5 @@
 #include "GlfwInput.h"
 
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-
 #include "Tiler/Engine/Core/Application.h"
 #include "Tiler/Engine/Core/Window.h"
 

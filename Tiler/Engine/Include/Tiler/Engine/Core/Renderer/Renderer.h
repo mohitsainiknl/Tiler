@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Tiler/Engine/Core/Renderer/RenderCommand.h"
+#include "glm/glm.hpp"
+
+#include "CameraOrthographic.h"
+#include "GraphicsAPI.h"
+#include "Shader.h"
 
 #include <memory>
 
-namespace Tiler {
-	class CameraOrthographic;
-	class Shader;
-}
 
 namespace Tiler {
 
@@ -17,7 +17,7 @@ namespace Tiler {
 		static void SceneEnd();
 
 		static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f));
-		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+		inline static GraphicsAPI::Type GetType() { return GraphicsAPI::Static::GetType(); }
 
 	private:
 		struct SceneData {

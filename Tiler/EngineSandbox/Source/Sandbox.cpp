@@ -138,8 +138,8 @@ public:
 			m_CameraRotation -= m_CameraRotationSpeed * timestep;
 		}
 
-		Tiler::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-		Tiler::RenderCommand::Clear();
+		Tiler::GraphicsAPI::Static::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		Tiler::GraphicsAPI::Static::SetVSync(true);
 
 		m_Camera.SetPosition(m_CameraPosition);
 		m_Camera.SetRotation(m_CameraRotation);
