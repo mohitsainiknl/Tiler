@@ -57,6 +57,7 @@ add_library(TilerEngine_shared STATIC
 	"Source/Core/Renderer/Renderer.cpp"
 	"Source/Core/Renderer/Shader.cpp"
 	"Source/Core/Renderer/CameraOrthographic.cpp"
+	"Source/Core/Renderer/Buffer/BufferLayout.cpp"
 
 
 # PLATFORM GLFW
@@ -83,7 +84,6 @@ add_library(TilerEngine_shared STATIC
 	"Source/Platform/OpenGL/OpenGLVertexArray.cpp"
 	"Source/Platform/OpenGL/Buffer/OpenGLIndexBuffer.cpp"
 	"Source/Platform/OpenGL/Buffer/OpenGLVertexBuffer.cpp"
-
 )
 
 

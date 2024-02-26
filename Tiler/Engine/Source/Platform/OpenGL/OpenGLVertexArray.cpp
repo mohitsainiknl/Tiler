@@ -9,7 +9,7 @@
 
 namespace Tiler {
 
-	static GLenum ShaderDataType_to_OpenGLBaseType(ShaderDataType type) {
+	static GLenum GetOpenGLBaseType(ShaderDataType type) {
 		switch (type)
 		{
 			case Tiler::ShaderDataType::FLOAT:	  return GL_FLOAT;
@@ -53,18 +53,23 @@ namespace Tiler {
 		glBindVertexArray(m_RendererID);
 		vertexBuffer->Bind();
 
-		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();
-		for (const auto& element : layout) {
+		const auto& elements = layout.GetElements();
+		const uint32_t stride = layout.GetStride();
+
+		uint32_t offset = 0;
+		uint32_t index = 0;
+		for (const auto& element : elements) {
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(
 				index,
-				element.GetComponentCount(),
-				ShaderDataType_to_OpenGLBaseType(element.Type),
+				element.CompCount,
+				GetOpenGLBaseType(element.Type),
 				element.Normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element.Offset
+				stride,
+				reinterpret_cast<const void*>(offset)
 			);
+			offset += element.Size;
 			index++;
 		}
 		m_VertexBuffers.push_back(vertexBuffer);
