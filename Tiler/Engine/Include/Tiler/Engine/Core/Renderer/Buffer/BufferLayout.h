@@ -20,11 +20,6 @@ namespace Tiler {
 		BOOL
 	};
 
-	static uint32_t _ShaderDataTypeSize(ShaderDataType type);
-
-	static uint32_t _ShaderDataTypeCount(ShaderDataType type);
-
-
 	struct BufferElement {
 		std::string Name;
 		ShaderDataType Type;

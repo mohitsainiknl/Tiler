@@ -4,7 +4,7 @@
 
 namespace Tiler {
 
-	static uint32_t _ShaderDataTypeSize(ShaderDataType type) {
+	static uint32_t ShaderDataTypeSize(ShaderDataType type) {
 		switch (type)
 		{
 		case Tiler::ShaderDataType::FLOAT:	  return 4;
@@ -22,7 +22,7 @@ namespace Tiler {
 		return 0;
 	}
 
-	static uint32_t _ShaderDataTypeCount(ShaderDataType type) {
+	static uint32_t ShaderDataTypeCount(ShaderDataType type) {
 		switch (type)
 		{
 		case Tiler::ShaderDataType::FLOAT:   return 1;
@@ -41,7 +41,7 @@ namespace Tiler {
 	}
 
 	BufferElement::BufferElement(ShaderDataType type, const std::string& name, bool normalized)
-		: Name(name), Type(type), Size(_ShaderDataTypeSize(type)), CompCount(_ShaderDataTypeCount(type)), Normalized(normalized) {
+		: Name(name), Type(type), Size(ShaderDataTypeSize(type)), CompCount(ShaderDataTypeCount(type)), Normalized(normalized) {
 
 	}
 
