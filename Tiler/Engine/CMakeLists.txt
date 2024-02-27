@@ -60,7 +60,6 @@ add_library(TilerEngine_shared STATIC
 	"Include/Tiler/Engine/Core/Renderer/Buffer/VertexBuffer.h"
 
 	"Source/Core/Renderer/Renderer.cpp"
-	"Source/Core/Renderer/Shader.cpp"
 	"Source/Core/Renderer/CameraOrthographic.cpp"
 	"Source/Core/Renderer/Buffer/BufferLayout.cpp"
 
@@ -91,11 +90,13 @@ add_library(TilerEngine_shared STATIC
 	"Source/Platform/OpenGL/opengl_debugging.cpp"
 
 	"Source/Platform/OpenGL/OpenGLGraphicsAPI.h"
+	"Source/Platform/OpenGL/OpenGLShader.h"
 	"Source/Platform/OpenGL/OpenGLVertexArray.h"
 	"Source/Platform/OpenGL/Buffer/OpenGLIndexBuffer.h"
 	"Source/Platform/OpenGL/Buffer/OpenGLVertexBuffer.h"
 
 	"Source/Platform/OpenGL/OpenGLGraphicsAPI.cpp"
+	"Source/Platform/OpenGL/OpenGLShader.cpp"
 	"Source/Platform/OpenGL/OpenGLVertexArray.cpp"
 	"Source/Platform/OpenGL/Buffer/OpenGLIndexBuffer.cpp"
 	"Source/Platform/OpenGL/Buffer/OpenGLVertexBuffer.cpp"

@@ -4,6 +4,7 @@
 #include "Tiler/Engine/Core/Renderer/GraphicsAPI.h"
 #include "Tiler/Engine/Core/Renderer/Buffer/IndexBuffer.h"
 #include "Tiler/Engine/Core/Renderer/Buffer/VertexBuffer.h"
+#include "Tiler/Engine/Core/Renderer/Shader.h"
 
 #include "NativeWindow.h"
 
@@ -18,6 +19,7 @@
 #   include "OpenGL/OpenGLVertexArray.h"
 #   include "OpenGL/Buffer/OpenGLIndexBuffer.h"
 #   include "OpenGL/Buffer/OpenGLVertexBuffer.h"
+#   include "OpenGL/OpenGLShader.h"
 
 namespace Tiler {
 
@@ -46,10 +48,19 @@ namespace Tiler {
         TL_CORE_ASSERT(false, "Unknown Graphics API!");
         return nullptr;
     }
+
+    Shader* NATIVE_SHADER(const std::string& vertexSource, const std::string& fragmentSource) {
+        switch (GraphicsAPI::Static::GetType()) {
+            case GraphicsAPI::Type::OpenGL: return new OpenGLShader(vertexSource, fragmentSource);
+        }
+        TL_CORE_ASSERT(false, "Unknown Graphics API!");
+        return nullptr;
+    }
 }
 #else
 #	define NATIVE_GRAPHICS_API(type, window)     nullptr;
 #	define NATIVE_VERTEX_ARRAY()                 nullptr;
 #	define NATIVE_VERTEX_BUFFER(vertices, size)  nullptr;
 #	define NATIVE_INDEX_BUFFER(indices, count)   nullptr;
+#	define NATIVE_SHADER(vs, fs)                 nullptr;
 #endif

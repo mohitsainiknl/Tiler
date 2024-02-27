@@ -26,4 +26,10 @@ namespace Tiler {
 		return NATIVE_INDEX_BUFFER(indices, count);
 	}
 
+
+	Shader* Shader::Create(const std::string& vertexSource, const std::string& fragmentSource) {
+
+		return NATIVE_SHADER(vertexSource, fragmentSource);
+	}
+
 }

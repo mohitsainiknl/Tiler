@@ -72,7 +72,7 @@ public:
 			}
 		)";
 
-		m_Shader = std::make_shared<Tiler::Shader>(vertexSource, fragmentSource);
+		m_Shader.reset(Tiler::Shader::Create(vertexSource, fragmentSource));
 
 		std::string backVertexSource = R"(
 			#version 330 core
@@ -102,7 +102,7 @@ public:
 			}
 		)";
 
-		m_BackShader = std::make_shared<Tiler::Shader>(backVertexSource, backFragmentSource);
+		m_BackShader.reset(Tiler::Shader::Create(backVertexSource, backFragmentSource));
 	}
 
 	void OnRender(float timestep) override {

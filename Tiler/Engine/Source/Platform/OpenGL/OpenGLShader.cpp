@@ -1,4 +1,4 @@
-#include "Tiler/Engine/Core/Renderer/Shader.h"
+#include "OpenGLShader.h"
 
 #include "glad/glad.h"
 #include "glm/gtc/type_ptr.hpp"
@@ -8,7 +8,8 @@
 
 namespace Tiler {
 
-	Shader::Shader(const std::string& vertexSource, const std::string& fragmentSource) {
+	OpenGLShader::OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource) {
+
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
 		const GLchar* source = (const GLchar*)vertexSource.c_str();
@@ -92,22 +93,22 @@ namespace Tiler {
 	}
 
 
-	Shader::~Shader() {
+	OpenGLShader::~OpenGLShader() {
 		Unbind();
 	}
 
 
-	void Shader::Bind() const {
+	void OpenGLShader::Bind() const {
 		glUseProgram(m_RendererID);
 	}
 
 
-	void Shader::Unbind() const {
+	void OpenGLShader::Unbind() const {
 		glDeleteProgram(m_RendererID);
 	}
 
 
-	void Shader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) {
+	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) {
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
