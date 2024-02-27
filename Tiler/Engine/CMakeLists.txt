@@ -39,6 +39,12 @@ add_library(TilerEngine_shared STATIC
 	"Source/Core/Events/MouseEvent.cpp"
 	"Source/Core/Events/ApplicationEvent.cpp"
 
+
+# FILE
+	"Include/Tiler/Engine/Core/FileManager/FileLoader.h"
+	"Source/Core/FileManager/FileLoader.cpp"
+
+
 # CORE IMGUI
 	"Include/Tiler/Engine/Core/ImGui/ImGuiLayer.h"
 	"Source/Core/ImGui/ImGuiLayer.cpp"
