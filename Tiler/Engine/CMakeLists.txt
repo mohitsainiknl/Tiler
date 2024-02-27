@@ -60,7 +60,17 @@ add_library(TilerEngine_shared STATIC
 	"Source/Core/Renderer/Buffer/BufferLayout.cpp"
 
 
+# PLATFORM
+	"Source/Platform/NativeWindow.h"
+	"Source/Platform/NativeGraphicsAPI.h"
+
+	"Source/Platform/NativeWindow.cpp"
+	"Source/Platform/NativeGraphicsAPI.cpp"
+
+
 # PLATFORM GLFW
+	"Source/Platform/GLFW/glfw_base.h"
+	
 	"Source/Platform/GLFW/GlfwInput.h"
 	"Source/Platform/GLFW/GlfwWindow.h"
 	"Source/Platform/GLFW/GlfwOpenGLGraphicsAPI.h"
@@ -71,15 +81,15 @@ add_library(TilerEngine_shared STATIC
 
 
 # PLATFORM OPENGL
-	"Source/Platform/NativeWindow.h"
-	"Source/Platform/NativeGraphicsAPI.h"
+	"Source/Platform/OpenGL/opengl_base.h"
+	"Source/Platform/OpenGL/opengl_debugging.h"
+	"Source/Platform/OpenGL/opengl_debugging.cpp"
+
 	"Source/Platform/OpenGL/OpenGLGraphicsAPI.h"
 	"Source/Platform/OpenGL/OpenGLVertexArray.h"
 	"Source/Platform/OpenGL/Buffer/OpenGLIndexBuffer.h"
 	"Source/Platform/OpenGL/Buffer/OpenGLVertexBuffer.h"
 
-	"Source/Platform/NativeWindow.cpp"
-	"Source/Platform/NativeGraphicsAPI.cpp"
 	"Source/Platform/OpenGL/OpenGLGraphicsAPI.cpp"
 	"Source/Platform/OpenGL/OpenGLVertexArray.cpp"
 	"Source/Platform/OpenGL/Buffer/OpenGLIndexBuffer.cpp"

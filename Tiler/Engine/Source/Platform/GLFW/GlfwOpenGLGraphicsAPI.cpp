@@ -1,6 +1,7 @@
 #include "GlfwOpenGLGraphicsAPI.h"
 
 #include "Tiler/Engine/Base.h"
+#include "glfw_base.h"
 
 
 namespace Tiler {
@@ -22,6 +23,8 @@ namespace Tiler {
 			"    Version  : {2}"
 			, (const char*)glGetString(GL_VENDOR), (const char*)glGetString(GL_RENDERER), (const char*)glGetString(GL_VERSION)
 		);
+
+		TL_OPENGL_DEBUG_OUTPUT;
 	}
 
 	void GlfwOpenGLGraphicsAPI::Shutdown() {

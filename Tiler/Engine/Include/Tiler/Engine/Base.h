@@ -4,6 +4,7 @@
 #if !defined(NDEBUG) || defined(TL_DEV_MODE)
 #   define TL_ENABLE_DEV_LOGS true
 #   define TL_ENABLE_ASSERT_BREAKS true
+#   define TL_ENABLE_RENDER_DEBUGGING true
 #endif
 
 

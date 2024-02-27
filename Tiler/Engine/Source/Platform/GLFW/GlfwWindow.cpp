@@ -40,6 +40,8 @@ namespace Tiler {
 			TL_CORE_ASSERT(success, "Failed to initialize GLFW!");
 			glfwSetErrorCallback(GlfwErrorCallback);
 
+			TL_GLFW_OPENGL_DEBUG_CONTEXT;
+
 			s_GlfwInitialized = true;
 		}
 
