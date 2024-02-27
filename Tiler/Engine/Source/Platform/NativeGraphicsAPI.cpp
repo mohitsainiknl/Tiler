@@ -15,12 +15,6 @@ namespace Tiler {
 	}
 
 
-	VertexArray* VertexArray::Create() {
-
-		return NATIVE_VERTEX_ARRAY();
-	}
-
-
 	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size) {
 
 		return NATIVE_VERTEX_BUFFER(vertices, size);

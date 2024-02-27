@@ -6,7 +6,6 @@
 
 
 
-
 namespace Tiler {
 
 	static GLenum GetOpenGLBaseType(ShaderDataType type) {
@@ -47,13 +46,7 @@ namespace Tiler {
 	}
 
 
-	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
-		TL_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
-
-		glBindVertexArray(m_RendererID);
-		vertexBuffer->Bind();
-
-		const auto& layout = vertexBuffer->GetLayout();
+	void OpenGLVertexArray::SetupLayout(const BufferLayout& layout) {
 		const auto& elements = layout.GetElements();
 		const uint32_t stride = layout.GetStride();
 
@@ -72,14 +65,6 @@ namespace Tiler {
 			offset += element.Size;
 			index++;
 		}
-		m_VertexBuffers.push_back(vertexBuffer);
-	}
-
-
-	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) {
-		glBindVertexArray(m_RendererID);
-		indexBuffer->Bind();
-		m_IndexBuffer = indexBuffer;
 	}
 
 }

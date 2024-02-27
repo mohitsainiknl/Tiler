@@ -6,8 +6,6 @@ class EampleLayer : public Tiler::Layer {
 public:
 	EampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f) {
 
-		m_VertexArray.reset(Tiler::VertexArray::Create());
-
 		float vertices[3 * 7] = {
 			///// Position /////    /////// Color ///////
 			-0.58f, -0.50f, 0.0f,   0.8f, 0.2f, 0.8f, 1.0f,
@@ -15,22 +13,17 @@ public:
 			 0.00f,  0.50f, 0.0f,   0.8f, 0.8f, 0.2f, 1.0f
 		};
 
-		std::shared_ptr<Tiler::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(Tiler::VertexBuffer::Create(vertices, sizeof(vertices)));
+		m_VertexBuffer.reset(Tiler::VertexBuffer::Create(vertices, sizeof(vertices)));
 		Tiler::BufferLayout layout = {
 			{ Tiler::ShaderDataType::FLOAT3, "a_Position" },
 			{ Tiler::ShaderDataType::FLOAT4, "a_Color" }
 		};
-		vertexBuffer->SetLayout(layout);
-		m_VertexArray->AddVertexBuffer(vertexBuffer);
+		m_VertexBuffer->SetLayout(layout);
 
 		uint32_t indices[3]{ 0, 1, 2 };
-		std::shared_ptr<Tiler::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Tiler::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-		m_VertexArray->SetIndexBuffer(indexBuffer);
+		m_IndexBuffer.reset(Tiler::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 
 
-		m_SquareVA.reset(Tiler::VertexArray::Create());
 		float squareVertices[3 * 4] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
@@ -38,17 +31,13 @@ public:
 			-0.5f,  0.5f, 0.0f
 		};
 
-		std::shared_ptr<Tiler::VertexBuffer> squareVB;
-		squareVB.reset(Tiler::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		squareVB->SetLayout({
+		m_SquareVB.reset(Tiler::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		m_SquareVB->SetLayout({
 			{ Tiler::ShaderDataType::FLOAT3, "a_Position" },
-			});
-		m_SquareVA->AddVertexBuffer(squareVB);
+		});
 
 		uint32_t squareIndices[6]{ 0, 1, 2, 2, 3, 0 };
-		std::shared_ptr<Tiler::IndexBuffer> squareIB;
-		squareIB.reset(Tiler::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
-		m_SquareVA->SetIndexBuffer(squareIB);
+		m_SquareIB.reset(Tiler::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 
 		std::string vertexSource = R"(
 			#version 330 core
@@ -152,11 +141,11 @@ public:
 			for (int x = -10; x < 10; ++x) {
 				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				Tiler::Renderer::Submit(m_BackShader, m_SquareVA, transform);
+				Tiler::Renderer::Submit(m_BackShader, m_SquareVB, m_SquareIB, transform);
 			}
 		}
 
-		Tiler::Renderer::Submit(m_Shader, m_VertexArray);
+		Tiler::Renderer::Submit(m_Shader, m_VertexBuffer, m_IndexBuffer);
 
 		Tiler::Renderer::SceneEnd();
 	}
@@ -167,10 +156,12 @@ public:
 
 private:
 	std::shared_ptr<Tiler::Shader> m_Shader;
-	std::shared_ptr<Tiler::VertexArray> m_VertexArray;
+	std::shared_ptr<Tiler::IndexBuffer> m_IndexBuffer;
+	std::shared_ptr<Tiler::VertexBuffer> m_VertexBuffer;
 
 	std::shared_ptr<Tiler::Shader> m_BackShader;
-	std::shared_ptr<Tiler::VertexArray> m_SquareVA;
+	std::shared_ptr<Tiler::IndexBuffer> m_SquareIB;
+	std::shared_ptr<Tiler::VertexBuffer> m_SquareVB;
 
 	Tiler::CameraOrthographic m_Camera;
 

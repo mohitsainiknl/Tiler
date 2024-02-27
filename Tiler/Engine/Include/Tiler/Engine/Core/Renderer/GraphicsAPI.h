@@ -3,7 +3,8 @@
 #include "glm/glm.hpp"
 
 #include "Tiler/Engine/Core/Window.h"
-#include "VertexArray.h"
+#include "Buffer/VertexBuffer.h"
+#include "Buffer/IndexBuffer.h"
 
 #include <memory>
 
@@ -28,7 +29,7 @@ namespace Tiler {
 		virtual void NextFrame(bool do_clear) = 0;
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
-		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
+		virtual void DrawIndexed(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer) = 0;
 
 		struct Static {
 			inline static void Initialize(Type type, void* inner_window) { Create(type, inner_window)->Initialize(); }
@@ -38,7 +39,7 @@ namespace Tiler {
 			inline static void NextFrame(bool do_clear = true) { return ms_Instance->NextFrame(do_clear); }
 			inline static void SetVSync(bool enabled) { return ms_Instance->SetVSync(enabled); }
 			inline static bool IsVSync() { return ms_Instance->IsVSync(); };
-			inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) { return ms_Instance->DrawIndexed(vertexArray); }
+			inline static void DrawIndexed(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer) { return ms_Instance->DrawIndexed(vertexBuffer, indexBuffer); }
 
 			inline static Type GetType() { return ms_Type; }
 		};

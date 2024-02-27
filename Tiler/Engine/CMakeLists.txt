@@ -48,7 +48,6 @@ add_library(TilerEngine_shared STATIC
 	"Include/Tiler/Engine/Core/Renderer/Renderer.h"
 	"Include/Tiler/Engine/Core/Renderer/GraphicsAPI.h"
 	"Include/Tiler/Engine/Core/Renderer/Shader.h"
-	"Include/Tiler/Engine/Core/Renderer/VertexArray.h"
 	"Include/Tiler/Engine/Core/Renderer/CameraOrthographic.h"
 	"Include/Tiler/Engine/Core/Renderer/Buffer/BufferLayout.h"
 	"Include/Tiler/Engine/Core/Renderer/Buffer/IndexBuffer.h"

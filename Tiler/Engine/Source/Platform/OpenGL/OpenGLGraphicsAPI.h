@@ -10,6 +10,6 @@ namespace Tiler {
 		OpenGLGraphicsAPI() = default;
 		~OpenGLGraphicsAPI() override = default;
 
-		void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) override;
+		void DrawIndexed(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer) override;
 	};
 }

@@ -2,7 +2,6 @@
 
 #include "Tiler/Engine/Base.h"
 #include "Tiler/Engine/Core/Renderer/GraphicsAPI.h"
-#include "Tiler/Engine/Core/Renderer/VertexArray.h"
 #include "Tiler/Engine/Core/Renderer/Buffer/IndexBuffer.h"
 #include "Tiler/Engine/Core/Renderer/Buffer/VertexBuffer.h"
 
@@ -28,14 +27,6 @@ namespace Tiler {
             case GraphicsAPI::Type::OpenGL: return new GlfwOpenGLGraphicsAPI(glfw_window);
         }
 
-        TL_CORE_ASSERT(false, "Unknown Graphics API!");
-        return nullptr;
-    }
-
-    VertexArray* NATIVE_VERTEX_ARRAY() {
-        switch (GraphicsAPI::Static::GetType()) {
-            case GraphicsAPI::Type::OpenGL: return new OpenGLVertexArray();
-        }
         TL_CORE_ASSERT(false, "Unknown Graphics API!");
         return nullptr;
     }

@@ -21,7 +21,6 @@
 #include "Tiler/Engine/Core/Renderer/Buffer/IndexBuffer.h"
 #include "Tiler/Engine/Core/Renderer/Buffer/VertexBuffer.h"
 #include "Tiler/Engine/Core/Renderer/Shader.h"
-#include "Tiler/Engine/Core/Renderer/VertexArray.h"
 #include "Tiler/Engine/Core/Renderer/CameraOrthographic.h"
 
 #include "Tiler/Engine/Core/ImGui/ImGuiLayer.h"

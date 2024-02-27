@@ -16,7 +16,7 @@ namespace Tiler {
 		static void SceneBegin(CameraOrthographic& camera);
 		static void SceneEnd();
 
-		static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f));
+		static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer, const glm::mat4& transform = glm::mat4(1.0f));
 		inline static GraphicsAPI::Type GetType() { return GraphicsAPI::Static::GetType(); }
 
 	private:
