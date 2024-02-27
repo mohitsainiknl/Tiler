@@ -4,7 +4,7 @@
 extern Tiler::Application* Tiler::CreateApplication();
 
 int main(int argc, char** argv) {
-	Tiler::Log::init();
+	Tiler::Log::Initialize();
 
 	auto app = Tiler::CreateApplication();
 	app->Run();
