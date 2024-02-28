@@ -18,8 +18,8 @@ namespace Tiler {
 
 	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer, const glm::mat4& transfrom) {
 		shader->Bind();
-		shader->UploadUniformMat4("u_ViewProjection", s_SceneData->MatrixViewProject);
-		shader->UploadUniformMat4("u_Transform", transfrom);
+		shader->SetUniform("u_ViewProjection", s_SceneData->MatrixViewProject);
+		shader->SetUniform("u_Transform", transfrom);
 
 		GraphicsAPI::Static::DrawIndexed(vertexBuffer, indexBuffer);
 	}
