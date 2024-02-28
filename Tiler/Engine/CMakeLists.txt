@@ -54,6 +54,7 @@ add_library(TilerEngine_shared STATIC
 	"Include/Tiler/Engine/Core/Renderer/Renderer.h"
 	"Include/Tiler/Engine/Core/Renderer/GraphicsAPI.h"
 	"Include/Tiler/Engine/Core/Renderer/Shader.h"
+	"Include/Tiler/Engine/Core/Renderer/Texture.h"
 	"Include/Tiler/Engine/Core/Renderer/CameraOrthographic.h"
 	"Include/Tiler/Engine/Core/Renderer/Buffer/BufferLayout.h"
 	"Include/Tiler/Engine/Core/Renderer/Buffer/IndexBuffer.h"
@@ -90,15 +91,16 @@ add_library(TilerEngine_shared STATIC
 	"Source/Platform/OpenGL/opengl_debugging.cpp"
 
 	"Source/Platform/OpenGL/OpenGLGraphicsAPI.h"
-	"Source/Platform/OpenGL/OpenGLShader.h"
-	"Source/Platform/OpenGL/OpenGLVertexArray.h"
-	"Source/Platform/OpenGL/Buffer/OpenGLIndexBuffer.h"
-	"Source/Platform/OpenGL/Buffer/OpenGLVertexBuffer.h"
-
 	"Source/Platform/OpenGL/OpenGLGraphicsAPI.cpp"
+	"Source/Platform/OpenGL/OpenGLShader.h"
 	"Source/Platform/OpenGL/OpenGLShader.cpp"
+	"Source/Platform/OpenGL/OpenGLTexture.h"
+	"Source/Platform/OpenGL/OpenGLTexture.cpp"
+	"Source/Platform/OpenGL/OpenGLVertexArray.h"
 	"Source/Platform/OpenGL/OpenGLVertexArray.cpp"
+	"Source/Platform/OpenGL/Buffer/OpenGLIndexBuffer.h"
 	"Source/Platform/OpenGL/Buffer/OpenGLIndexBuffer.cpp"
+	"Source/Platform/OpenGL/Buffer/OpenGLVertexBuffer.h"
 	"Source/Platform/OpenGL/Buffer/OpenGLVertexBuffer.cpp"
 )
 
@@ -120,7 +122,8 @@ target_link_libraries(TilerEngine_shared PUBLIC imgui::imgui)
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(TilerEngine_shared PUBLIC glm::glm)
 
-
+find_package(Stb REQUIRED)
+target_include_directories(TilerEngine_shared PRIVATE ${Stb_INCLUDE_DIR})
 
 
 target_include_directories(TilerEngine_shared

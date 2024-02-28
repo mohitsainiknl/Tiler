@@ -25,3 +25,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 add_subdirectory(Tiler/Engine)
 add_subdirectory(Tiler/EngineSandbox)
 
+
+# Note: This is temporary, as the location of the executable depends on the compiler type and build configuration.
+file(COPY ${CMAKE_SOURCE_DIR}/Assets DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
+file(COPY ${CMAKE_SOURCE_DIR}/Assets DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)

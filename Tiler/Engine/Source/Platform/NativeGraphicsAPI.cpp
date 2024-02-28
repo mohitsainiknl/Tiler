@@ -32,4 +32,10 @@ namespace Tiler {
 		return NATIVE_SHADER(vertexSource, fragmentSource);
 	}
 
+
+	Texture* Texture::Create(const std::string& filePath) {
+
+		return NATIVE_TEXTURE(filePath);
+	}
+
 }

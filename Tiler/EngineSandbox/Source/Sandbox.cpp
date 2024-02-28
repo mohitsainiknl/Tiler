@@ -1,27 +1,69 @@
 #include "Tiler/Engine.h"
 #include "glm/gtc/matrix_transform.hpp"
+#include "glm/glm.hpp"
+
 
 
 class EampleLayer : public Tiler::Layer {
 public:
 	EampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f) {
 
-		float vertices[3 * 7] = {
-			///// Position /////    /////// Color ///////
-			-0.58f, -0.50f, 0.0f,   0.8f, 0.2f, 0.8f, 1.0f,
-			 0.58f, -0.50f, 0.0f,   0.2f, 0.3f, 0.8f, 1.0f,
-			 0.00f,  0.50f, 0.0f,   0.8f, 0.8f, 0.2f, 1.0f
+		float starVertices[5 * 4] = {
+			///// Position /////  /// TXT COORD ///
+			-0.5f, -0.5f, 0.0f,      0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f,      1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f,      1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f,      0.0f, 1.0f
 		};
 
-		m_VertexBuffer.reset(Tiler::VertexBuffer::Create(vertices, sizeof(vertices)));
+		m_StarVB.reset(Tiler::VertexBuffer::Create(starVertices, sizeof(starVertices)));
 		Tiler::BufferLayout layout = {
 			{ Tiler::ShaderDataType::FLOAT3, "a_Position" },
-			{ Tiler::ShaderDataType::FLOAT4, "a_Color" }
+			{ Tiler::ShaderDataType::FLOAT2, "a_TexCoord" }
 		};
-		m_VertexBuffer->SetLayout(layout);
+		m_StarVB->SetLayout(layout);
 
-		uint32_t indices[3]{ 0, 1, 2 };
-		m_IndexBuffer.reset(Tiler::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		uint32_t starIndices[6]{ 0, 1, 2, 2, 3, 0 };
+		m_StarIB.reset(Tiler::IndexBuffer::Create(starIndices, sizeof(starIndices) / sizeof(uint32_t)));
+
+		m_StarTexture.reset(Tiler::Texture::Create("Assets/Textures/Star.png"));
+
+		std::string vertexSource = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TexCoord;
+
+			void main() {
+				v_TexCoord = a_TexCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+		)";
+
+		std::string fragmentSource = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 color;
+
+			in vec2 v_TexCoord;
+
+			uniform sampler2D u_Texture;
+
+			void main() {
+				color = texture(u_Texture, v_TexCoord);
+			}
+		)";
+
+		m_StarShader.reset(Tiler::Shader::Create(vertexSource, fragmentSource));
+
+		m_StarShader->Bind();
+		m_StarShader->SetUniform("u_Texture", 0);
+
 
 
 		float squareVertices[3 * 4] = {
@@ -39,40 +81,6 @@ public:
 		uint32_t squareIndices[6]{ 0, 1, 2, 2, 3, 0 };
 		m_SquareIB.reset(Tiler::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 
-		std::string vertexSource = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-
-			out vec3 v_Position;
-			out vec4 v_Color;
-
-			void main() {
-				v_Position = a_Position;
-				v_Color = a_Color;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-		)";
-
-		std::string fragmentSource = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 color;
-
-			in vec3 v_Position;
-			in vec4 v_Color;
-
-			void main() {
-				color = vec4(v_Position + 0.5, 1.0);
-				color = v_Color;
-			}
-		)";
-
-		m_Shader.reset(Tiler::Shader::Create(vertexSource, fragmentSource));
 
 		std::string backVertexSource = R"(
 			#version 330 core
@@ -144,8 +152,8 @@ public:
 				Tiler::Renderer::Submit(m_BackShader, m_SquareVB, m_SquareIB, transform);
 			}
 		}
-
-		Tiler::Renderer::Submit(m_Shader, m_VertexBuffer, m_IndexBuffer);
+		m_StarTexture->Bind(0);
+		Tiler::Renderer::Submit(m_StarShader, m_StarVB, m_StarIB, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
 
 		Tiler::Renderer::SceneEnd();
 	}
@@ -155,13 +163,14 @@ public:
 	}
 
 private:
-	std::shared_ptr<Tiler::Shader> m_Shader;
-	std::shared_ptr<Tiler::IndexBuffer> m_IndexBuffer;
-	std::shared_ptr<Tiler::VertexBuffer> m_VertexBuffer;
-
 	std::shared_ptr<Tiler::Shader> m_BackShader;
 	std::shared_ptr<Tiler::IndexBuffer> m_SquareIB;
 	std::shared_ptr<Tiler::VertexBuffer> m_SquareVB;
+
+	std::shared_ptr<Tiler::Texture> m_StarTexture;
+	std::shared_ptr<Tiler::Shader> m_StarShader;
+	std::shared_ptr<Tiler::IndexBuffer> m_StarIB;
+	std::shared_ptr<Tiler::VertexBuffer> m_StarVB;
 
 	Tiler::CameraOrthographic m_Camera;
 
