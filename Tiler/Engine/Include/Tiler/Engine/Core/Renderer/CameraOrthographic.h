@@ -9,10 +9,10 @@ namespace Tiler {
 		CameraOrthographic(float left, float right, float top, float bottom);
 
 		const glm::vec3& GetPosition() const { return m_Position; }
-		float            GetRotation() const { return m_Rotation; }
+		const glm::vec3& GetRotation() const { return m_Rotation; }
 
 		void SetPosition(const glm::vec3& position) { m_Position = position; RecalculateMatrixView(); }
-		void SetRotation(float            rotation) { m_Rotation = rotation; RecalculateMatrixView(); }
+		void SetRotation(const glm::vec3& rotation) { m_Rotation = rotation; RecalculateMatrixView(); }
 
 		const glm::mat4& GetMatrixView()            const { return m_MatrixView; }
 		const glm::mat4& GetMatrixProjection()      const { return m_MatrixProjection; }
@@ -27,7 +27,7 @@ namespace Tiler {
 		glm::mat4 m_MatrixViewProjection;
 
 		glm::vec3 m_Position;
-		float m_Rotation;
+		glm::vec3 m_Rotation;
 	};
 
 }
