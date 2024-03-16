@@ -8,11 +8,9 @@
 #include "Tiler/Engine/Core/Events/ApplicationEvent.h"
 #include "Tiler/Engine/Core/Events/KeyEvent.h"
 #include "Tiler/Engine/Core/Events/MouseEvent.h"
-#include "Tiler/Engine/Core/ImGui/ImGuiLayer.h"
+#include "Tiler/Engine/Core/ImGuiOverlay.h"
 #include "Tiler/Engine/Core/Input.h"
-#include "Tiler/Engine/Core/Layer.h"
 #include "Tiler/Engine/Core/Timestep.h"
-#include "Tiler/Engine/Core/Window.h"
 
 #include "Tiler/Engine/Core/Renderer/GraphicsAPI.h"
 
@@ -32,15 +30,16 @@ namespace tiler {
 
 		GraphicsAPI::Static::initialize(GraphicsAPI::Type::AUTO, m_window->getInnerWindow());
 
-		m_imGuiLayer = new ImGuiLayer();
-		pushOverlay(m_imGuiLayer);
+		ImGuiOverlay::init();
 
 		m_eventDispatcher = EventDispatcher();
 		m_eventDispatcher.subscribe(EventType::WINDOW_CLOSE, BIND_EVENT_FN(Application::onWindowClose));
-		m_eventDispatcher.subscribe(BIND_EVENT_FN_CUSTOM(m_layerStack, LayerStack::onEvent));
+		// m_eventDispatcher.subscribe(BIND_EVENT_FN_CUSTOM(m_imGuiOverlay, ImGuiOverlay::onEvent));
 	}
 
 	Application::~Application() {
+		ImGuiOverlay::shutdown();
+
 		GraphicsAPI::Static::shutdown();
 		Input::distroy();
 	}
@@ -56,24 +55,13 @@ namespace tiler {
 			Timestep timestep = time - m_lastFrameTime;
 			m_lastFrameTime   = time;
 
-			m_imGuiLayer->onRenderBegin();
+			ImGuiOverlay::onRenderBegin();
+			this->onRender();
+			ImGuiOverlay::onRenderEnd();
 
-			m_layerStack.renderLayers(timestep);
-
-			m_imGuiLayer->onRenderEnd();
 			m_window->onUpdate();
 			GraphicsAPI::Static::nextFrame();
 		}
-	}
-
-	void Application::pushLayer(Layer* layer) {
-		m_layerStack.pushLayer(layer);
-		layer->onAttach();
-	}
-
-	void Application::pushOverlay(Layer* overlay) {
-		m_layerStack.pushOverlay(overlay);
-		overlay->onAttach();
 	}
 
 	void Application::onWindowClose(const Event& event) {

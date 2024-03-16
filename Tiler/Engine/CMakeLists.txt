@@ -17,15 +17,13 @@ add_library(TilerEngine_shared STATIC
 	"Include/Tiler/Engine/Core/Application.h"
 	"Include/Tiler/Engine/Core/Log.h"
 	"Include/Tiler/Engine/Core/Window.h"
-	"Include/Tiler/Engine/Core/Layer.h"
-	"Include/Tiler/Engine/Core/LayerStack.h"
 	"Include/Tiler/Engine/Core/Input.h"
 	"Include/Tiler/Engine/Core/Timestep.h"
+	"Include/Tiler/Engine/Core/ImGuiOverlay.h"
 
 	"Source/Core/Application.cpp"
 	"Source/Core/Log.cpp"
-	"Source/Core/Layer.cpp"
-	"Source/Core/LayerStack.cpp"
+	"Source/Core/ImGuiOverlay.cpp"
 
 
 # CORE EVENTS
@@ -43,11 +41,6 @@ add_library(TilerEngine_shared STATIC
 # FILE
 	"Include/Tiler/Engine/Core/FileManager/FileLoader.h"
 	"Source/Core/FileManager/FileLoader.cpp"
-
-
-# CORE IMGUI
-	"Include/Tiler/Engine/Core/ImGui/ImGuiLayer.h"
-	"Source/Core/ImGui/ImGuiLayer.cpp"
 
 
 # CORE RENDERER

@@ -1,14 +1,7 @@
 #pragma once
 
 #include "Tiler/Engine/Core/Events/Event.h"
-#include "Tiler/Engine/Core/LayerStack.h"
-
-// Forward Declaration
-namespace tiler {
-	class Window;
-	class Layer;
-	class ImGuiLayer;
-}  // namespace tiler
+#include "Tiler/Engine/Core/Window.h"
 
 namespace tiler {
 
@@ -20,8 +13,7 @@ namespace tiler {
 		void onEvent(const Event& event);
 		void run();
 
-		void pushLayer(Layer* layer);
-		void pushOverlay(Layer* overlay);
+		void onRender(){};
 
 		inline Window& getWindow() { return *m_window; }
 		inline static Application& get() { return *m_instance; }
@@ -30,9 +22,7 @@ namespace tiler {
 		void onWindowClose(const Event& event);
 
 		std::unique_ptr<Window> m_window;
-		ImGuiLayer* m_imGuiLayer;
 		EventDispatcher m_eventDispatcher;
-		LayerStack m_layerStack;
 		bool m_running        = true;
 		float m_lastFrameTime = 0.0f;
 

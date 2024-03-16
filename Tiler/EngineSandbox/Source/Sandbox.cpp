@@ -2,10 +2,9 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-class EampleLayer : public tiler::Layer {
+class Sandbox : public tiler::Application {
 public:
-	EampleLayer()
-	    : Layer("Example"), m_camera(-1.6f, 1.6f, -0.9f, 0.9f), m_cameraPosition(0.0f), m_cameraRotation(0.0f) {
+	Sandbox() : m_camera(-1.6f, 1.6f, -0.9f, 0.9f), m_cameraPosition(0.0f), m_cameraRotation(0.0f) {
 		m_cameraPosition.z = 5.0f;
 
 		// clang-format off
@@ -20,16 +19,14 @@ public:
 			-1.0f, -1.0f, -1.0f,      0.5f, 0.5f, 0.5f,  // Back face (gray)
 			 1.0f, -1.0f, -1.0f,      1.0f, 1.0f, 1.0f   // Back face (white)
 		};
-		// clang-format on
 
 		m_cubeVB.reset(tiler::VertexBuffer::create(cubeVertices, sizeof(cubeVertices)));
 		tiler::BufferLayout cube_layout = {
 		    {tiler::ShaderDataType::FLOAT3, "a_Position"},
-		    {tiler::ShaderDataType::FLOAT3,    "a_Color"},
+		    {tiler::ShaderDataType::FLOAT3, "a_Color"},
 		};
 		m_cubeVB->setLayout(cube_layout);
 
-		// clang-format off
 		uint32_t cubeIndices[6 * 6]{
 			0, 1, 2, // Front face
 			1, 3, 2,
@@ -78,18 +75,7 @@ public:
 
 		m_cubeShader.reset(tiler::Shader::create(cubeVertexSource, cubeFragmentSource));
 
-		float starVertices[5 * 4] = {///// Position /////  /// TXT COORD ///
-		    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.0f, 1.0f, 1.0f, -0.5f, 0.5f,
-		    0.0f, 0.0f, 1.0f};
-
-		m_starVB.reset(tiler::VertexBuffer::create(starVertices, sizeof(starVertices)));
 		// clang-format off
-		tiler::BufferLayout layout = {
-		    {tiler::ShaderDataType::FLOAT3, "a_Position"},
-            {tiler::ShaderDataType::FLOAT2, "a_TexCoord"}
-        };
-		m_starVB->setLayout(layout);
-
 		float starVertices[5 * 4] = {
 			///// Position /////  /// TXT COORD ///
 			-0.5f, -0.5f, 0.0f,      0.0f, 0.0f,
@@ -97,6 +83,14 @@ public:
 			 0.5f,  0.5f, 0.0f,      1.0f, 1.0f,
 			-0.5f,  0.5f, 0.0f,      0.0f, 1.0f
 		};
+
+		m_starVB.reset(tiler::VertexBuffer::create(starVertices, sizeof(starVertices)));
+		tiler::BufferLayout layout = {
+		    {tiler::ShaderDataType::FLOAT3, "a_Position"},
+            {tiler::ShaderDataType::FLOAT2, "a_TexCoord"}
+        };
+		m_starVB->setLayout(layout);
+
 		// clang-format on
 
 		m_starTexture.reset(tiler::Texture::create("Assets/Textures/Star.png"));
@@ -136,8 +130,6 @@ public:
 
 		m_starShader->bind();
 		m_starShader->setUniform("u_Texture", 0);
-
-		float squareVertices[3 * 4] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f, -0.5f, 0.5f, 0.0f};
 
 		// clang-format off
 		float squareVertices[3 * 4] = {
@@ -186,8 +178,9 @@ public:
 
 		m_backShader.reset(tiler::Shader::create(backVertexSource, backFragmentSource));
 	}
+	~Sandbox() {}
 
-	void onRender(float timestep) override {
+	void onRender(float timestep) {
 		if (tiler::Input::isKeyPressed(TL_KEY_LEFT)) {
 			m_cameraPosition.x -= m_cameraMoveSpeed * timestep;
 		} else if (tiler::Input::isKeyPressed(TL_KEY_RIGHT)) {
@@ -249,7 +242,7 @@ public:
 		tiler::Renderer::sceneEnd();
 	}
 
-	void onEvent(const tiler::Event& event) override {}
+	void onEvent(const tiler::Event& event) {}
 
 private:
 	std::shared_ptr<tiler::Shader> m_cubeShader;
@@ -272,12 +265,6 @@ private:
 
 	float m_cameraMoveSpeed     = 5.0f;
 	float m_cameraRotationSpeed = 180.0f;
-};
-
-class Sandbox : public tiler::Application {
-public:
-	Sandbox() { pushOverlay(new EampleLayer()); }
-	~Sandbox() {}
 };
 
 tiler::Application* tiler::createApplication() {

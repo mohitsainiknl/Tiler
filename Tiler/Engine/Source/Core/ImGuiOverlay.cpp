@@ -1,4 +1,4 @@
-#include "Tiler/Engine/Core/ImGui/ImGuiLayer.h"
+#include "Tiler/Engine/Core/ImGuiOverlay.h"
 
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
@@ -12,13 +12,7 @@
 
 namespace tiler {
 
-	ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer") {
-	}
-
-	ImGuiLayer::~ImGuiLayer() {
-	}
-
-	void ImGuiLayer::onAttach() {
+	void ImGuiOverlay::init() {
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 
@@ -36,24 +30,19 @@ namespace tiler {
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
 
-	void ImGuiLayer::onDetach() {
+	void ImGuiOverlay::shutdown() {
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::onRenderBegin() {
+	void ImGuiOverlay::onRenderBegin() {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 
-	void ImGuiLayer::onRender(float timestep) {
-		static bool show = true;
-		// ImGui::ShowDemoWindow(&show);
-	}
-
-	void ImGuiLayer::onRenderEnd() {
+	void ImGuiOverlay::onRenderEnd() {
 		ImGuiIO& io    = ImGui::GetIO();
 		io.DisplaySize = ImVec2(Input::getWindowWidth(), Input::getWindowHeight());
 

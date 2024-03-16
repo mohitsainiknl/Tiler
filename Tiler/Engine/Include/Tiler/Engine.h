@@ -7,8 +7,6 @@
 
 #include "Tiler/Engine/Core/Application.h"
 #include "Tiler/Engine/Core/Input.h"
-#include "Tiler/Engine/Core/Layer.h"
-#include "Tiler/Engine/Core/LayerStack.h"
 #include "Tiler/Engine/Core/Window.h"
 
 #include "Tiler/Engine/Core/Events/ApplicationEvent.h"
@@ -23,4 +21,4 @@
 #include "Tiler/Engine/Core/Renderer/Shader.h"
 #include "Tiler/Engine/Core/Renderer/Texture.h"
 
-#include "Tiler/Engine/Core/ImGui/ImGuiLayer.h"
+#include "Tiler/Engine/Core/ImGuiOverlay.h"
