@@ -3,83 +3,76 @@
 #include "Tiler/Engine/Core/Application.h"
 #include "Tiler/Engine/Core/Window.h"
 
+namespace tiler {
 
-namespace Tiler {
+	Input* Input::m_instance = nullptr;
 
-	Input* Input::s_Instance = nullptr;
-
-
-	bool Input::Initialize() {
-		if (s_Instance)
+	bool Input::initialize() {
+		if (m_instance) {
 			return false;
-		s_Instance = new GlfwInput();
+		}
+		m_instance = new GlfwInput();
 		return true;
 	}
 
-	bool Input::IsInitialized() {
-		if (s_Instance)
+	bool Input::isInitialized() {
+		if (m_instance) {
 			return true;
+		}
 		return false;
 	}
 
-	bool Input::Distroy() {
-		if (!s_Instance)
+	bool Input::distroy() {
+		if (!m_instance) {
 			return false;
-		delete s_Instance;
+		}
+		delete m_instance;
 		return true;
 	}
 
-
-	bool GlfwInput::IsKeyPressedImpl(int keycode) {
+	bool GlfwInput::isKeyPressedImpl(int keycode) {
 		GLFWwindow* window = glfwGetCurrentContext();
-		auto state = glfwGetKey(window, keycode);
+		auto state         = glfwGetKey(window, keycode);
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-
-	bool GlfwInput::IsMouseButtonPressedImpl(int button) {
+	bool GlfwInput::isMouseButtonPressedImpl(int button) {
 		GLFWwindow* window = glfwGetCurrentContext();
-		auto state = glfwGetMouseButton(window, button);
+		auto state         = glfwGetMouseButton(window, button);
 		return state == GLFW_PRESS;
 	}
 
-
-	std::pair<float, float> GlfwInput::GetMousePosImpl() {
+	std::pair<float, float> GlfwInput::getMousePosImpl() {
 		GLFWwindow* window = glfwGetCurrentContext();
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 		return {(float)xpos, (float)ypos};
 	}
 
-
-	float GlfwInput::GetMouseXImpl() {
-		auto[x, _] = GetMousePosImpl();
+	float GlfwInput::getMouseXImpl() {
+		auto [x, _] = getMousePosImpl();
 		return x;
 	}
 
-
-	float GlfwInput::GetMouseYImpl() {
-		auto [_, y] = GetMousePosImpl();
+	float GlfwInput::getMouseYImpl() {
+		auto [_, y] = getMousePosImpl();
 		return y;
 	}
 
-
-	std::pair<int, int> GlfwInput::GetWindowSizeImpl() {
+	std::pair<int, int> GlfwInput::getWindowSizeImpl() {
 		GLFWwindow* window = glfwGetCurrentContext();
 		int width, height;
 		glfwGetWindowSize(window, &width, &height);
-		return { width, height };
+		return {width, height};
 	}
 
-
-	int GlfwInput::GetWindowWidthImpl() {
-		auto [width, _] = GetWindowSizeImpl();
+	int GlfwInput::getWindowWidthImpl() {
+		auto [width, _] = getWindowSizeImpl();
 		return width;
 	}
 
-
-	int GlfwInput::GetWindowHeightImpl() {
-		auto [_, height] = GetWindowSizeImpl();
+	int GlfwInput::getWindowHeightImpl() {
+		auto [_, height] = getWindowSizeImpl();
 		return height;
 	}
-}
+}  // namespace tiler

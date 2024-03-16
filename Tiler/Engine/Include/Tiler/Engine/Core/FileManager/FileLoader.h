@@ -2,18 +2,17 @@
 
 #include <string>
 
-
-namespace Tiler {
+namespace tiler {
 
 	class FileLoader {
 	public:
 		FileLoader(const std::string& filename);
 		~FileLoader() = default;
 
-		char* ReadFile();
+		char* readFile();
 
 	private:
-		std::string m_FileName;
+		std::string m_fileName;
 	};
 
-}
+}  // namespace tiler

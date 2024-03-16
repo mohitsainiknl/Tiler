@@ -2,13 +2,13 @@
 
 #include "glad/glad.h"
 
+namespace tiler {
 
-namespace Tiler {
-
-	void OpenGLGraphicsAPI::DrawIndexed(const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer) {
-		vertexBuffer->Bind();
-		indexBuffer->Bind();
-		glDrawElements(GL_TRIANGLES, indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+	void OpenGLGraphicsAPI::drawIndexed(
+	    const std::shared_ptr<VertexBuffer>& vertexBuffer, const std::shared_ptr<IndexBuffer>& indexBuffer) {
+		vertexBuffer->bind();
+		indexBuffer->bind();
+		glDrawElements(GL_TRIANGLES, indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
-}
+}  // namespace tiler

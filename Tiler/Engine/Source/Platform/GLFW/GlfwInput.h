@@ -5,20 +5,19 @@
 
 #include "Tiler/Engine/Core/Input.h"
 
-
-namespace Tiler {
+namespace tiler {
 
 	class GlfwInput : public Input {
 	private:
-		bool IsKeyPressedImpl(int keycode) override;
-		bool IsMouseButtonPressedImpl(int button) override;
+		bool isKeyPressedImpl(int keycode) override;
+		bool isMouseButtonPressedImpl(int button) override;
 
-		std::pair<float, float> GetMousePosImpl() override;
-		float GetMouseXImpl() override;
-		float GetMouseYImpl() override;
+		std::pair<float, float> getMousePosImpl() override;
+		float getMouseXImpl() override;
+		float getMouseYImpl() override;
 
-		std::pair<int, int> GetWindowSizeImpl();
-		int GetWindowWidthImpl();
-		int GetWindowHeightImpl();
+		std::pair<int, int> getWindowSizeImpl();
+		int getWindowWidthImpl();
+		int getWindowHeightImpl();
 	};
-}
+}  // namespace tiler

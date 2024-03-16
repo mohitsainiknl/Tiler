@@ -1,11 +1,9 @@
 #include "NativeWindow.h"
 
+namespace tiler {
 
-namespace Tiler {
-
-	Window* Window::Create(const std::string& title, int width, int height) {
-
+	Window* Window::create(const std::string& title, int width, int height) {
 		return NATIVE_WINDOW(title, width, height);
 	}
 
-}
+}  // namespace tiler

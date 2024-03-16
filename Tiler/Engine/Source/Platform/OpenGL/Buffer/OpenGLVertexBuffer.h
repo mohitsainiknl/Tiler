@@ -5,27 +5,26 @@
 
 #include "../OpenGLVertexArray.h"
 
-
-namespace Tiler {
+namespace tiler {
 
 	class OpenGLVertexBuffer : public VertexBuffer {
 	public:
 		OpenGLVertexBuffer(float* vertices, uint32_t size);
 		~OpenGLVertexBuffer() override;
 
-		void Bind() const override;
-		void Unbind() const override;
+		void bind() const override;
+		void unbind() const override;
 
-		const BufferLayout& GetLayout() const override { return m_Layout; }
-		void SetLayout(const BufferLayout& layout) override;
+		const BufferLayout& getLayout() const override { return m_layout; }
+		void setLayout(const BufferLayout& layout) override;
 
-		OpenGLVertexArray GetVertexArray() const { return m_VertexArray; }
+		OpenGLVertexArray getVertexArray() const { return m_vertexArray; }
 
 	private:
-		uint32_t m_RendererID;
-		BufferLayout m_Layout;
+		uint32_t m_rendererID;
+		BufferLayout m_layout;
 
-		OpenGLVertexArray m_VertexArray;
+		OpenGLVertexArray m_vertexArray;
 	};
 
-}
+}  // namespace tiler

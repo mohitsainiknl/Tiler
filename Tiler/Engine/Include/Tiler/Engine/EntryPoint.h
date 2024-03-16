@@ -1,13 +1,12 @@
 #include "Core/Application.h"
 #include "Core/Log.h"
 
-extern Tiler::Application* Tiler::CreateApplication();
+extern tiler::Application* tiler::createApplication();
 
 int main(int argc, char** argv) {
-	Tiler::Log::Initialize();
+	tiler::Log::initialize();
 
-	auto app = Tiler::CreateApplication();
-	app->Run();
+	auto app = tiler::createApplication();
+	app->run();
 	delete app;
 }
-

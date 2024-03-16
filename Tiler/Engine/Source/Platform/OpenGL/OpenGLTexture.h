@@ -2,24 +2,23 @@
 
 #include "Tiler/Engine/Core/Renderer/Texture.h"
 
-
-namespace Tiler {
+namespace tiler {
 
 	class OpenGLTexture : public Texture {
 	public:
 		OpenGLTexture(const std::string& filePath);
 		~OpenGLTexture() override;
 
-		void Bind(uint32_t slot) const override;
-		void Unbind(uint32_t slot) const override;
+		void bind(uint32_t slot) const override;
+		void unbind(uint32_t slot) const override;
 
 	private:
-		uint32_t m_RendererID;
+		uint32_t m_rendererID;
 
-		std::string m_FilePath;
+		std::string m_filePath;
 
-		uint32_t m_Width;
-		uint32_t m_Height;
+		uint32_t m_width;
+		uint32_t m_height;
 	};
 
-}
+}  // namespace tiler

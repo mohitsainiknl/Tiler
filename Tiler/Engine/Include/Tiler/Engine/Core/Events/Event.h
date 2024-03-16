@@ -2,15 +2,14 @@
 
 #include <fmt/format.h>
 
-#include <vector>
-#include <string>
 #include <functional>
+#include <string>
 #include <unordered_map>
-
+#include <vector>
 
 #define BIT(x) (1 << x)
 
-namespace Tiler {
+namespace tiler {
 
 	enum class EventType {
 		NONE = 0,
@@ -36,39 +35,46 @@ namespace Tiler {
 	};
 
 	enum EventCategory {
-		NONE = 0,
-		EVENT_CATEGORY_KEYBOARD      = BIT(0),
-		EVENT_CATEGORY_MOUSE_BUTTON  = BIT(1),
-		EVENT_CATEGORY_MOUSE         = BIT(2),
-		EVENT_CATEGORY_INPUT         = BIT(3),
-		EVENT_CATEGORY_APPLICATION   = BIT(4),
+		NONE                        = 0,
+		EVENT_CATEGORY_KEYBOARD     = BIT(0),
+		EVENT_CATEGORY_MOUSE_BUTTON = BIT(1),
+		EVENT_CATEGORY_MOUSE        = BIT(2),
+		EVENT_CATEGORY_INPUT        = BIT(3),
+		EVENT_CATEGORY_APPLICATION  = BIT(4),
 
 		MAX_BIT_POSITION = 4
 	};
 
 	class Event {
 	public:
-		virtual EventType GetEventType() const = 0;
-		virtual const char* GetName() const = 0;
-		virtual int GetCategoryFlags() const = 0;
-		virtual std::string ToString() const { return GetName(); };
+		virtual EventType getEventType() const = 0;
+		virtual const char* getName() const    = 0;
+		virtual int getCategoryFlags() const   = 0;
+		virtual std::string toString() const { return getName(); };
 
-		inline bool IsInCategory(EventCategory category) const {
-			return GetCategoryFlags() & category;
-		}
+		inline bool isInCategory(EventCategory category) const { return getCategoryFlags() & category; }
 
 		virtual ~Event() = default;
+
 	protected:
 		Event() = default;
 	};
 
-#define EVENT_CLASS_TYPE(type) \
-	static EventType GetStaticType() { return EventType::##type; } \
-	virtual EventType GetEventType() const override { return GetStaticType(); } \
-	virtual const char* GetName() const override { return #type; }
-								
-#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
+#define EVENT_CLASS_TYPE(type)                                                                                         \
+	static EventType getStaticType() {                                                                                 \
+		return EventType::##type;                                                                                      \
+	}                                                                                                                  \
+	virtual EventType getEventType() const override {                                                                  \
+		return getStaticType();                                                                                        \
+	}                                                                                                                  \
+	virtual const char* getName() const override {                                                                     \
+		return #type;                                                                                                  \
+	}
 
+#define EVENT_CLASS_CATEGORY(category)                                                                                 \
+	virtual int getCategoryFlags() const override {                                                                    \
+		return category;                                                                                               \
+	}
 
 	using EventCallback = std::function<void(const Event&)>;
 
@@ -77,41 +83,41 @@ namespace Tiler {
 		EventDispatcher();
 		~EventDispatcher();
 
-		bool Subscribe(const EventCallback& callback);
-		bool Subscribe(EventType eventType, const EventCallback& callback);
-		bool Subscribe(EventCategory eventCategory, const EventCallback& callback);
+		bool subscribe(const EventCallback& callback);
+		bool subscribe(EventType eventType, const EventCallback& callback);
+		bool subscribe(EventCategory eventCategory, const EventCallback& callback);
 
-		bool SubscribeOnce(EventType eventType, const EventCallback& callback);
-		bool SubscribeOnce(EventCategory eventCategory, const EventCallback& callback);
+		bool subscribeOnce(EventType eventType, const EventCallback& callback);
+		bool subscribeOnce(EventCategory eventCategory, const EventCallback& callback);
 
-		bool Unsubscribe(const EventCallback& callback);
-		bool Unsubscribe(EventType eventType, const EventCallback& callback);
-		bool Unsubscribe(EventCategory eventCategory, const EventCallback& callback);
+		bool unsubscribe(const EventCallback& callback);
+		bool unsubscribe(EventType eventType, const EventCallback& callback);
+		bool unsubscribe(EventCategory eventCategory, const EventCallback& callback);
 
-		bool Dispatch(const Event& event);
+		bool dispatch(const Event& event);
 
 	private:
-		bool Subscribe(std::vector<EventCallback>& callbacks, const EventCallback& callback);
-		bool Unsubscribe(std::vector<EventCallback>& callbacks, const EventCallback& callback);
+		bool subscribe(std::vector<EventCallback>& callbacks, const EventCallback& callback);
+		bool unsubscribe(std::vector<EventCallback>& callbacks, const EventCallback& callback);
 
-		std::vector<EventCallback> m_EventCallbacks;
-		std::unordered_map<EventType, std::vector<EventCallback>> m_EventCallbacksByType;
-		std::unordered_map<EventCategory, std::vector<EventCallback>> m_EventCallbacksByCategory;
+		std::vector<EventCallback> m_eventCallbacks;
+		std::unordered_map<EventType, std::vector<EventCallback>> m_eventCallbacksByType;
+		std::unordered_map<EventCategory, std::vector<EventCallback>> m_eventCallbacksByCategory;
 	};
 
-} // namespace Tiler
+}  // namespace tiler
 
 // Help to print `Event` directly in logger, Example - TL_INFO(event)
 // And, should be implemented for Event and Event derived classes.
-#define FMT_SPECIALIZATION(type) \
-    template <> \
-    struct fmt::formatter<type> { \
-        constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); } \
-        \
-        template <typename FormatContext> \
-        auto format(const type& obj, FormatContext& ctx) { \
-            return fmt::format_to(ctx.out(), "{}", obj.ToString()); \
-        } \
-    }
+#define FMT_SPECIALIZATION(type)                                                                                       \
+	template<> struct fmt::formatter<type> {                                                                           \
+		constexpr auto parse(format_parse_context& ctx) {                                                              \
+			return ctx.begin();                                                                                        \
+		}                                                                                                              \
+                                                                                                                       \
+		template<typename FormatContext> auto format(const type& obj, FormatContext& ctx) {                            \
+			return fmt::format_to(ctx.out(), "{}", obj.toString());                                                    \
+		}                                                                                                              \
+	}
 
-FMT_SPECIALIZATION(Tiler::Event);
+FMT_SPECIALIZATION(tiler::Event);

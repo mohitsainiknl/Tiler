@@ -1,50 +1,43 @@
 #include "Tiler/Engine/Core/Events/MouseEvent.h"
 
+namespace tiler {
 
-namespace Tiler {
-
-	Tiler::MouseMovedEvent::MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {
-
+	tiler::MouseMovedEvent::MouseMovedEvent(float x, float y) : m_mouseX(x), m_mouseY(y) {
 	}
 
-	std::string Tiler::MouseMovedEvent::ToString() const {
-		const auto x = std::to_string(m_MouseX);
-		const auto y = std::to_string(m_MouseY);
+	std::string tiler::MouseMovedEvent::toString() const {
+		const auto x = std::to_string(m_mouseX);
+		const auto y = std::to_string(m_mouseY);
 		return "MouseMovedEvent: " + x + ", " + y;
 	}
 
-
-	Tiler::MouseScrolledEvent::MouseScrolledEvent(float offsetX, float offsetY) : m_OffsetX(offsetX), m_OffsetY(offsetY) {
-
+	tiler::MouseScrolledEvent::MouseScrolledEvent(float offsetX, float offsetY)
+	    : m_offsetX(offsetX), m_offsetY(offsetY) {
 	}
 
-	std::string Tiler::MouseScrolledEvent::ToString() const {
-		const auto offsetX = std::to_string(m_OffsetX);
-		const auto offsetY = std::to_string(m_OffsetY);
+	std::string tiler::MouseScrolledEvent::toString() const {
+		const auto offsetX = std::to_string(m_offsetX);
+		const auto offsetY = std::to_string(m_offsetY);
 		return "MouseScrolledEvent: " + offsetX + ", " + offsetY;
 	}
 
-
-
-	Tiler::MouseButtonEvent::MouseButtonEvent(int button) : m_Button(button) {
-
+	tiler::MouseButtonEvent::MouseButtonEvent(int button) : m_button(button) {
 	}
 
-	Tiler::MouseButtonPressedEvent::MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {
+	tiler::MouseButtonPressedEvent::MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {
 	}
 
-	std::string Tiler::MouseButtonPressedEvent::ToString() const {
-		const auto button = std::to_string(m_Button);
+	std::string tiler::MouseButtonPressedEvent::toString() const {
+		const auto button = std::to_string(m_button);
 		return "MouseButtonPressedEvent: " + button;
 	}
 
-	Tiler::MouseButtonReleasedEvent::MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {
-
+	tiler::MouseButtonReleasedEvent::MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {
 	}
 
-	std::string Tiler::MouseButtonReleasedEvent::ToString() const {
-		const auto button = std::to_string(m_Button);
+	std::string tiler::MouseButtonReleasedEvent::toString() const {
+		const auto button = std::to_string(m_button);
 		return "MouseButtonReleasedEvent: " + button;
 	}
 
-} // namespace Tiler
+}  // namespace tiler

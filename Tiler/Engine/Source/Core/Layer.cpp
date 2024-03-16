@@ -1,26 +1,17 @@
 #include "Tiler/Engine/Core/Layer.h"
 
-
-namespace Tiler {
+namespace tiler {
 
 	Layer::~Layer() {
-
 	}
 
-
-	void Layer::OnAttach() {
-
+	void Layer::onAttach() {
 	}
 
-
-	void Layer::OnDetach() {
-
+	void Layer::onDetach() {
 	}
 
-
-	Layer::Layer(const std::string& debugName) : m_DebugName(debugName) {
-
+	Layer::Layer(const std::string& debugName) : m_debugName(debugName) {
 	}
 
-
-}
+}  // namespace tiler

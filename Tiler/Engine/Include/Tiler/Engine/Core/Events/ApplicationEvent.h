@@ -2,23 +2,22 @@
 
 #include "Event.h"
 
-
-namespace Tiler {
+namespace tiler {
 
 	class WindowResizeEvent : public Event {
 	public:
 		WindowResizeEvent(int width, int height);
 
-		inline int GetWidth() const { return m_Width; }
-		inline int GetHeight() const { return m_Height; }
+		inline int getWidth() const { return m_width; }
+		inline int getHeight() const { return m_height; }
 
-		std::string ToString() const override;
+		std::string toString() const override;
 
 		EVENT_CLASS_TYPE(WINDOW_RESIZE)
 		EVENT_CLASS_CATEGORY(EVENT_CATEGORY_APPLICATION)
 
 	private:
-		int m_Width, m_Height;
+		int m_width, m_height;
 	};
 
 	class WindowCloseEvent : public Event {
@@ -53,10 +52,10 @@ namespace Tiler {
 		EVENT_CLASS_CATEGORY(EVENT_CATEGORY_APPLICATION)
 	};
 
-} // namespace Tiler
+}  // namespace tiler
 
-FMT_SPECIALIZATION(Tiler::WindowResizeEvent);
-FMT_SPECIALIZATION(Tiler::WindowCloseEvent);
-FMT_SPECIALIZATION(Tiler::AppTickEvent);
-FMT_SPECIALIZATION(Tiler::AppUpdateEvent);
-FMT_SPECIALIZATION(Tiler::AppRenderEvent);
+FMT_SPECIALIZATION(tiler::WindowResizeEvent);
+FMT_SPECIALIZATION(tiler::WindowCloseEvent);
+FMT_SPECIALIZATION(tiler::AppTickEvent);
+FMT_SPECIALIZATION(tiler::AppUpdateEvent);
+FMT_SPECIALIZATION(tiler::AppRenderEvent);

@@ -2,57 +2,53 @@
 
 #include "Event.h"
 
-
-namespace Tiler {
+namespace tiler {
 
 	class KeyEvent : public Event {
 	public:
-		inline int GetKeyCode() const { return m_KeyCode; }
+		inline int getKeyCode() const { return m_keyCode; }
 
 		EVENT_CLASS_CATEGORY(EVENT_CATEGORY_INPUT | EVENT_CATEGORY_KEYBOARD)
 
 	protected:
 		KeyEvent(int keyCode);
-		int m_KeyCode;
+		int m_keyCode;
 	};
-
 
 	class KeyPressedEvent : public KeyEvent {
 	public:
 		KeyPressedEvent(int keyCode, int repeatCount);
-		inline int GetRepeatCount() const { return m_RepeatCount; }
+		inline int getRepeatCount() const { return m_repeatCount; }
 
-		std::string ToString() const override;
+		std::string toString() const override;
 
 		EVENT_CLASS_TYPE(KEY_PRESSED)
 
 	private:
-		int m_RepeatCount;
+		int m_repeatCount;
 	};
-
 
 	class KeyReleasedEvent : public KeyEvent {
 	public:
 		KeyReleasedEvent(int keyCode, int repeatCount);
 
-		std::string ToString() const override;
+		std::string toString() const override;
 
 		EVENT_CLASS_TYPE(KEY_RELEASED)
 	};
-
 
 	class KeyTypedEvent : public KeyEvent {
 	public:
 		KeyTypedEvent(int keyCode);
 
-		std::string ToString() const override;
+		std::string toString() const override;
 
 		EVENT_CLASS_TYPE(KEY_TYPED)
 	};
 
-} // namespace Tiler
+}  // namespace tiler
 
-FMT_SPECIALIZATION(Tiler::KeyEvent);
-FMT_SPECIALIZATION(Tiler::KeyPressedEvent);
-FMT_SPECIALIZATION(Tiler::KeyReleasedEvent);
-FMT_SPECIALIZATION(Tiler::KeyTypedEvent);
+FMT_SPECIALIZATION(tiler::KeyEvent);
+FMT_SPECIALIZATION(tiler::KeyPressedEvent);
+FMT_SPECIALIZATION(tiler::KeyReleasedEvent);
+FMT_SPECIALIZATION(tiler::KeyTypedEvent);

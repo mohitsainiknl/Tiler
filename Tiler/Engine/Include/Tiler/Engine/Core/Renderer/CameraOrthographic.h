@@ -2,32 +2,38 @@
 
 #include "glm/glm.hpp"
 
-namespace Tiler {
+namespace tiler {
 
 	class CameraOrthographic {
 	public:
 		CameraOrthographic(float left, float right, float top, float bottom);
 
-		const glm::vec3& GetPosition() const { return m_Position; }
-		const glm::vec3& GetRotation() const { return m_Rotation; }
+		const glm::vec3& getPosition() const { return m_position; }
+		const glm::vec3& getRotation() const { return m_rotation; }
 
-		void SetPosition(const glm::vec3& position) { m_Position = position; RecalculateMatrixView(); }
-		void SetRotation(const glm::vec3& rotation) { m_Rotation = rotation; RecalculateMatrixView(); }
+		void setPosition(const glm::vec3& position) {
+			m_position = position;
+			recalculateMatrixView();
+		}
+		void setRotation(const glm::vec3& rotation) {
+			m_rotation = rotation;
+			recalculateMatrixView();
+		}
 
-		const glm::mat4& GetMatrixView()            const { return m_MatrixView; }
-		const glm::mat4& GetMatrixProjection()      const { return m_MatrixProjection; }
-		const glm::mat4& GetMatrixViewProjection()  const { return m_MatrixViewProjection; }
+		const glm::mat4& getMatrixView() const { return m_matrixView; }
+		const glm::mat4& getMatrixProjection() const { return m_matrixProjection; }
+		const glm::mat4& getMatrixViewProjection() const { return m_matrixViewProjection; }
 
 	private:
-		void RecalculateMatrixView();
+		void recalculateMatrixView();
 
 	private:
-		glm::mat4 m_MatrixView;
-		glm::mat4 m_MatrixProjection;
-		glm::mat4 m_MatrixViewProjection;
+		glm::mat4 m_matrixView;
+		glm::mat4 m_matrixProjection;
+		glm::mat4 m_matrixViewProjection;
 
-		glm::vec3 m_Position;
-		glm::vec3 m_Rotation;
+		glm::vec3 m_position;
+		glm::vec3 m_rotation;
 	};
 
-}
+}  // namespace tiler

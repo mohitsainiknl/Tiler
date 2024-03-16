@@ -1,0 +1,93 @@
+# clang-format configuration for Tiler
+
+# Format options
+BasedOnStyle: LLVM
+IndentWidth: 4
+AccessModifierOffset: -4
+ColumnLimit: 120
+
+# Allow short forms for various constructs
+AllowShortBlocksOnASingleLine: Always
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+
+# Alignment options
+AlignAfterOpenBracket: DontAlign
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments: true
+AlignConsecutiveMacros: true
+AlignConsecutiveDeclarations: false
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+  AlignCaseColons: false
+AlignEscapedNewlines: Right
+AlignOperands: false
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 1
+
+# Brace and parenthesis wrapping
+BreakBeforeBraces: Attach
+BraceWrapping:
+  AfterClass: false
+  AfterControlStatement: false
+  AfterEnum: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterObjCDeclaration: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+
+# Packing options
+BinPackArguments: true
+BinPackParameters: true
+
+# Include blocks and namespaces preservation
+IncludeBlocks: Preserve
+IndentPPDirectives: None
+IndentWrappedFunctionNames: true
+IndentCaseLabels: true
+InsertBraces: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+EmptyLineBeforeAccessModifier: LogicalBlock
+
+# Include categories and priorities
+IncludeCategories:
+  - Regex: '".*"'
+    Priority: 1
+  - Regex: '^<.*\.h>'
+    Priority: 2
+  - Regex: '^<.*>'
+    Priority: 3
+
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: All
+
+# Spacing options
+SpaceAfterCStyleCast: false
+SpaceAfterTemplateKeyword: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpacesBeforeTrailingComments: 2
+SpacesInAngles: false
+SpacesInContainerLiterals: true
+SpacesInSquareBrackets: false
+
+# Language standard and alignment
+Standard: Cpp11
+DerivePointerAlignment: false
+PointerAlignment: Left
+TabWidth: 4
+UseTab: ForIndentation

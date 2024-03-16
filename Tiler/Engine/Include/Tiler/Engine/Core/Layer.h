@@ -3,28 +3,28 @@
 #include <string>
 
 // Forward Declaration
-namespace Tiler {
+namespace tiler {
 	class Event;
 }
 
-namespace Tiler {
+namespace tiler {
 
 	class Layer {
 	public:
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer();
 
-		virtual void OnAttach();
-		virtual void OnDetach();
+		virtual void onAttach();
+		virtual void onDetach();
 
-		virtual void OnEvent(const Event& event) { m_EventHandled = false; }
-		virtual void OnRender(float timestep) {}
+		virtual void onEvent(const Event& event) { m_eventHandled = false; }
+		virtual void onRender(float timestep) {}
 
-		inline const std::string& GetName() const { return m_DebugName; }
-		inline const bool GetEventHandled() const { return m_EventHandled; }
+		inline const std::string& getName() const { return m_debugName; }
+		inline const bool getEventHandled() const { return m_eventHandled; }
 
 	protected:
-		std::string m_DebugName;
-		bool m_EventHandled = false;
+		std::string m_debugName;
+		bool m_eventHandled = false;
 	};
-}
+}  // namespace tiler

@@ -4,22 +4,19 @@
 
 #include "Tiler/Engine/Base.h"
 
+namespace tiler {
 
-
-namespace Tiler {
-
-	static GLenum GetOpenGLBaseType(ShaderDataType type) {
-		switch (type)
-		{
-			case Tiler::ShaderDataType::FLOAT:	  return GL_FLOAT;
-			case Tiler::ShaderDataType::FLOAT2:	  return GL_FLOAT;
-			case Tiler::ShaderDataType::FLOAT3:	  return GL_FLOAT;
-			case Tiler::ShaderDataType::FLOAT4:	  return GL_FLOAT;
-			case Tiler::ShaderDataType::INT:	  return GL_INT;
-			case Tiler::ShaderDataType::INT2:	  return GL_INT;
-			case Tiler::ShaderDataType::INT3:	  return GL_INT;
-			case Tiler::ShaderDataType::INT4:	  return GL_INT;
-			case Tiler::ShaderDataType::BOOL:	  return GL_BOOL;
+	static GLenum getOpenGLBaseType(ShaderDataType type) {
+		switch (type) {
+			case tiler::ShaderDataType::FLOAT:  return GL_FLOAT;
+			case tiler::ShaderDataType::FLOAT2: return GL_FLOAT;
+			case tiler::ShaderDataType::FLOAT3: return GL_FLOAT;
+			case tiler::ShaderDataType::FLOAT4: return GL_FLOAT;
+			case tiler::ShaderDataType::INT:    return GL_INT;
+			case tiler::ShaderDataType::INT2:   return GL_INT;
+			case tiler::ShaderDataType::INT3:   return GL_INT;
+			case tiler::ShaderDataType::INT4:   return GL_INT;
+			case tiler::ShaderDataType::BOOL:   return GL_BOOL;
 		}
 
 		TL_CORE_ASSERT(false, "Unknown ShaderDataType!");
@@ -27,44 +24,34 @@ namespace Tiler {
 	}
 
 	OpenGLVertexArray::OpenGLVertexArray() {
-		glCreateVertexArrays(1, &m_RendererID);
+		glCreateVertexArrays(1, &m_rendererID);
 	}
-
 
 	OpenGLVertexArray::~OpenGLVertexArray() {
-		glDeleteVertexArrays(1, &m_RendererID);
+		glDeleteVertexArrays(1, &m_rendererID);
 	}
 
-
-	void OpenGLVertexArray::Bind() const {
-		glBindVertexArray(m_RendererID);
+	void OpenGLVertexArray::bind() const {
+		glBindVertexArray(m_rendererID);
 	}
 
-
-	void OpenGLVertexArray::Unbind() const {
+	void OpenGLVertexArray::unbind() const {
 		glBindVertexArray(0);
 	}
 
-
-	void OpenGLVertexArray::SetupLayout(const BufferLayout& layout) {
-		const auto& elements = layout.GetElements();
-		const uint32_t stride = layout.GetStride();
+	void OpenGLVertexArray::setupLayout(const BufferLayout& layout) {
+		const auto& elements  = layout.getElements();
+		const uint32_t stride = layout.getStride();
 
 		uint32_t offset = 0;
-		uint32_t index = 0;
+		uint32_t index  = 0;
 		for (const auto& element : elements) {
 			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(
-				index,
-				element.CompCount,
-				GetOpenGLBaseType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				stride,
-				reinterpret_cast<const void*>(offset)
-			);
-			offset += element.Size;
+			glVertexAttribPointer(index, element.compCount, getOpenGLBaseType(element.type),
+			    element.normalized ? GL_TRUE : GL_FALSE, stride, reinterpret_cast<const void*>(offset));
+			offset += element.size;
 			index++;
 		}
 	}
 
-}
+}  // namespace tiler

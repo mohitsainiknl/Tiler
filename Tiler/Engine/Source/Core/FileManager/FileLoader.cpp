@@ -4,17 +4,15 @@
 
 #include <fstream>
 
+namespace tiler {
 
-namespace Tiler {
-
-	FileLoader::FileLoader(const std::string& filename) : m_FileName(filename) {
-
+	FileLoader::FileLoader(const std::string& filename) : m_fileName(filename) {
 	}
 
-	char* FileLoader::ReadFile() {
-		std::ifstream file(m_FileName, std::ios::binary | std::ios::ate);
+	char* FileLoader::readFile() {
+		std::ifstream file(m_fileName, std::ios::binary | std::ios::ate);
 		if (!file.is_open()) {
-			TL_CORE_ERROR("Error opening file : {0}", m_FileName);
+			TL_CORE_ERROR("Error opening file : {0}", m_fileName);
 			return nullptr;
 		}
 
@@ -28,4 +26,4 @@ namespace Tiler {
 		return buffer;
 	}
 
-}
+}  // namespace tiler

@@ -1,13 +1,9 @@
 #pragma once
 
-
-
 #ifdef TL_WINDOW_NONE
-#	define NATIVE_WINDOW(title, width, height) nullptr;
+#define NATIVE_WINDOW(title, width, height) nullptr;
 #else
-#	define TL_WINDOW_GLFW	// temporary
-#	include "GLFW/GlfwWindow.h"
-#	define NATIVE_WINDOW(title, width, height) new Tiler::GlfwWindow(title, width, height);
+#define TL_WINDOW_GLFW  // temporary
+#include "GLFW/GlfwWindow.h"
+#define NATIVE_WINDOW(title, width, height) new tiler::GlfwWindow(title, width, height);
 #endif
-
-

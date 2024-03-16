@@ -1,15 +1,14 @@
 #include "Tiler/Engine.h"
-#include "glm/gtc/matrix_transform.hpp"
 #include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
-
-
-class EampleLayer : public Tiler::Layer {
+class EampleLayer : public tiler::Layer {
 public:
-	EampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_CameraRotation(0.0f) {
+	EampleLayer()
+	    : Layer("Example"), m_camera(-1.6f, 1.6f, -0.9f, 0.9f), m_cameraPosition(0.0f), m_cameraRotation(0.0f) {
+		m_cameraPosition.z = 5.0f;
 
-		m_CameraPosition.z = 5.0f;
-
+		// clang-format off
 		float cubeVertices[6 * 8] = {
 			///// Position /////      ///// Color /////
 			-1.0f,  1.0f,  1.0f,      1.0f, 0.0f, 0.0f,  // Front face (red)
@@ -21,14 +20,16 @@ public:
 			-1.0f, -1.0f, -1.0f,      0.5f, 0.5f, 0.5f,  // Back face (gray)
 			 1.0f, -1.0f, -1.0f,      1.0f, 1.0f, 1.0f   // Back face (white)
 		};
+		// clang-format on
 
-		m_CubeVB.reset(Tiler::VertexBuffer::Create(cubeVertices, sizeof(cubeVertices)));
-		Tiler::BufferLayout cube_layout = {
-			{ Tiler::ShaderDataType::FLOAT3, "a_Position" },
-			{ Tiler::ShaderDataType::FLOAT3, "a_Color" },
+		m_cubeVB.reset(tiler::VertexBuffer::create(cubeVertices, sizeof(cubeVertices)));
+		tiler::BufferLayout cube_layout = {
+		    {tiler::ShaderDataType::FLOAT3, "a_Position"},
+		    {tiler::ShaderDataType::FLOAT3,    "a_Color"},
 		};
-		m_CubeVB->SetLayout(cube_layout);
+		m_cubeVB->setLayout(cube_layout);
 
+		// clang-format off
 		uint32_t cubeIndices[6 * 6]{
 			0, 1, 2, // Front face
 			1, 3, 2,
@@ -43,8 +44,8 @@ public:
 			2, 3, 6, // Bottom face
 			3, 7, 6
 		};
-		m_CubeIB.reset(Tiler::IndexBuffer::Create(cubeIndices, sizeof(cubeIndices) / sizeof(uint32_t)));
-
+		// clang-format on
+		m_cubeIB.reset(tiler::IndexBuffer::create(cubeIndices, sizeof(cubeIndices) / sizeof(uint32_t)));
 
 		std::string cubeVertexSource = R"(
 			#version 330 core
@@ -75,9 +76,19 @@ public:
 			}
 		)";
 
-		m_CubeShader.reset(Tiler::Shader::Create(cubeVertexSource, cubeFragmentSource));
+		m_cubeShader.reset(tiler::Shader::create(cubeVertexSource, cubeFragmentSource));
 
+		float starVertices[5 * 4] = {///// Position /////  /// TXT COORD ///
+		    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.0f, 1.0f, 1.0f, -0.5f, 0.5f,
+		    0.0f, 0.0f, 1.0f};
 
+		m_starVB.reset(tiler::VertexBuffer::create(starVertices, sizeof(starVertices)));
+		// clang-format off
+		tiler::BufferLayout layout = {
+		    {tiler::ShaderDataType::FLOAT3, "a_Position"},
+            {tiler::ShaderDataType::FLOAT2, "a_TexCoord"}
+        };
+		m_starVB->setLayout(layout);
 
 		float starVertices[5 * 4] = {
 			///// Position /////  /// TXT COORD ///
@@ -86,18 +97,9 @@ public:
 			 0.5f,  0.5f, 0.0f,      1.0f, 1.0f,
 			-0.5f,  0.5f, 0.0f,      0.0f, 1.0f
 		};
+		// clang-format on
 
-		m_StarVB.reset(Tiler::VertexBuffer::Create(starVertices, sizeof(starVertices)));
-		Tiler::BufferLayout layout = {
-			{ Tiler::ShaderDataType::FLOAT3, "a_Position" },
-			{ Tiler::ShaderDataType::FLOAT2, "a_TexCoord" }
-		};
-		m_StarVB->SetLayout(layout);
-
-		uint32_t starIndices[6]{ 0, 1, 2, 2, 3, 0 };
-		m_StarIB.reset(Tiler::IndexBuffer::Create(starIndices, sizeof(starIndices) / sizeof(uint32_t)));
-
-		m_StarTexture.reset(Tiler::Texture::Create("Assets/Textures/Star.png"));
+		m_starTexture.reset(tiler::Texture::create("Assets/Textures/Star.png"));
 
 		std::string vertexSource = R"(
 			#version 330 core
@@ -130,28 +132,29 @@ public:
 			}
 		)";
 
-		m_StarShader.reset(Tiler::Shader::Create(vertexSource, fragmentSource));
+		m_starShader.reset(tiler::Shader::create(vertexSource, fragmentSource));
 
-		m_StarShader->Bind();
-		m_StarShader->SetUniform("u_Texture", 0);
+		m_starShader->bind();
+		m_starShader->setUniform("u_Texture", 0);
 
+		float squareVertices[3 * 4] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f, -0.5f, 0.5f, 0.0f};
 
-
+		// clang-format off
 		float squareVertices[3 * 4] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
 			 0.5f,  0.5f, 0.0f,
 			-0.5f,  0.5f, 0.0f
 		};
+		// clang-format on
 
-		m_SquareVB.reset(Tiler::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		m_SquareVB->SetLayout({
-			{ Tiler::ShaderDataType::FLOAT3, "a_Position" },
+		m_squareVB.reset(tiler::VertexBuffer::create(squareVertices, sizeof(squareVertices)));
+		m_squareVB->setLayout({
+		    {tiler::ShaderDataType::FLOAT3, "a_Position"},
 		});
 
-		uint32_t squareIndices[6]{ 0, 1, 2, 2, 3, 0 };
-		m_SquareIB.reset(Tiler::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
-
+		uint32_t squareIndices[6]{0, 1, 2, 2, 3, 0};
+		m_squareIB.reset(tiler::IndexBuffer::create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 
 		std::string backVertexSource = R"(
 			#version 330 core
@@ -181,59 +184,53 @@ public:
 			}
 		)";
 
-		m_BackShader.reset(Tiler::Shader::Create(backVertexSource, backFragmentSource));
+		m_backShader.reset(tiler::Shader::create(backVertexSource, backFragmentSource));
 	}
 
-	void OnRender(float timestep) override {
-		if (Tiler::Input::IsKeyPressed(TL_KEY_LEFT)) {
-			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
-		}
-		else if (Tiler::Input::IsKeyPressed(TL_KEY_RIGHT)) {
-			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
-		}
-
-		if (Tiler::Input::IsKeyPressed(TL_KEY_UP)) {
-			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
-		}
-		else if (Tiler::Input::IsKeyPressed(TL_KEY_DOWN)) {
-			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
+	void onRender(float timestep) override {
+		if (tiler::Input::isKeyPressed(TL_KEY_LEFT)) {
+			m_cameraPosition.x -= m_cameraMoveSpeed * timestep;
+		} else if (tiler::Input::isKeyPressed(TL_KEY_RIGHT)) {
+			m_cameraPosition.x += m_cameraMoveSpeed * timestep;
 		}
 
-		if (Tiler::Input::IsKeyPressed(TL_KEY_N)) {
-			m_CameraPosition.z += m_CameraMoveSpeed * timestep;
-		}
-		else if (Tiler::Input::IsKeyPressed(TL_KEY_M)) {
-			m_CameraPosition.z -= m_CameraMoveSpeed * timestep;
-		}
-
-		if (Tiler::Input::IsKeyPressed(TL_KEY_W)) {
-			m_CameraRotation.z += m_CameraRotationSpeed * timestep;
-		}
-		else if (Tiler::Input::IsKeyPressed(TL_KEY_S)) {
-			m_CameraRotation.z -= m_CameraRotationSpeed * timestep;
+		if (tiler::Input::isKeyPressed(TL_KEY_UP)) {
+			m_cameraPosition.y += m_cameraMoveSpeed * timestep;
+		} else if (tiler::Input::isKeyPressed(TL_KEY_DOWN)) {
+			m_cameraPosition.y -= m_cameraMoveSpeed * timestep;
 		}
 
-		if (Tiler::Input::IsKeyPressed(TL_KEY_A)) {
-			m_CameraRotation.x += m_CameraRotationSpeed * timestep;
-		}
-		else if (Tiler::Input::IsKeyPressed(TL_KEY_D)) {
-			m_CameraRotation.x -= m_CameraRotationSpeed * timestep;
-		}
-
-		if (Tiler::Input::IsKeyPressed(TL_KEY_Q)) {
-			m_CameraRotation.y += m_CameraRotationSpeed * timestep;
-		}
-		else if (Tiler::Input::IsKeyPressed(TL_KEY_E)) {
-			m_CameraRotation.y -= m_CameraRotationSpeed * timestep;
+		if (tiler::Input::isKeyPressed(TL_KEY_N)) {
+			m_cameraPosition.z += m_cameraMoveSpeed * timestep;
+		} else if (tiler::Input::isKeyPressed(TL_KEY_M)) {
+			m_cameraPosition.z -= m_cameraMoveSpeed * timestep;
 		}
 
-		Tiler::GraphicsAPI::Static::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-		Tiler::GraphicsAPI::Static::SetVSync(true);
+		if (tiler::Input::isKeyPressed(TL_KEY_W)) {
+			m_cameraRotation.z += m_cameraRotationSpeed * timestep;
+		} else if (tiler::Input::isKeyPressed(TL_KEY_S)) {
+			m_cameraRotation.z -= m_cameraRotationSpeed * timestep;
+		}
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
+		if (tiler::Input::isKeyPressed(TL_KEY_A)) {
+			m_cameraRotation.x += m_cameraRotationSpeed * timestep;
+		} else if (tiler::Input::isKeyPressed(TL_KEY_D)) {
+			m_cameraRotation.x -= m_cameraRotationSpeed * timestep;
+		}
 
-		Tiler::Renderer::SceneBegin(m_Camera);
+		if (tiler::Input::isKeyPressed(TL_KEY_Q)) {
+			m_cameraRotation.y += m_cameraRotationSpeed * timestep;
+		} else if (tiler::Input::isKeyPressed(TL_KEY_E)) {
+			m_cameraRotation.y -= m_cameraRotationSpeed * timestep;
+		}
+
+		tiler::GraphicsAPI::Static::setClearColor({0.1f, 0.1f, 0.1f, 1});
+		tiler::GraphicsAPI::Static::setVSync(true);
+
+		m_camera.setPosition(m_cameraPosition);
+		m_camera.setRotation(m_cameraRotation);
+
+		tiler::Renderer::sceneBegin(m_camera);
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
@@ -241,57 +238,48 @@ public:
 			for (int x = -10; x < 10; ++x) {
 				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				Tiler::Renderer::Submit(m_BackShader, m_SquareVB, m_SquareIB, transform);
+				tiler::Renderer::submit(m_backShader, m_squareVB, m_squareIB, transform);
 			}
 		}
-		m_StarTexture->Bind(0);
-		Tiler::Renderer::Submit(m_StarShader, m_StarVB, m_StarIB, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
+		m_starTexture->bind(0);
+		tiler::Renderer::submit(m_starShader, m_starVB, m_starIB, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
 
-		Tiler::Renderer::Submit(m_CubeShader, m_CubeVB, m_CubeIB, glm::scale(glm::mat4(1.0f), glm::vec3(0.3f)));
+		tiler::Renderer::submit(m_cubeShader, m_cubeVB, m_cubeIB, glm::scale(glm::mat4(1.0f), glm::vec3(0.3f)));
 
-		Tiler::Renderer::SceneEnd();
+		tiler::Renderer::sceneEnd();
 	}
 
-	void OnEvent(const Tiler::Event& event) override {
-
-	}
+	void onEvent(const tiler::Event& event) override {}
 
 private:
-	std::shared_ptr<Tiler::Shader> m_CubeShader;
-	std::shared_ptr<Tiler::IndexBuffer> m_CubeIB;
-	std::shared_ptr<Tiler::VertexBuffer> m_CubeVB;
+	std::shared_ptr<tiler::Shader> m_cubeShader;
+	std::shared_ptr<tiler::IndexBuffer> m_cubeIB;
+	std::shared_ptr<tiler::VertexBuffer> m_cubeVB;
 
-	std::shared_ptr<Tiler::Shader> m_BackShader;
-	std::shared_ptr<Tiler::IndexBuffer> m_SquareIB;
-	std::shared_ptr<Tiler::VertexBuffer> m_SquareVB;
+	std::shared_ptr<tiler::Shader> m_backShader;
+	std::shared_ptr<tiler::IndexBuffer> m_squareIB;
+	std::shared_ptr<tiler::VertexBuffer> m_squareVB;
 
-	std::shared_ptr<Tiler::Texture> m_StarTexture;
-	std::shared_ptr<Tiler::Shader> m_StarShader;
-	std::shared_ptr<Tiler::IndexBuffer> m_StarIB;
-	std::shared_ptr<Tiler::VertexBuffer> m_StarVB;
+	std::shared_ptr<tiler::Texture> m_starTexture;
+	std::shared_ptr<tiler::Shader> m_starShader;
+	std::shared_ptr<tiler::IndexBuffer> m_starIB;
+	std::shared_ptr<tiler::VertexBuffer> m_starVB;
 
-	Tiler::CameraOrthographic m_Camera;
+	tiler::CameraOrthographic m_camera;
 
-	glm::vec3 m_CameraPosition;
-	glm::vec3 m_CameraRotation;
+	glm::vec3 m_cameraPosition;
+	glm::vec3 m_cameraRotation;
 
-	float m_CameraMoveSpeed = 5.0f;
-	float m_CameraRotationSpeed = 180.0f;
+	float m_cameraMoveSpeed     = 5.0f;
+	float m_cameraRotationSpeed = 180.0f;
 };
 
-
-class Sandbox : public Tiler::Application {
+class Sandbox : public tiler::Application {
 public:
-	Sandbox() {
-		PushOverlay(new EampleLayer());
-	}
-	~Sandbox() {
-
-	}
+	Sandbox() { pushOverlay(new EampleLayer()); }
+	~Sandbox() {}
 };
 
-Tiler::Application* Tiler::CreateApplication() {
-
+tiler::Application* tiler::createApplication() {
 	return new Sandbox();
 }
-

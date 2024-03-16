@@ -1,46 +1,43 @@
 #pragma once
 
-#include "Tiler/Engine/Core/LayerStack.h"
 #include "Tiler/Engine/Core/Events/Event.h"
-
+#include "Tiler/Engine/Core/LayerStack.h"
 
 // Forward Declaration
-namespace Tiler {
+namespace tiler {
 	class Window;
 	class Layer;
 	class ImGuiLayer;
-}
+}  // namespace tiler
 
-namespace Tiler {
+namespace tiler {
 
 	class Application {
 	public:
 		Application();
 		virtual ~Application();
 
-		void OnEvent(const Event& event);
-		void Run();
+		void onEvent(const Event& event);
+		void run();
 
-		void PushLayer(Layer* layer);
-		void PushOverlay(Layer* overlay);
+		void pushLayer(Layer* layer);
+		void pushOverlay(Layer* overlay);
 
-		inline Window& GetWindow() { return *m_Window; }
-		inline static Application& Get() { return *s_Instance; }
+		inline Window& getWindow() { return *m_window; }
+		inline static Application& get() { return *m_instance; }
 
 	private:
 		void onWindowClose(const Event& event);
 
-		std::unique_ptr<Window> m_Window;
-		ImGuiLayer* m_ImGuiLayer;
-		EventDispatcher m_EventDispatcher;
-		LayerStack m_LayerStack;
-		bool m_Running = true;
-		float m_LastFrameTime = 0.0f;
+		std::unique_ptr<Window> m_window;
+		ImGuiLayer* m_imGuiLayer;
+		EventDispatcher m_eventDispatcher;
+		LayerStack m_layerStack;
+		bool m_running        = true;
+		float m_lastFrameTime = 0.0f;
 
-		static Application* s_Instance;
+		static Application* m_instance;
 	};
 
-	Application* CreateApplication();
-}
-
-
+	Application* createApplication();
+}  // namespace tiler

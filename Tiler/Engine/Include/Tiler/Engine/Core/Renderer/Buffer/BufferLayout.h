@@ -4,8 +4,7 @@
 #include <string>
 #include <vector>
 
-
-namespace Tiler {
+namespace tiler {
 
 	enum class ShaderDataType {
 		NONE = 0,
@@ -21,11 +20,11 @@ namespace Tiler {
 	};
 
 	struct BufferElement {
-		std::string Name;
-		ShaderDataType Type;
-		uint32_t Size;
-		uint32_t CompCount;
-		bool Normalized;
+		std::string name;
+		ShaderDataType type;
+		uint32_t size;
+		uint32_t compCount;
+		bool normalized;
 
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false);
 	};
@@ -34,18 +33,16 @@ namespace Tiler {
 	public:
 		BufferLayout() = default;
 
-		BufferLayout(const std::initializer_list<BufferElement>& elements) : m_Elements(elements) {
-			CalculateStride();
-		}
+		BufferLayout(const std::initializer_list<BufferElement>& elements) : m_elements(elements) { calculateStride(); }
 
-		inline uint32_t GetStride() const { return m_Stride; }
-		inline const std::vector<BufferElement>& GetElements() const { return m_Elements; }
+		inline uint32_t getStride() const { return m_stride; }
+		inline const std::vector<BufferElement>& getElements() const { return m_elements; }
 
 	private:
-		void CalculateStride();
+		void calculateStride();
 
-		std::vector<BufferElement> m_Elements;
-		uint32_t m_Stride = 0;
+		std::vector<BufferElement> m_elements;
+		uint32_t m_stride = 0;
 	};
 
-}
+}  // namespace tiler

@@ -1,29 +1,27 @@
 #pragma once
 
-#include <string>
 #include <functional>
+#include <string>
 
 // Forward Declaration
-namespace Tiler {
+namespace tiler {
 	class Event;
 }
 
-
-namespace Tiler {
+namespace tiler {
 
 	class Window {
 	public:
 		using EventCallback = std::function<void(const Event&)>;
 
-		static Window* Create(const std::string& title, int width, int height);
+		static Window* create(const std::string& title, int width, int height);
 
-		virtual ~Window() {};
+		virtual ~Window(){};
 
-		virtual void OnUpdate() = 0;
-		virtual int GetWidth() const = 0;
-		virtual int GetHeight() const = 0;
-		virtual void* GetInnerWindow() const = 0;
-		virtual void SetEventCallback(const EventCallback& callback) = 0;
-
+		virtual void onUpdate()                                      = 0;
+		virtual int getWidth() const                                 = 0;
+		virtual int getHeight() const                                = 0;
+		virtual void* getInnerWindow() const                         = 0;
+		virtual void setEventCallback(const EventCallback& callback) = 0;
 	};
-}
+}  // namespace tiler

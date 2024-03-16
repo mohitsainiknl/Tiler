@@ -2,24 +2,23 @@
 
 #include "Tiler/Engine/Core/Layer.h"
 
-
-namespace Tiler {
+namespace tiler {
 
 	class ImGuiLayer : public Layer {
 	public:
 		ImGuiLayer();
 		~ImGuiLayer() override;
 
-		void OnAttach() override;
-		void OnDetach() override;
+		void onAttach() override;
+		void onDetach() override;
 
-		void OnEvent(const Event& event) override {};
-		void OnRender(float timestep) override;
+		void onEvent(const Event& event) override{};
+		void onRender(float timestep) override;
 
-		void OnRenderBegin();
-		void OnRenderEnd();
+		void onRenderBegin();
+		void onRenderEnd();
 
 	private:
-		float m_Time = 0.0f;
+		float m_time = 0.0f;
 	};
-}
+}  // namespace tiler

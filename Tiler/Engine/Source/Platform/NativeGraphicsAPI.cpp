@@ -1,41 +1,31 @@
 #include "NativeGraphicsAPI.h"
 
+namespace tiler {
 
-namespace Tiler {
+	GraphicsAPI* GraphicsAPI::m_instance  = nullptr;
+	GraphicsAPI::Type GraphicsAPI::m_type = GraphicsAPI::Type::AUTO;
 
-	GraphicsAPI* GraphicsAPI::ms_Instance = nullptr;
-	GraphicsAPI::Type GraphicsAPI::ms_Type = GraphicsAPI::Type::Auto;
+	GraphicsAPI* GraphicsAPI::create(Type type, void* window) {
+		m_type     = (type == GraphicsAPI::Type::AUTO) ? DEFAULT_GRAPHICS_API : type;
+		m_instance = NATIVE_GRAPHICS_API(m_type, window);
 
-	GraphicsAPI* GraphicsAPI::Create(Type type, void* window) {
-
-		ms_Type = (type == GraphicsAPI::Type::Auto) ? DEFAULT_GRAPHICS_API : type;
-		ms_Instance = NATIVE_GRAPHICS_API(ms_Type, window);
-
-		return ms_Instance;
+		return m_instance;
 	}
 
-
-	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size) {
-
+	VertexBuffer* VertexBuffer::create(float* vertices, uint32_t size) {
 		return NATIVE_VERTEX_BUFFER(vertices, size);
 	}
 
-
-	IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count) {
-
+	IndexBuffer* IndexBuffer::create(uint32_t* indices, uint32_t count) {
 		return NATIVE_INDEX_BUFFER(indices, count);
 	}
 
-
-	Shader* Shader::Create(const std::string& vertexSource, const std::string& fragmentSource) {
-
+	Shader* Shader::create(const std::string& vertexSource, const std::string& fragmentSource) {
 		return NATIVE_SHADER(vertexSource, fragmentSource);
 	}
 
-
-	Texture* Texture::Create(const std::string& filePath) {
-
+	Texture* Texture::create(const std::string& filePath) {
 		return NATIVE_TEXTURE(filePath);
 	}
 
-}
+}  // namespace tiler

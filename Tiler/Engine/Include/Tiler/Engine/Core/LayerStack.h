@@ -3,29 +3,28 @@
 #include <vector>
 
 // Forward Declaration
-namespace Tiler {
+namespace tiler {
 	class Layer;
 	class Event;
-}
+}  // namespace tiler
 
-namespace Tiler {
+namespace tiler {
 
 	class LayerStack {
 	public:
 		LayerStack();
 		~LayerStack();
 
-		void PushLayer(Layer* layer);
-		void PushOverlay(Layer* overlay);
-		void PopLayer(Layer* layer);
-		void PopOverlay(Layer* overlay);
+		void pushLayer(Layer* layer);
+		void pushOverlay(Layer* overlay);
+		void popLayer(Layer* layer);
+		void popOverlay(Layer* overlay);
 
-		void RenderLayers(float timestep);
-		void OnEvent(const Event& event);
+		void renderLayers(float timestep);
+		void onEvent(const Event& event);
 
 	private:
-		std::vector<Layer*> m_Layers;
-		unsigned int m_LayerInsertIndex;
+		std::vector<Layer*> m_layers;
+		unsigned int m_layerInsertIndex;
 	};
-}
-
+}  // namespace tiler

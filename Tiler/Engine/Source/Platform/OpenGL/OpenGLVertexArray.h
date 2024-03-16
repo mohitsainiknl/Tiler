@@ -2,20 +2,20 @@
 
 #include "Tiler/Engine/Core/Renderer/Buffer/BufferLayout.h"
 
-namespace Tiler {
+namespace tiler {
 
 	class OpenGLVertexArray {
 	public:
 		OpenGLVertexArray();
 		~OpenGLVertexArray();
 
-		void Bind() const;
-		void Unbind() const;
+		void bind() const;
+		void unbind() const;
 
-		void SetupLayout(const BufferLayout& layout);
+		void setupLayout(const BufferLayout& layout);
 
 	private:
-		uint32_t m_RendererID;
+		uint32_t m_rendererID;
 	};
 
-}
+}  // namespace tiler
